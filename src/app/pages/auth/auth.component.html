@@ -1,0 +1,24 @@
+<div class='grid grid-cols-2 bg-white rounded-3xl lg:w-[1000px] md:w-[700px] max-md:w-[320px] overflow-hidden shadow-[rgba(25,_94,_142,_0.36)_2px_9px_20px]'>
+    <div class='col-span-1 px-10 lg:pt-10 md:pt-5 max-md:pt-3 bg-[#bdeef4] rounded-e-full flex items-center justify-center'>
+        <img 
+            src='http://res.cloudinary.com/dboijruhe/image/upload/v1702117547/ServeSync/8959ecd9-7167-491e-89a3-11f5bdafbd45-8d0b3da488e360fcb93103240156f714_1.png' 
+            alt='image_login' 
+            class='md:w-[300px] max-md:w-[150px]' />
+    </div>
+    <div class='col-span-1 lg:px-10 lg:py-10 md:px-5 md:py-5 max-md:px-4 max-md:py-4 flex flex-col justify-center'>
+        <a to={path.home_page} class='flex justify-center mb-4'>
+        <img
+            src='https://res.cloudinary.com/dboijruhe/image/upload/v1698472046/Assets/mqdwwsszosbceacvw4eu.png'
+            alt='logo'
+            class='lg:w-[80px] lg:h-[80px] md:w-[60px] md:h-[60px] max-md:w-[40px] max-md:h-[40px]'
+        />
+        </a>
+        <div class='md:mb-[20px] max-md:mb-[10px] text-center'>
+        <h1 class='text-[#195E8E] mb-[10px]'>
+            {{ currentPage }}
+        </h1>
+        <h3 class='text-[#195E8E]'>Hệ thống quản lý hoạt động cộng đồng.</h3>
+        </div>
+        <router-outlet></router-outlet>
+    </div>
+</div>

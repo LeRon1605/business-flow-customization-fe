@@ -1,0 +1,25 @@
+<p-toolbar styleClass="p-2">
+  <div class="p-toolbar-group-start">
+  </div>
+  <div class="p-toolbar-group-center">
+    <form [formGroup]="form">
+      <app-text-input
+        formControlName="search"
+        placeHolder="Nhập thông tin tìm kiếm"
+        styleClass="mb-0 rounded-full"
+      ></app-text-input>
+    </form>
+  </div>
+  <div class="p-toolbar-group-end">
+    <div class="flex flex-row items-center cursor-pointer font-medium bg-white p-2 rounded-full hover:bg-gray-200" (click)="menu.toggle($event)" >
+      <ng-container *ngIf="user != null">
+        <p-avatar styleClass="flex flex-row items-center mr-2 border" [image]="user.avatarUrl" shape="circle"></p-avatar>
+        <span>{{ user.fullName }}</span>
+      </ng-container>
+      <ng-container *ngIf="user == null">
+        <p-skeleton width="5rem" borderRadius="16px"></p-skeleton>
+      </ng-container>
+    </div>
+    <p-menu #menu [model]="items" [popup]="true"></p-menu>
+  </div>
+</p-toolbar>

@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+  <app-text-input
+    title="Địa chỉ email"
+    formControlName="email"
+    placeHolder="Nhập địa chỉ email"
+  ></app-text-input>
+
+  <app-text-input
+    title="Mật khẩu"
+    formControlName="password"
+    type="password"
+    placeHolder="Nhập mật khẩu"
+  ></app-text-input>
+
+  <div class="mt-3 flex flex-row justify-center">
+    <app-button 
+      text="Đăng nhập"
+      type="submit"
+      [loading]="loading"
+    ></app-button>
+  </div>
+
+  <div class="mt-3">
+    <app-link text="Quên mật khẩu?" link="/auth/reset-password"></app-link>
+  </div>
+
+</form>

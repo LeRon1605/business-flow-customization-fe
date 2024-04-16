@@ -1,0 +1,55 @@
+<p-overlayPanel #op>
+    <div class="p-2 w-96">
+        <p>Danh sách lọc</p>
+        <p class="font-light italic text-xs" *ngIf="isDraft">Bản nháp</p>
+        <ng-container *ngFor="let field of fields">
+            <div class="p-float-label mt-10">
+                <p-dropdown 
+                    [(ngModel)]="field.selectedValue"
+                    [showClear]="true" 
+                    [options]="field.data"
+                    [placeholder]="field.placeHolder"
+                    (onChange)="onFilterFieldChanged(field, $event)"
+                    styleClass="bg-gray-50 border border-gray-300 w-full"
+                    optionLabel="text" 
+                    optionValue="value"
+                ></p-dropdown>
+                <label for="float-label">{{ field.name }}</label>
+            </div>
+        </ng-container>
+        <div class="mt-10 flex flex-row justify-between">
+            <div>
+                <app-button
+                    text="Thêm lọc"
+                    styleClass="ml-auto"
+                    icon="pi pi-plus"
+                >
+                </app-button>
+            </div>
+            <div>
+                <app-button
+                    text="Hủy"
+                    styleClass="mr-1"
+                    severity="danger"
+                    (onClick)="onResetFilter()"
+                >
+                </app-button>
+                <app-button
+                    text="Lưu"
+                    styleClass="ml-auto"
+                    [disabled]="!isDraft"
+                    (onClick)="onApplyFilter()"
+                >
+                </app-button>
+            </div>
+        </div>
+    </div>
+</p-overlayPanel>
+<div class="relative">
+    <app-button 
+        text="Lọc"
+        icon="pi pi-list"
+        [badge]="fields.length.toString()"
+        (onClick)="op.toggle($event)" 
+    ></app-button>
+</div>

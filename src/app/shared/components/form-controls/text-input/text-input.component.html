@@ -1,0 +1,25 @@
+<div class="flex flex-col">
+    <label 
+        *ngIf="title"
+        class="block mb-2 text-sm font-medium text-gray-900" 
+        for="input">{{ title }}</label>
+    <ng-container *ngIf="loading">
+        <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+    </ng-container>
+    <ng-container *ngIf="!loading">
+        <input 
+            id="input"
+            class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-3 bg-gray-50 border border-gray-300 text-gray-900 {{ styleClass }}"
+            pInputText 
+            [(ngModel)]="value" 
+            [type]="type"
+            [placeholder]="placeHolder"
+            (ngModelChange)="onChange($event)"
+            (blur)="onTouch()"
+            [disabled]="disabled"/>
+        <small *ngIf="helpText">{{ helpText }}</small>
+        <span class="text-red-500 text-sm mb-3" *ngIf="ngControl.hasError('required') && ngControl.touched">Vui lòng nhập thông tin.</span>
+        <span class="text-red-500 text-sm mb-3" *ngIf="ngControl.hasError('email') && ngControl.touched">Địa chỉ email không hợp lệ.</span>
+        <ng-content select="[validation]"></ng-content>
+    </ng-container>
+</div>

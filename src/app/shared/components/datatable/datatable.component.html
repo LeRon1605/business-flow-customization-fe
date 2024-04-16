@@ -1,0 +1,59 @@
+<p-table 
+    [value]="data"
+    [lazy]="true"
+    [paginator]="true"
+    [rows]="model.rows"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [totalRecords]="totalRecords"
+    [(selection)]="selectedRow"
+    selectionMode="single"
+    (onPage)="onPageChange($event)"
+    (onRowSelect)="onRowSelected($event)"
+    styleClass="p-datatable-gridlines {{ styleClass }}" 
+    paginatorStyleClass="ml-auto">
+
+    <ng-template pTemplate="caption">
+        <div class="flex flex-row items-center">
+            <span> {{ model.title }} </span>
+            <div class="p-input-icon-left ml-auto flex flex-row items-center">
+                <app-filter 
+                    *ngIf="filterFields"
+                    [fields]="filterFields"
+                    (filterChange)="onFilterChange($event)"
+                ></app-filter>
+                <input 
+                    id="input"
+                    (keyup)="onSearch($event)"
+                    class=" text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 ms-2"
+                    placeholder="Nhập thông tin tìm kiếm"
+                    pInputText 
+                />
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let col of model.columns" class="border">
+                {{ col.name }}
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+        <ng-container *ngIf="!model.pagedResult">
+            <tr>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+            </tr>
+        </ng-container>
+        <ng-container *ngIf="model.pagedResult">
+            <tr [pSelectableRow]="row">
+                <td class="border" *ngFor="let col of model.columns" [innerHTML]="col.generate != null ? col.generate(row) : row[col.field]"></td>
+            </tr>
+        </ng-container>
+    </ng-template>
+
+</p-table>
