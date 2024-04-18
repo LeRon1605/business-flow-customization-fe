@@ -1,5 +1,5 @@
  import { Component, OnInit } from '@angular/core';
-import { AuthService, UserStorageService } from '../../../core/services';
+import { AuthService, ToastService, UserStorageService } from '../../../core/services';
 import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { Tenant, UserInfo } from '../../../core/schemas/user.schema';
@@ -13,7 +13,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 export class HeaderComponent implements OnInit {
 
-  items!: MenuItem[];
+  items: MenuItem[] | undefined;
   user!: UserInfo | null;
   tenant!: Tenant | null | undefined;
   form: FormGroup = new FormGroup({
@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService, 
     private userStorage: UserStorageService,
+    private toastService: ToastService,
     private router: Router
   ) { }
 
@@ -33,6 +34,14 @@ export class HeaderComponent implements OnInit {
     });
 
     this.items = [
+      {
+        label: 'Quản lý doanh nghiệp',
+        icon: PrimeIcons.USERS,
+        command: ($event) => {
+          this.authService.signOut();
+          this.router.navigate(['/auth/login']);
+        }
+      },
       {
         label: 'Đăng xuất',
         icon: PrimeIcons.SIGN_OUT,
@@ -46,8 +55,21 @@ export class HeaderComponent implements OnInit {
     if (this.tenant) {
       this.items.unshift({
         label: this.tenant?.name,
-        icon: this.tenant?.avatarUrl,
-        styleClass: 'truncate'
+        customIcon: this.tenant.avatarUrl,
+        items: this.user?.tenants.map(x => {
+          return {
+            label: x.name,
+            customIcon: x.avatarUrl,
+            disabled: x.id == this.user?.tenantId,
+            command: () => {
+              this.authService.exchangeTenant(x.id)
+                .subscribe(() => {
+                  this.toastService.success(`Chuyển sang doanh nghiệp ${x.name} thành công!`);
+                  location.reload();
+                });
+            }
+          }
+        })
       });
     }
   }

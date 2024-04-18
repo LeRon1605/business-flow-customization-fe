@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BaseApiService } from "./base.api";
-import { LoginRequestDto, LoginResponseDto, RefreshTokenRequestDto, RefreshTokenResponseDto, RegisterRequestDto, ResetPasswordRequestDto } from "../schemas/auth.schema";
+import { ExchangeTenantResponseDto, LoginRequestDto, LoginResponseDto, RefreshTokenRequestDto, RefreshTokenResponseDto, RegisterRequestDto, ResetPasswordRequestDto } from "../schemas/auth.schema";
 import { UserInfo } from "../schemas/user.schema";
 
 @Injectable({ providedIn: 'root' })
@@ -30,5 +30,11 @@ export class AuthApiService extends BaseApiService{
 
     resetPassword(data: ResetPasswordRequestDto) {
         return this.http.post(this.API_END_POINTS.RESET_PASSWORD, data);
+    }
+
+    exchangeTenant(tenantId: number) {
+        return this.http.post<ExchangeTenantResponseDto>(this.API_END_POINTS.EXCHANGE_TENANT, {
+            tenantId
+        })
     }
 }

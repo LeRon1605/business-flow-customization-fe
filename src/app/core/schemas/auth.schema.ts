@@ -29,3 +29,8 @@ export interface ResetPasswordRequestDto {
     newPassword: string;
     token: string;
 }
+
+export interface ExchangeTenantResponseDto {
+    accessToken: string;
+    refreshToken: string;
+}

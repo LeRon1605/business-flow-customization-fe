@@ -73,7 +73,16 @@ export class AuthService {
         switchMap(response => this.authApiService.getUserInfo(response.accessToken)),
         finalize(() => {
           this.isRefreshing = false;
-          this.isRefreshing = false;
+        })
+      );
+  }
+
+  exchangeTenant(tenantId: number) {
+    return this.authApiService.exchangeTenant(tenantId)
+      .pipe(
+        tap(response => {
+          this.tokenStorageService.setAccessToken(response.accessToken);
+          this.tokenStorageService.setRefreshToken(response.refreshToken);
         })
       );
   }

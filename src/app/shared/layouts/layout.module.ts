@@ -11,12 +11,13 @@ import { AvatarModule } from 'primeng/avatar';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TreeModule } from 'primeng/tree';
 import { ToolbarModule } from 'primeng/toolbar';
-import { MenuModule } from 'primeng/menu';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ServeSyncFormControlModule } from "../components/form-controls/form-control.module";
 import { SkeletonModule } from 'primeng/skeleton';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
     declarations: [
@@ -36,12 +37,13 @@ import { SkeletonModule } from 'primeng/skeleton';
         PanelMenuModule,
         TreeModule,
         ToolbarModule,
-        MenuModule,
         InputIconModule,
         IconFieldModule,
         ReactiveFormsModule,
         ServeSyncFormControlModule,
-        SkeletonModule
+        SkeletonModule,
+        TieredMenuModule,
+        DividerModule
     ]
 })
 export class LayoutModule { }

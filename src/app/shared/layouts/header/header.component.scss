@@ -1,0 +1,14 @@
+:host ::ng-deep .p-tieredmenu {
+    min-width: 300px;
+}
+
+:host ::ng-deep .p-submenu-list {
+    right: 100%;
+    left: unset;
+}
+
+:host ::ng-deep .p-menuitem-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

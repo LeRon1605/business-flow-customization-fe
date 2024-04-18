@@ -16,13 +16,13 @@ export interface UserInfo {
     avatarUrl: string;
     email: string;
     permissions: string[];
-    tenantId: string;
+    tenantId: number;
     isTenantOwner: boolean;
     tenants: Tenant[];
 }
 
 export interface Tenant {
-    id: string;
+    id: number;
     name: string;
     avatarUrl: string;
 }
