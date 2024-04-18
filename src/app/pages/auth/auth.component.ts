@@ -24,6 +24,8 @@ export class AuthComponent implements OnInit {
         switch (route) {
             case '/auth/login':
                 return 'Đăng nhập';
+            case '/auth/register':
+                return 'Đăng ký';
             case '/auth/change-password':
                 return 'Đặt lại mật khẩu';
             case '/auth/reset-password':

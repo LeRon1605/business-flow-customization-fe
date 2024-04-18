@@ -6,6 +6,7 @@ import { TokenStorageService } from "../services/token-storage.service";
 import { AuthApiService } from "../apis/auth.api";
 import { Router } from "@angular/router";
 import { ToastService } from "../services/toast.service";
+import { ERROR_MESSAGE } from "../constants";
 
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
@@ -22,12 +23,15 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError(errorResponse => {
                 if (errorResponse instanceof HttpErrorResponse) {
+                    console.log(errorResponse.error);
+                    
                     if (errorResponse.status == 401) {
                         return this.handleUnAuthorizedRequest(req, next);
                     }
 
                     if (errorResponse.error?.message) {
-                        this.toastService.error(errorResponse.error.message);
+                        const errorMessage = ERROR_MESSAGE[errorResponse.error.code] ?? errorResponse.error.message;
+                        this.toastService.error(errorMessage);
                     }
                 }
 

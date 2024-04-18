@@ -14,3 +14,9 @@ export const TOKEN_STORAGE = {
     ACCESS_TOKEN: 'access_token',
     REFRESH_TOKEN: 'refresh_token'
 }
+
+export const ERROR_MESSAGE : any = {
+    'DuplicateUserName': 'Email đã tồn tại',
+    'User:000002': 'Tài khoản không tồn tại',
+    'User:000004': 'Tài khoản không tồn tại'
+};

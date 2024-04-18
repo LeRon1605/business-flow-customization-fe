@@ -3,6 +3,13 @@ export interface LoginRequestDto {
     password: string;
 }
 
+export interface RegisterRequestDto {
+    email: string;
+    fullName: string;
+    tenantName: string;
+    password: string;
+}
+
 export interface LoginResponseDto {
     accessToken: string;
     refreshToken: string;

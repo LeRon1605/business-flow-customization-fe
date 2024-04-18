@@ -31,6 +31,9 @@ export class ChangePasswordFormComponent implements OnInit {
   }
 
   async onSubmit() {
+    if (this.form.invalid)
+      return;
+    
     this.loading = true;
     this.form.disable();
 

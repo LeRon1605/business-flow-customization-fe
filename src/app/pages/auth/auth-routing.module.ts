@@ -4,6 +4,7 @@ import { LoginFormComponent } from "./login-form/login-form.component";
 import { ResetPasswordFormComponent } from "./reset-password-form/reset-password-form.component";
 import { ChangePasswordFormComponent } from "./change-password-form/change-password-form.component";
 import { AuthComponent } from "./auth.component";
+import { RegisterFormComponent } from "./register-form/register-form.component";
 
 const routes : Routes = [
   {
@@ -13,6 +14,10 @@ const routes : Routes = [
       {
         path: 'login',
         component: LoginFormComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterFormComponent
       },
       {
         path: 'reset-password',

@@ -21,6 +21,9 @@ export class ResetPasswordFormComponent {
   ) { }
 
   onSubmit() {
+    if (this.form.invalid)
+      return;
+    
     this.loading = true;
     this.form.disable();
     this.authService.requestForgetPassword(<string>this.form.value.email)

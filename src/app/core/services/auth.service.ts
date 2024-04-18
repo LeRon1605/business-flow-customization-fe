@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoginRequestDto, RefreshTokenRequestDto, ResetPasswordRequestDto } from '../schemas/auth.schema';
+import { LoginRequestDto, RefreshTokenRequestDto, RegisterRequestDto, ResetPasswordRequestDto } from '../schemas/auth.schema';
 import { AuthApiService } from '../apis/auth.api';
 import { TokenStorageService } from './token-storage.service';
 import { BehaviorSubject, Observable, catchError, finalize, switchMap, tap, throwError } from 'rxjs';
@@ -49,6 +49,10 @@ export class AuthService {
           message: errorResponse.error.message
       });
     }));
+  }
+
+  register(request: RegisterRequestDto) {
+    return this.authApiService.register(request);
   }
 
   refreshToken() {

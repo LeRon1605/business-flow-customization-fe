@@ -1,12 +1,16 @@
 import { Injectable } from "@angular/core";
 import { BaseApiService } from "./base.api";
-import { LoginRequestDto, LoginResponseDto, RefreshTokenRequestDto, RefreshTokenResponseDto, ResetPasswordRequestDto } from "../schemas/auth.schema";
+import { LoginRequestDto, LoginResponseDto, RefreshTokenRequestDto, RefreshTokenResponseDto, RegisterRequestDto, ResetPasswordRequestDto } from "../schemas/auth.schema";
 import { UserInfo } from "../schemas/user.schema";
 
 @Injectable({ providedIn: 'root' })
 export class AuthApiService extends BaseApiService{
     signIn(data: LoginRequestDto) {
         return this.http.post<LoginResponseDto>(this.API_END_POINTS.LOGIN_REQUEST, data);
+    }
+
+    register(data: RegisterRequestDto) {
+        return this.http.post(this.API_END_POINTS.REGISTER_REQUEST, data);
     }
 
     refreshToken(data: RefreshTokenRequestDto) {

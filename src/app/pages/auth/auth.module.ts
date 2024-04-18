@@ -10,13 +10,15 @@ import { ButtonModule } from 'primeng/button';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ServeSyncFormControlModule } from "../../shared/components/form-controls/form-control.module";
 import { ServeSyncCommonModule } from "../../shared/components/common/common.module";
+import { RegisterFormComponent } from "./register-form/register-form.component";
 
 @NgModule({
     declarations: [
         AuthComponent,
         LoginFormComponent,
         ChangePasswordFormComponent,
-        ResetPasswordFormComponent
+        ResetPasswordFormComponent,
+        RegisterFormComponent
     ],
     imports: [
         ReactiveFormsModule,

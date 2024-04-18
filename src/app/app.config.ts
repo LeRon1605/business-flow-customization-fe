@@ -6,14 +6,10 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi
 import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { ToastService } from './core/services';
 import { MessageService } from 'primeng/api';
 import { AuthGuard } from './core/guards/auth.guard';
-import { StudentState } from './core/states/students/student.state';
 import { NgxsModule } from '@ngxs/store';
-import { EducationProgramState } from './core/states/education-programs/education-program.state';
-import { FacultyState } from './core/states/faculties/faculty.state';
-import { HomeRoomState } from './core/states/home-rooms/home-room.state';
+import { ToastService } from './core/services';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,10 +32,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     importProvidersFrom(    
       NgxsModule.forRoot([
-        StudentState,
-        EducationProgramState,
-        FacultyState,
-        HomeRoomState
       ]
     ))
   ],

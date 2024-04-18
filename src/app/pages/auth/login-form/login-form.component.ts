@@ -23,6 +23,9 @@ export class LoginFormComponent {
   ) { }
 
   onSubmit() {
+    if (this.form.invalid)
+      return;
+
     this.loading = true;
     this.form.disable();
     this.authService.signIn(<string>this.form.value.email, <string>this.form.value.password)

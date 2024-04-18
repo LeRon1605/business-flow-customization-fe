@@ -25,24 +25,7 @@ export class SideNavigationMenuComponent implements OnInit {
         key: 'home',
         label: 'Trang chủ',
         icon: PrimeIcons.HOME
-      },
-      {
-        key: 'students',
-        label: 'Quản lý sinh viên',
-        icon: PrimeIcons.USER,
-        children: [
-          {
-            key: 'list-student',
-            label: 'Danh sách sinh viên',
-            icon: PrimeIcons.USER
-          },
-          {
-            key: 'add-student',
-            label: 'Thêm sinh viên',
-            icon: PrimeIcons.PLUS,
-          }
-        ]
-      },
+      }
     ];
 
     this.selectedNode = this.getSelectedValueFromRoute(this.items, this.router.url);
