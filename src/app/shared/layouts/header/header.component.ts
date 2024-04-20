@@ -36,11 +36,7 @@ export class HeaderComponent implements OnInit {
     this.items = [
       {
         label: 'Quản lý doanh nghiệp',
-        icon: PrimeIcons.USERS,
-        command: ($event) => {
-          this.authService.signOut();
-          this.router.navigate(['/auth/login']);
-        }
+        icon: PrimeIcons.USERS
       },
       {
         label: 'Đăng xuất',
