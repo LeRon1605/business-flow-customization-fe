@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LoginRequestDto, RefreshTokenRequestDto, RegisterRequestDto, ResetPasswordRequestDto } from '../schemas/auth.schema';
+import { LoginRequestDto, RefreshTokenRequestDto, RegisterRequestDto, ResetPasswordRequestDto, ResetProfilePasswordDto } from '../schemas/auth.schema';
 import { AuthApiService } from '../apis/auth.api';
 import { TokenStorageService } from './token-storage.service';
 import { BehaviorSubject, Observable, catchError, finalize, switchMap, tap, throwError } from 'rxjs';
 import { ErrorApiResponse } from '../schemas/error.schema';
 import { UserStorageService } from './user-storage.service';
-import { UserInfo } from '../schemas/user.schema';
+import { UserInfo, UserUpdateDto } from '../schemas/user.schema';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
 
@@ -37,7 +37,7 @@ export class AuthService {
         this.tokenStorageService.setAccessToken(response.accessToken);
         this.tokenStorageService.setRefreshToken(response.refreshToken);
       }),
-      switchMap(response => this.authApiService.getUserInfo(response.accessToken)),
+      switchMap(response => this.authApiService.getUserInfo()),
       tap(response => {
         this.authenticated.next(true);
         this.userStorageService.setCurrentUser(response);
@@ -70,7 +70,7 @@ export class AuthService {
           this.tokenStorageService.setRefreshToken(response.refreshToken);
           this.refreshTokenSubject.next(response.refreshToken);
         }),
-        switchMap(response => this.authApiService.getUserInfo(response.accessToken)),
+        switchMap(response => this.authApiService.getUserInfo()),
         finalize(() => {
           this.isRefreshing = false;
         })
@@ -119,7 +119,7 @@ export class AuthService {
       const token = this.tokenStorageService.getToken();
 
       this.isFetchUserInfo = true;
-      this.authApiService.getUserInfo(<string>token.accessToken)
+      this.authApiService.getUserInfo()
         .pipe(
           finalize(() => this.isFetchUserInfo = false)
         )
@@ -150,5 +150,20 @@ export class AuthService {
 
   isAuthenticated() {
     return this.authenticated.value;
+  }
+
+  updateProfile(data: UserUpdateDto) {
+    return this.authApiService.updateProfile(data).pipe(
+      switchMap(response => this.authApiService.getUserInfo()),
+      tap(response => {
+        this.authenticated.next(true);
+        this.userStorageService.setCurrentUser(response);
+      }),
+      finalize(() => this.isFetchUserInfo = false)
+    );
+  }
+
+  resetProfilePassword(data: ResetProfilePasswordDto) {
+    return this.authApiService.resetProfilePassword(data);
   }
 }

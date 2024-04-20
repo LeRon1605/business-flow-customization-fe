@@ -31,11 +31,8 @@ export class DropDownInputComponent implements ControlValueAccessor {
     }
     set selectedValue(data: any) {
         this._selectedValue = data;
-        this.selectedValueChange.emit(this._selectedValue);
+        this.onChange(data);
     }
-
-    @Output()
-    selectedValueChange = new EventEmitter<any>();
 
     onChange: any = () => {}
     onTouch: any = () => {}

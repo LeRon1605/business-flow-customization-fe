@@ -24,6 +24,9 @@ export class TextInputComponent implements ControlValueAccessor {
     styleClass?: string;
 
     @Input()
+    blockStyleClass?: string;
+
+    @Input()
     loading?: boolean;
 
     @Input('value')
@@ -32,7 +35,7 @@ export class TextInputComponent implements ControlValueAccessor {
     }
     set value(data: string) {
         this._value = data;
-        this.valueChange.emit(this._value);
+        this.onChange(data);
     }
 
     @Input('placeHolder')
@@ -42,9 +45,6 @@ export class TextInputComponent implements ControlValueAccessor {
     set placeHolder(data: string) {
         this._placeHolder = data;
     }
-
-    @Output()
-    valueChange = new EventEmitter<string>();
 
     onChange: any = () => {}
     onTouch: any = () => {}

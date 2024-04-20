@@ -1,1 +1,54 @@
-User panel component work
+<div>
+    <form [formGroup]="form">
+        <h4 class="font-bold">Thông tin chung</h4>
+        <div class="flex flex-row justify-between mt-2">
+            <div class="flex flex-col items-center w-2/12">
+                <app-file-uploader 
+                    type="image" 
+                    title="Ảnh đại diện"
+                    formControlName="avatarUrl"
+                    #imageUploader
+                ></app-file-uploader>
+            </div>
+            
+            <div class="ml-5 w-full">
+        
+                <app-text-input
+                    title="Họ và tên"
+                    formControlName="fullName"
+                    placeHolder="Nhập mật khẩu"
+                ></app-text-input>
+        
+                <app-text-input
+                    title="Email"
+                    formControlName="email"
+                    placeHolder="Nhập mật khẩu"
+                ></app-text-input>
+        
+            </div>
+        </div>
+    </form>
+
+    <hr class="mt-3 mb-3"/>
+
+    <div>
+        <h4 class="font-bold">Thông tin bảo mật</h4>
+        <div class="mt-2">
+            <div class="flex flex-row justify-between">
+                <label class="block text-sm font-medium text-gray-900">Mật khẩu</label>
+                <p class="block text-sm font-medium cursor-pointer text-blue-500" (click)="resetPasswordPanelVisible = true">Đổi mật khẩu</p>
+            </div>
+            <span class="font-small">Bạn nên chọn mật khẩu mạnh và không sử dụng chung với những tài khoản khác.</span>
+        </div>
+    </div>
+
+    <p-dialog 
+      header="Đổi mật khẩu" 
+      [(visible)]="resetPasswordPanelVisible"
+      [draggable]="false" 
+      [resizable]="false"
+      [modal]="true"
+      [style]="{width: '30vw'}">
+      <app-reset-password></app-reset-password>
+    </p-dialog>
+</div>

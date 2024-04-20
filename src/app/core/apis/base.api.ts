@@ -15,7 +15,8 @@ export class BaseApiService {
             REFRESH_TOKEN_REQUEST: this.baseApiUrl + '/identity/auth/refresh-token',
             USER_INFO: this.baseApiUrl + '/identity/profile',
             RESET_PASSWORD: this.baseApiUrl + '/identity/auth/forget-password/callback',
-            EXCHANGE_TENANT: this.baseApiUrl + '/identity/auth/exchange-tenant-access-token'
+            EXCHANGE_TENANT: this.baseApiUrl + '/identity/auth/exchange-tenant-access-token',
+            RESET_PROFILE_PASSWORD: this.baseApiUrl + '/identity/profile/change-password'
         };
     }
 }
