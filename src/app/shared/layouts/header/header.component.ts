@@ -1,9 +1,10 @@
- import { Component, OnInit } from '@angular/core';
+ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService, ToastService, UserStorageService } from '../../../core/services';
 import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { Tenant, UserInfo } from '../../../core/schemas/user.schema';
 import { FormControl, FormGroup } from '@angular/forms';
+import { UserPanelComponent } from '../../components';
 
 @Component({
   selector: 'app-header',
@@ -13,9 +14,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 export class HeaderComponent implements OnInit {
 
+  @ViewChild('userPanel')
+  userPanelComponent!: UserPanelComponent;
+
   items: MenuItem[] | undefined;
   user!: UserInfo | null;
   tenant!: Tenant | null | undefined;
+  userPanelVisible: boolean = false;
   form: FormGroup = new FormGroup({
     search: new FormControl('')
   })
@@ -35,8 +40,11 @@ export class HeaderComponent implements OnInit {
 
     this.items = [
       {
-        label: 'Quản lý doanh nghiệp',
-        icon: PrimeIcons.USERS
+        label: 'Thông tin cá nhân',
+        icon: PrimeIcons.USER,
+        command: () => {
+          this.userPanelVisible = true;
+        }
       },
       {
         label: 'Đăng xuất',
@@ -68,5 +76,9 @@ export class HeaderComponent implements OnInit {
         })
       });
     }
+  }
+
+  onSaveProfile() {
+    this.userPanelComponent.updateProfile();
   }
 }

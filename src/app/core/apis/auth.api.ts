@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BaseApiService } from "./base.api";
-import { ExchangeTenantResponseDto, LoginRequestDto, LoginResponseDto, RefreshTokenRequestDto, RefreshTokenResponseDto, RegisterRequestDto, ResetPasswordRequestDto } from "../schemas/auth.schema";
-import { UserInfo } from "../schemas/user.schema";
+import { ExchangeTenantResponseDto, LoginRequestDto, LoginResponseDto, RefreshTokenRequestDto, RefreshTokenResponseDto, RegisterRequestDto, ResetPasswordRequestDto, ResetProfilePasswordDto } from "../schemas/auth.schema";
+import { UserInfo, UserUpdateDto } from "../schemas/user.schema";
 
 @Injectable({ providedIn: 'root' })
 export class AuthApiService extends BaseApiService{
@@ -17,7 +17,7 @@ export class AuthApiService extends BaseApiService{
         return this.http.post<RefreshTokenResponseDto>(this.API_END_POINTS.REFRESH_TOKEN_REQUEST, data);
     }
 
-    getUserInfo(accessToken: string) {
+    getUserInfo() {
         return this.http.get<UserInfo>(this.API_END_POINTS.USER_INFO);
     }
 
@@ -36,5 +36,13 @@ export class AuthApiService extends BaseApiService{
         return this.http.post<ExchangeTenantResponseDto>(this.API_END_POINTS.EXCHANGE_TENANT, {
             tenantId
         })
+    }
+
+    updateProfile(data: UserUpdateDto) {
+        return this.http.put(this.API_END_POINTS.USER_INFO, data);
+    }
+
+    resetProfilePassword(data: ResetProfilePasswordDto) {
+        return this.http.post(this.API_END_POINTS.RESET_PROFILE_PASSWORD, data);
     }
 }

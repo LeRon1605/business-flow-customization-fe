@@ -7,11 +7,15 @@ import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DropDownInputComponent } from "./dropwdown-input/dropdown-input.component";
 import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { FileUploaderComponent } from "./file-uploader/file-uploader.component";
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
     declarations: [
         TextInputComponent,
-        DropDownInputComponent
+        DropDownInputComponent,
+        FileUploaderComponent
     ],
     imports: [
         FormsModule,
@@ -20,11 +24,14 @@ import { DropdownModule } from 'primeng/dropdown';
         CommonModule,
         ButtonModule,
         SkeletonModule,
-        DropdownModule
+        DropdownModule,
+        FileUploadModule,
+        AvatarModule
     ],
     exports: [
         TextInputComponent,
-        DropDownInputComponent
+        DropDownInputComponent,
+        FileUploaderComponent
     ]
 })
 export class ServeSyncFormControlModule { }

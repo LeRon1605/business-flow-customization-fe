@@ -1,0 +1,31 @@
+<div class="relative flex flex-col items-center">
+    
+    <label 
+        *ngIf="title"
+        class="block mb-2 text-sm font-medium text-gray-900" 
+        for="input">{{ title }}</label>
+
+    <p-avatar 
+        *ngIf="type == 'image'"
+        size="xlarge" 
+        shape="circle"
+        [image]="tempFileUrl" 
+    ></p-avatar>
+
+    <p-fileUpload 
+        mode="basic" 
+        name="file" 
+        accept="image/*"
+        styleClass="{{ defaultCssClass }}"
+        [url]="uploadUrl"  
+        [auto]="true" 
+        [chooseLabel]="label ?? 'Chọn tệp'"
+        [disabled]="disabled"
+        (onUpload)="onUploadSuccess($event)"
+        (onError)="onUploadError()"
+        (onBeforeUpload)="onUploadProgress()">
+    </p-fileUpload>
+
+    <p *ngIf="loading">Đang tải...</p>
+
+</div>

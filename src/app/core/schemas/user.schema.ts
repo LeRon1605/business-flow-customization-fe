@@ -26,3 +26,8 @@ export interface Tenant {
     name: string;
     avatarUrl: string;
 }
+
+export interface UserUpdateDto {
+    fullName: string;
+    avatarUrl: string;
+}

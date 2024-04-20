@@ -17,6 +17,7 @@ export const TOKEN_STORAGE = {
 
 export const ERROR_MESSAGE : any = {
     'DuplicateUserName': 'Email đã tồn tại',
+    'PasswordMismatch': 'Mật khẩu không chính xác',
     'User:000002': 'Tài khoản không tồn tại',
     'User:000004': 'Tài khoản không tồn tại'
 };

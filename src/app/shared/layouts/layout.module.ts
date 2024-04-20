@@ -18,6 +18,10 @@ import { ServeSyncFormControlModule } from "../components/form-controls/form-con
 import { SkeletonModule } from 'primeng/skeleton';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { DividerModule } from 'primeng/divider';
+import { DialogModule } from 'primeng/dialog';
+import { UserPanelComponent } from "../components";
+import { ServeSyncCommonModule } from "../components/common/common.module";
+import { ResetPasswordComponent } from "../components/reset-password-form/reset-password.component";
 
 @NgModule({
     declarations: [
@@ -25,7 +29,9 @@ import { DividerModule } from 'primeng/divider';
         HeaderComponent,
         SideNavigationMenuComponent,
         SideBarLayout,
-        BasicLayoutComponent
+        BasicLayoutComponent,
+        UserPanelComponent,
+        ResetPasswordComponent
     ],
     imports: [
         CoreModule,
@@ -43,7 +49,9 @@ import { DividerModule } from 'primeng/divider';
         ServeSyncFormControlModule,
         SkeletonModule,
         TieredMenuModule,
-        DividerModule
+        DividerModule,
+        DialogModule,
+        ServeSyncCommonModule
     ]
 })
 export class LayoutModule { }

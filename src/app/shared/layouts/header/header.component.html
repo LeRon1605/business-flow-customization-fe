@@ -35,5 +35,33 @@
         </a>
       </ng-template>
     </p-tieredMenu>
+
+    <p-dialog 
+      header="Thông tin cá nhân" 
+      [(visible)]="userPanelVisible"
+      [draggable]="false" 
+      [resizable]="false"
+      [modal]="true"
+      [style]="{width: '40vw'}">
+
+      <app-user-panel 
+        *ngIf="user"
+        [user]="user"
+        #userPanel
+      ></app-user-panel>
+
+      <ng-template pTemplate="footer">
+
+        <app-button 
+          icon="pi pi-check" 
+          text="Lưu"
+          [disabled]="userPanelComponent.disabled"
+          (click)="onSaveProfile()"
+        ></app-button>
+
+      </ng-template>
+      
+    </p-dialog>
+
   </div>
 </p-toolbar>
