@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeIcons, TreeNode } from 'primeng/api';
+import { UserStorageService } from '../../../core/services';
+import { UserInfo } from '../../../core/schemas/user.schema';
 
 @Component({
   selector: 'app-side-navigation-menu',
@@ -9,15 +11,18 @@ import { PrimeIcons, TreeNode } from 'primeng/api';
 })
 export class SideNavigationMenuComponent implements OnInit {
   
+  user!: UserInfo;
   selectedNode!: TreeNode | null;
   items!: TreeNode[];
   navigations : { [key: string]: string; } = {
     'home': '/home',
-    'students': '/students/list-students',
-    'list-student': '/students/list-students'
+    'tenant': '/tenant'
   };
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private userStorageService: UserStorageService
+  ) { }
 
   ngOnInit(): void {
     this.items = [
@@ -27,6 +32,19 @@ export class SideNavigationMenuComponent implements OnInit {
         icon: PrimeIcons.HOME
       }
     ];
+
+    this.userStorageService.currentUser.subscribe(x => {
+      if (x) {
+        this.user = x;
+        if (this.user.permissions.includes('Permissions.Tenants.Management')) {
+          this.items.push({
+            key: 'tenant',
+            label: 'Quản lý doanh nghiệp',
+            icon: PrimeIcons.USERS
+          })
+        }
+      }
+    });
 
     this.selectedNode = this.getSelectedValueFromRoute(this.items, this.router.url);
   }

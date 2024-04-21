@@ -29,6 +29,14 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
                         return this.handleUnAuthorizedRequest(req, next);
                     }
 
+                    if (errorResponse.status == 502) {
+                        this.toastService.error('Server BE die rùi, huhuhuhu!');
+                    }
+
+                    if (errorResponse.status == 500) {
+                        this.toastService.error('Lỗi server, dí BE điii');
+                    }
+
                     if (errorResponse.error?.message) {
                         const errorMessage = ERROR_MESSAGE[errorResponse.error.code] ?? errorResponse.error.message;
                         this.toastService.error(errorMessage);
