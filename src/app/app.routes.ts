@@ -15,6 +15,12 @@ export const routes: Routes = [
       loadChildren: () => import('./pages/auth/auth.module').then(x => x.AuthModule),
     },
     {
+      path: 'tenant',
+      component: SideBarLayout,
+      loadChildren: () => import('./pages/tenant/tenant.module').then(x => x.TenantModule),
+      canActivate: [ AuthGuard ]
+    },
+    {
       path: '**',
       redirectTo: 'home'
     }

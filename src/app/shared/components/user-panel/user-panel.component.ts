@@ -17,7 +17,7 @@ export class UserPanelComponent implements OnInit {
     resetPasswordPanelVisible = false;
 
     get disabled() {
-        return this.form.invalid || this.form.disable;
+        return this.form.invalid || this.form.disabled;
     }
 
     constructor(
