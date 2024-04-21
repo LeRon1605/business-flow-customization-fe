@@ -1,0 +1,37 @@
+<form [formGroup]="form">
+
+    <div class="flex flex-row justify-between mt-2">
+        <div class="flex flex-col items-center w-2/12">
+            <app-file-uploader 
+                type="image" 
+                title="Ảnh đại diện"
+                formControlName="avatarUrl"
+                [loading]="loadingTenant"
+            ></app-file-uploader>
+        </div>
+        
+        <div class="ml-5 w-full">
+    
+            <app-text-input
+                title="Tên doanh nghiệp"
+                formControlName="name"
+                placeHolder="Nhập tên doanh nghiệp"
+                [loading]="loadingTenant"
+            ></app-text-input>
+
+            <app-text-input
+                title="Số lượng nhân viên"
+                formControlName="numberOfStaff"
+                [loading]="loadingTenant"
+            ></app-text-input>
+
+            <app-text-input
+                title="Ngày tạo"
+                formControlName="createdAt"
+                [loading]="loadingTenant"
+            ></app-text-input>
+
+        </div>
+    </div>
+
+</form>

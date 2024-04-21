@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
   user!: UserInfo | null;
   tenant!: Tenant | null | undefined;
   userPanelVisible: boolean = false;
+  tenantPanelVisible: boolean = false;
   form: FormGroup = new FormGroup({
     search: new FormControl('')
   })
@@ -39,6 +40,13 @@ export class HeaderComponent implements OnInit {
     });
 
     this.items = [
+      {
+        label: 'Thông tin doanh nghiệp',
+        icon: PrimeIcons.BRIEFCASE,
+        command: () => {
+          this.tenantPanelVisible = true;
+        }
+      },
       {
         label: 'Thông tin cá nhân',
         icon: PrimeIcons.USER,
@@ -78,7 +86,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  onSaveProfile() {
-    this.userPanelComponent.updateProfile();
+  onSaveTenantProfile() {
+
   }
 }

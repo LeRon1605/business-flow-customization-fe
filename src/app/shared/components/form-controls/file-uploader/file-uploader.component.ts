@@ -21,7 +21,6 @@ export class FileUploaderComponent implements ControlValueAccessor, OnInit {
     private _value!: string;
     private _placeHolder?: string;
     disabled: boolean = false;
-    loading = false;
     tempFileUrl!: string;
 
     @Input()
@@ -29,6 +28,9 @@ export class FileUploaderComponent implements ControlValueAccessor, OnInit {
 
     @Input()
     title?: string;
+
+    @Input()
+    loading: boolean = false;
 
     @Input()
     type: FileUploadType = 'file';
@@ -69,6 +71,7 @@ export class FileUploaderComponent implements ControlValueAccessor, OnInit {
 
     writeValue(obj: string): void {
         this._value = obj;
+        this.tempFileUrl = obj;
     }
 
     registerOnChange(fn: any): void {
