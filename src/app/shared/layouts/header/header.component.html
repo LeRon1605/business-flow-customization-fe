@@ -37,6 +37,33 @@
     </p-tieredMenu>
 
     <p-dialog 
+      header="Thông tin doanh nghiệp" 
+      [(visible)]="tenantPanelVisible"
+      [draggable]="false" 
+      [resizable]="false"
+      [modal]="true"
+      [style]="{width: '40vw'}">
+
+      <app-tenant-profile
+        #tenantPanelComponent
+      ></app-tenant-profile>
+
+      <ng-template pTemplate="footer">
+        
+        <app-permission-wrapper permission="Permissions.Tenants.Edit">
+          <app-button 
+            icon="pi pi-check" 
+            text="Lưu"
+            [disabled]="tenantPanelComponent.disabled"
+            (click)="tenantPanelComponent.saveProfile()"
+          ></app-button>
+        </app-permission-wrapper>
+
+      </ng-template>
+      
+    </p-dialog>
+
+    <p-dialog 
       header="Thông tin cá nhân" 
       [(visible)]="userPanelVisible"
       [draggable]="false" 
@@ -56,7 +83,7 @@
           icon="pi pi-check" 
           text="Lưu"
           [disabled]="userPanelComponent.disabled"
-          (click)="onSaveProfile()"
+          (click)="userPanelComponent.updateProfile()"
         ></app-button>
 
       </ng-template>

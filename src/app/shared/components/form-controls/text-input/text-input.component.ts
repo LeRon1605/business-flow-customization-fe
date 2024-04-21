@@ -60,6 +60,7 @@ export class TextInputComponent implements ControlValueAccessor {
     registerOnChange(fn: any): void {
         this.onChange = fn;
     }
+    
     registerOnTouched(fn: any): void {
         this.onTouch = fn;
     }

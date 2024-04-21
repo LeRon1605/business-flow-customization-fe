@@ -10,6 +10,9 @@ import { MessageService } from 'primeng/api';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NgxsModule } from '@ngxs/store';
 import { ToastService } from './core/services';
+import { registerLocaleData } from '@angular/common';
+import vi from '@angular/common/locales/vi';
+registerLocaleData(vi);
 
 export const appConfig: ApplicationConfig = {
   providers: [

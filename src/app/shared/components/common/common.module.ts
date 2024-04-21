@@ -4,20 +4,25 @@ import { ButtonModule } from 'primeng/button';
 import { RouterLink } from "@angular/router";
 import { ButtonComponent } from "./button/button.component";
 import { BadgeModule } from "primeng/badge";
+import { PermissionWrapperComponent } from "./permission-wrapper/permission-wrapper.component";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
     declarations: [
         LinkComponent,
-        ButtonComponent
+        ButtonComponent,
+        PermissionWrapperComponent
     ],
     imports: [
         ButtonModule,
         BadgeModule,
-        RouterLink
+        RouterLink,
+        CommonModule
     ],
     exports: [
         LinkComponent,
-        ButtonComponent
+        ButtonComponent,
+        PermissionWrapperComponent
     ]
 })
 export class ServeSyncCommonModule { }

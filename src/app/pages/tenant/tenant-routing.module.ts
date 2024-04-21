@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { TenantProfileComponent } from "./tenant-profile/tenant-profile.component";
+import { TenantComponent } from "./tenant.component";
 
 const routes : Routes = [
   {
     path: '',
-    component: TenantProfileComponent,
+    component: TenantComponent,
   }
 ];
 

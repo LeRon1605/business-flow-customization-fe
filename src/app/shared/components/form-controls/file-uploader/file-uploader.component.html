@@ -6,11 +6,17 @@
         for="input">{{ title }}</label>
 
     <p-avatar 
-        *ngIf="type == 'image'"
+        *ngIf="type == 'image' && !loading"
         size="xlarge" 
         shape="circle"
         [image]="tempFileUrl" 
     ></p-avatar>
+
+    <p-skeleton 
+        shape="circle" 
+        size="4rem"
+        *ngIf="loading"
+    ></p-skeleton>
 
     <p-fileUpload 
         mode="basic" 
@@ -24,7 +30,5 @@
         (onError)="onUploadError()"
         (onBeforeUpload)="onUploadProgress()">
     </p-fileUpload>
-
-    <p *ngIf="loading">Đang tải...</p>
 
 </div>

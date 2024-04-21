@@ -22,6 +22,7 @@ import { DialogModule } from 'primeng/dialog';
 import { UserPanelComponent } from "../components";
 import { ServeSyncCommonModule } from "../components/common/common.module";
 import { ResetPasswordComponent } from "../components/reset-password-form/reset-password.component";
+import { TenantProfileComponent } from "./tenant-profile/tenant-profile.component";
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { ResetPasswordComponent } from "../components/reset-password-form/reset-
         SideBarLayout,
         BasicLayoutComponent,
         UserPanelComponent,
-        ResetPasswordComponent
+        ResetPasswordComponent,
+        TenantProfileComponent
     ],
     imports: [
         CoreModule,
