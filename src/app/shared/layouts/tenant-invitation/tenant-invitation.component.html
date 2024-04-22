@@ -1,0 +1,51 @@
+<app-datatable 
+    [model]="dataTable"
+    (pageChange)="onPageChange($event)"
+    (searchChange)="onSearchChange($event)"
+>
+    <app-button rightHeaderTemplate
+        text="Mời"
+        type="submit"
+        [loading]="loading"
+        (onClick)="inviteMemberVisibile = true"
+    ></app-button>
+</app-datatable>
+
+<p-dialog 
+      header="Mời thành viên" 
+      [(visible)]="inviteMemberVisibile"
+      [draggable]="false" 
+      [resizable]="false"
+      [autoZIndex]="true"
+      [modal]="true"
+      [style]="{width: '40vw'}">
+
+      <form [formGroup]="form" (ngSubmit)="onInviteMember()">
+
+        <app-text-input
+            title="Địa chỉ email"
+            formControlName="email"
+            placeHolder="Nhập địa chỉ email"
+        ></app-text-input>
+    
+        <app-dropdown-input
+            title="Vai trò"
+            formControlName="role"
+            [items]="roleDropDownItems"
+            placeHolder="Chọn vai trò"
+        >
+        </app-dropdown-input>
+    
+    </form>
+
+    <ng-template pTemplate="footer">
+
+        <app-button 
+          icon="pi pi-check" 
+          text="Lưu"
+          (onClick)="onInviteMember()"
+        ></app-button>
+
+    </ng-template>
+      
+</p-dialog>

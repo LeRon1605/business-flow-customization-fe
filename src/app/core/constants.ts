@@ -19,5 +19,7 @@ export const ERROR_MESSAGE : any = {
     'DuplicateUserName': 'Email đã tồn tại',
     'PasswordMismatch': 'Mật khẩu không chính xác',
     'User:000002': 'Tài khoản không tồn tại',
-    'User:000004': 'Tài khoản không tồn tại'
+    'User:000004': 'Tài khoản không tồn tại',
+    'TenantInvitation:000001': 'Đã mời thành viên trước đây',
+    'TenantInvitation:000002': 'Thành viên đã tồn tại trong doanh nghiệp'
 };
