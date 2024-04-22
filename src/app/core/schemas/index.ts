@@ -4,3 +4,4 @@ export * from './paged.schema';
 export * from './tenant.schema';
 export * from './token.schema';
 export * from './user.schema';
+export * from './role.schema';

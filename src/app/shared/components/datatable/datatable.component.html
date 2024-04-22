@@ -16,6 +16,7 @@
         <div class="flex flex-row items-center">
             <span> {{ model.title }} </span>
             <div class="p-input-icon-left ml-auto flex flex-row items-center">
+                <ng-content select="[rightHeaderTemplate]"></ng-content>
                 <app-filter 
                     *ngIf="filterFields"
                     [fields]="filterFields"

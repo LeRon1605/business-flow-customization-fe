@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { FieldsetModule } from 'primeng/fieldset';
 import { ServeSyncCommonModule } from "../../shared/components/common/common.module";
-
 @NgModule({
     declarations: [
         TenantComponent

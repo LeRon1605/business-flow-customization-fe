@@ -23,6 +23,8 @@ import { UserPanelComponent } from "../components";
 import { ServeSyncCommonModule } from "../components/common/common.module";
 import { ResetPasswordComponent } from "../components/reset-password-form/reset-password.component";
 import { TenantProfileComponent } from "./tenant-profile/tenant-profile.component";
+import { TenantInvitationComponent } from "./tenant-invitation/tenant-invitation.component";
+import { DataTableModule } from "../components/datatable/datatable.component";
 
 @NgModule({
     declarations: [
@@ -33,7 +35,8 @@ import { TenantProfileComponent } from "./tenant-profile/tenant-profile.componen
         BasicLayoutComponent,
         UserPanelComponent,
         ResetPasswordComponent,
-        TenantProfileComponent
+        TenantProfileComponent,
+        TenantInvitationComponent
     ],
     imports: [
         CoreModule,
@@ -53,7 +56,8 @@ import { TenantProfileComponent } from "./tenant-profile/tenant-profile.componen
         TieredMenuModule,
         DividerModule,
         DialogModule,
-        ServeSyncCommonModule
+        ServeSyncCommonModule,
+        DataTableModule
     ]
 })
 export class LayoutModule { }
