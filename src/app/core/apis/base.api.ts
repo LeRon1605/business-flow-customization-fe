@@ -19,6 +19,8 @@ export class BaseApiService {
             RESET_PROFILE_PASSWORD: this.baseApiUrl + '/identity/profile/change-password',
             TENANT_INFO: this.baseApiUrl + '/identity/tenants',
             TENANT_INVITATION: this.baseApiUrl + '/identity/tenants/invitations',
+            ACCEPT_TENANT_INVITATION: this.baseApiUrl + '/identity/tenants/invitations/accept',
+            INIT_TENANT_INVITATION_ACCOUNT: this.baseApiUrl + '/identity/tenants/invitations/accept/account',
             ROLE: this.baseApiUrl + '/identity/roles'
         };
     }

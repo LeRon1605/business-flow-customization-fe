@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BaseApiService } from "./base.api";
-import { PagedResult, TenantDetailDto, TenantInvitationCreateDto, TenantInvitationDto, UpdateTenantDto } from "../schemas";
+import { AcceptTenantInvitationResponseDto, InitAccountTenantInvitationRequestDto, PagedResult, TenantDetailDto, TenantInvitationCreateDto, TenantInvitationDto, UpdateTenantDto } from "../schemas";
 import { HttpParams } from "@angular/common/http";
 
 @Injectable({ providedIn: 'root' })
@@ -29,5 +29,15 @@ export class TenantApiService extends BaseApiService {
 
     inviteMember(data: TenantInvitationCreateDto) {
         return this.http.post(this.API_END_POINTS.TENANT_INVITATION, data);
+    }
+
+    acceptInvitation(token: string) {
+        return this.http.post<AcceptTenantInvitationResponseDto>(this.API_END_POINTS.ACCEPT_TENANT_INVITATION, {
+            token
+        });
+    }
+
+    initAccount(data: InitAccountTenantInvitationRequestDto) {
+        return this.http.post(this.API_END_POINTS.INIT_TENANT_INVITATION_ACCOUNT, data);
     }
 }
