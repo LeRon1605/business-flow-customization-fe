@@ -7,13 +7,15 @@ import { BadgeModule } from "primeng/badge";
 import { PermissionWrapperComponent } from "./permission-wrapper/permission-wrapper.component";
 import { CommonModule } from "@angular/common";
 import { ErrorComponent } from "./error/error.component";
+import { SuccessComponent } from "./success/success.component";
 
 @NgModule({
     declarations: [
         LinkComponent,
         ButtonComponent,
         PermissionWrapperComponent,
-        ErrorComponent
+        ErrorComponent,
+        SuccessComponent
     ],
     imports: [
         ButtonModule,
@@ -25,7 +27,8 @@ import { ErrorComponent } from "./error/error.component";
         LinkComponent,
         ButtonComponent,
         PermissionWrapperComponent,
-        ErrorComponent
+        ErrorComponent,
+        SuccessComponent
     ]
 })
 export class ServeSyncCommonModule { }

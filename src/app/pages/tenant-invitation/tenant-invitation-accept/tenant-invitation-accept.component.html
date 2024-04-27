@@ -12,6 +12,8 @@
         Yêu cầu đang được xử lý
     </div>
 
+    <app-success *ngIf="!isInitUser && isValidRequest && !loading" text="Đã tham gia thành công vào doanh nghiệp"></app-success>
+
 </div>
 
 <app-tenant-invitation-init-account 
