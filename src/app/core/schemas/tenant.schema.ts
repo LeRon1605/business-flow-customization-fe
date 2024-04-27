@@ -37,3 +37,13 @@ export const TenantInvitationStatusStr : { [ key: number ] : string  } = {
     1: 'Đã chấp nhận',
     2: 'Đã từ chối'
 };
+
+export interface AcceptTenantInvitationResponseDto {
+    isUserExisted: boolean;
+}
+
+export interface InitAccountTenantInvitationRequestDto {
+    fullName: string;
+    token: string;
+    password: string;
+}

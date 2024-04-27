@@ -6,12 +6,14 @@ import { ButtonComponent } from "./button/button.component";
 import { BadgeModule } from "primeng/badge";
 import { PermissionWrapperComponent } from "./permission-wrapper/permission-wrapper.component";
 import { CommonModule } from "@angular/common";
+import { ErrorComponent } from "./error/error.component";
 
 @NgModule({
     declarations: [
         LinkComponent,
         ButtonComponent,
-        PermissionWrapperComponent
+        PermissionWrapperComponent,
+        ErrorComponent
     ],
     imports: [
         ButtonModule,
@@ -22,7 +24,8 @@ import { CommonModule } from "@angular/common";
     exports: [
         LinkComponent,
         ButtonComponent,
-        PermissionWrapperComponent
+        PermissionWrapperComponent,
+        ErrorComponent
     ]
 })
 export class ServeSyncCommonModule { }

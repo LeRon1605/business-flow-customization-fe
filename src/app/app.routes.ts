@@ -21,6 +21,11 @@ export const routes: Routes = [
       canActivate: [ AuthGuard ]
     },
     {
+      path: 'tenant-invitation',
+      component: BasicLayoutComponent,
+      loadChildren: () => import('./pages/tenant-invitation/tenant-invitation.module').then(x => x.TenantInvitationModule)
+    },
+    {
       path: '**',
       redirectTo: 'home'
     }

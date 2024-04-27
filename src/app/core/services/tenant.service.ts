@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { TenantApiService } from "../apis/tenant.api";
-import { TenantInvitationCreateDto, UpdateTenantDto } from "../schemas";
+import { InitAccountTenantInvitationRequestDto, TenantInvitationCreateDto, UpdateTenantDto } from "../schemas";
 
 @Injectable({ providedIn: 'root' })
 export class TenantService {
@@ -23,5 +23,13 @@ export class TenantService {
 
     inviteMember(data: TenantInvitationCreateDto) {
         return this.tenantApiService.inviteMember(data);
+    }
+
+    acceptInvitation(token: string) {
+        return this.tenantApiService.acceptInvitation(token);
+    }
+
+    initAccount(data: InitAccountTenantInvitationRequestDto) {
+        return this.tenantApiService.initAccount(data);
     }
 }

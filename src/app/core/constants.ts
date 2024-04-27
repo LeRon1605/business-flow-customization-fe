@@ -21,5 +21,6 @@ export const ERROR_MESSAGE : any = {
     'User:000002': 'Tài khoản không tồn tại',
     'User:000004': 'Tài khoản không tồn tại',
     'TenantInvitation:000001': 'Đã mời thành viên trước đây',
-    'TenantInvitation:000002': 'Thành viên đã tồn tại trong doanh nghiệp'
+    'TenantInvitation:000002': 'Thành viên đã tồn tại trong doanh nghiệp',
+    'TenantInvitation:000003': 'Yêu cầu không hợp lệ'
 };

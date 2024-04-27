@@ -64,6 +64,9 @@ export class TenantProfileComponent implements OnInit {
             .pipe(
                 finalize(() => {
                     this.form.enable();
+
+                    this.form.controls['numberOfStaff'].disable();
+                    this.form.controls['createdAt'].disable();
                 })
             )
             .subscribe(() => {
