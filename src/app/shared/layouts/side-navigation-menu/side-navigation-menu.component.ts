@@ -36,7 +36,7 @@ export class SideNavigationMenuComponent implements OnInit {
     this.userStorageService.currentUser.subscribe(x => {
       if (x) {
         this.user = x;
-        if (this.user.permissions.includes('Permissions.Tenants.Management')) {
+        if (this.user.permissions.includes('Permissions.Tenants.Management') && this.items.every(x => x.key != 'tenant')) {
           this.items.push({
             key: 'tenant',
             label: 'Quản lý doanh nghiệp',

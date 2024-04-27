@@ -13,6 +13,7 @@ export class TenantInvitationAcceptComponent implements OnInit {
     isValidRequest!: boolean;
     isInitUser: boolean = false;
     loading: boolean = true;
+    isSuccess: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
