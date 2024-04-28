@@ -59,7 +59,7 @@ export class TenantInvitationComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadData();
-        this.roleService.getDropDownItems().subscribe(x => this.roleDropDownItems = x);
+        this.roleService.getDropDownItems().subscribe(x => this.roleDropDownItems = x.filter(r => r.text != 'Chủ doanh nghiệp'));
     }
 
     onInviteMember() {
