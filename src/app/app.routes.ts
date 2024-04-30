@@ -26,6 +26,12 @@ export const routes: Routes = [
       loadChildren: () => import('./pages/tenant-invitation/tenant-invitation.module').then(x => x.TenantInvitationModule)
     },
     {
+      path: 'business-flow',
+      component: BasicLayoutComponent,
+      loadChildren: () => import('./pages/business-flow/business-flow.module').then(x => x.BusinessFlowModule),
+      // canActivate: [ AuthGuard ]
+    },
+    {
       path: '**',
       redirectTo: 'home'
     }

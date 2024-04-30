@@ -1,0 +1,121 @@
+<p-sidebar 
+    [(visible)]="visible" 
+    [modal]="true"
+    [showCloseIcon]="true"
+    [dismissible]="true"
+    position="right">
+
+    <div>
+        <h1>Thiết lập bước nghiệp vụ</h1>
+    </div>
+
+    <hr class="mt-3 mb-3">
+
+    <div>
+        <form [formGroup]="form">
+  
+            <app-text-input
+              title="Tiêu đề"
+              formControlName="name"
+              placeHolder="Nhập tiêu đề bước nghiệp vụ"
+            ></app-text-input>
+
+        </form>
+    </div>
+
+    <hr class="mt-3 mb-3">
+
+    <div>
+        <div>
+            <h1>Kết quả</h1>
+            <p>Thiết lập đầu ra của nghiệp vụ</p>
+        </div>
+
+        <div class="mt-3 mb-3">
+            <div *ngFor="let outCome of node?.data.outComes" class="flex items-center mb-1 cursor-pointer" (click)="onOutComeSelect(outCome.id)">
+                <div style="width: 20px; height: 20px" [style.backgroundColor]="outCome.color" class="rounded"></div>
+                <div class="ml-2 hover:text-blue-700">{{ outCome.name }}</div>
+            </div>
+        </div>
+
+        <button 
+            type="button" 
+            class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+            (click)="createOutComeDialogVisible = true"
+            >Thêm</button>
+    </div>
+
+    <ng-container *ngIf="node?.data.errorMessages && node?.data.errorMessages.length > 0">
+        <hr class="mt-3 mb-3">
+
+        <div class="mb-3">
+            <h1>Thông báo thiết lập</h1>
+        </div>
+
+        <div class="p-4 mb-3 text-sm text-red-800 rounded-lg bg-red-50" role="alert" *ngFor="let message of node?.data.errorMessages">
+            {{ message }}
+        </div>
+    </ng-container>
+
+    <ng-template pTemplate="footer">
+
+        <div class="flex justify-between">
+            <div>
+
+            </div>
+            <div>
+                <app-button 
+                    text="Xóa"
+                    type="submit"
+                    severity="danger"
+                    (onClick)="onDeleteNode()"
+                ></app-button>
+    
+                <app-button 
+                    text="Lưu"
+                    type="submit"
+                    (onClick)="onUpdateNode()"
+                    styleClass="ml-2"
+                ></app-button>
+            </div>
+        </div>
+
+    </ng-template>
+
+</p-sidebar>
+
+<p-dialog 
+    header="Thiết lập kết quả đầu ra" 
+    [(visible)]="outComeDialogVisible" 
+    [draggable]="false"
+    [modal]="true"
+    [resizable]="false"
+    [style]="{width: '20vw'}">
+    
+    <app-business-flow-outcome-detail 
+        *ngIf="outComeDialogVisible" 
+        [node]="node" 
+        [outComeId]="selectedOutComeId"
+        (saveOutCome)="onSaveOutCome($event)"
+        (deleteOutCome)="onDeleteOutCome($event)"
+    ></app-business-flow-outcome-detail>
+
+</p-dialog>
+
+<p-dialog 
+    header="Thiết lập kết quả đầu ra" 
+    [(visible)]="createOutComeDialogVisible" 
+    [draggable]="false"
+    [modal]="true"
+    [resizable]="false"
+    [style]="{width: '20vw'}">
+    
+    <app-business-flow-outcome-detail 
+        *ngIf="createOutComeDialogVisible" 
+        [node]="node" 
+        [createMode]="true"
+        [outComeId]="selectedOutComeId"
+        (saveOutCome)="onSaveOutCome($event)"
+    ></app-business-flow-outcome-detail>
+
+</p-dialog>

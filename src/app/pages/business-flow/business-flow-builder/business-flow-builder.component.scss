@@ -1,0 +1,65 @@
+:host ::ng-deep {
+    display: block;
+    height: inherit;
+    width: inherit;
+
+    .ngx-charts-outer {
+      width: 100%;
+      height: 100%;
+    }
+
+    .ngx-charts {
+      background: white;
+      background-size: 12px 12px;
+      background-image: radial-gradient(rgb(232, 234, 239) 1px, transparent 1px);
+    }
+  
+    .cardContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      border: 1px solid #a6a6a7;
+      padding: 10px;
+      min-height: 100px;
+      background-color: white;
+      cursor: pointer;
+  
+      .name {
+        font-size: 16px;
+        margin-left: 10px;
+      }
+
+      .icon {
+        background-color: #eceff3;
+        padding: 10px;
+        border-radius: 5px;
+      }
+    }
+
+    .edge {
+      cursor: pointer;
+    }
+
+    circle:hover{
+      cursor: pointer;
+      stroke: #74C0FC;
+    }
+  
+    .linkMidpoint {
+      cursor: pointer;
+      
+      ellipse {
+        fill: white;
+        stroke: black;
+        stroke-width: 1;
+      }
+  
+      text {
+        stroke: transparent;
+        fill: whitesmoke;
+        text-anchor: middle;
+        font-size: 12px;
+      }
+    }
+  }

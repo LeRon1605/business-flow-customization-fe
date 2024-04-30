@@ -21,7 +21,8 @@ export class BaseApiService {
             TENANT_INVITATION: this.baseApiUrl + '/identity/tenants/invitations',
             ACCEPT_TENANT_INVITATION: this.baseApiUrl + '/identity/tenants/invitations/accept',
             INIT_TENANT_INVITATION_ACCOUNT: this.baseApiUrl + '/identity/tenants/invitations/accept/account',
-            ROLE: this.baseApiUrl + '/identity/roles'
+            ROLE: this.baseApiUrl + '/identity/roles',
+            VALIDATE_BUSINESS_FLOW: this.baseApiUrl + '/business-flow/business-flows/validate'
         };
     }
 }
