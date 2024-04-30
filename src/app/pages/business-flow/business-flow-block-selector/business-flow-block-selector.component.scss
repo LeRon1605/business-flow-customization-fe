@@ -1,0 +1,14 @@
+:host ::ng-deep .p-card {
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+:host ::ng-deep .p-card-content {
+    padding: 0;
+    font-size: 14px;
+}
+
+:host ::ng-deep .p-card-body {
+    padding-top: 0;
+    padding-bottom: 0;
+}

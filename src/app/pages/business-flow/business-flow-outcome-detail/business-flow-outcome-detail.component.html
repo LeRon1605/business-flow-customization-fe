@@ -1,0 +1,32 @@
+<form [formGroup]="form">
+    <div class="flex items-center">
+        <p-colorPicker formControlName="color" appendTo="body"></p-colorPicker>
+        <input 
+            id="input"
+            class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 ml-2"
+            pInputText 
+            formControlName="name" 
+        />
+    </div>
+    <!-- <span class="text-red-500 text-sm mb-3" *ngIf="ngControl.hasError('required') && ngControl.touched">Vui lòng nhập thông tin.</span> -->
+
+    <p class="text-sm mt-3">Lorem Ipsum is simply dummy text.</p>
+
+    <div class="flex justify-between mt-5">
+        <div *ngIf="createMode"></div>
+        <app-button 
+            text="Xóa"
+            type="submit"
+            severity="danger"
+            (onClick)="onDeleteOutCome()"
+            *ngIf="!createMode"
+        ></app-button>
+
+        <app-button 
+            text="Lưu"
+            type="submit"
+            styleClass="ml-2"
+            (onClick)="onSaveOutCome()"
+        ></app-button>
+    </div>
+</form>
