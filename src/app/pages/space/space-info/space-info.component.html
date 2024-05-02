@@ -1,0 +1,23 @@
+<form [formGroup]="form">
+    
+    <div class="flex items-center mb-2">
+        <p-colorPicker 
+            formControlName="color"
+        ></p-colorPicker>
+
+        <label class="block text-sm font-medium text-gray-900 ml-2">Thiết lập màu không gian</label>
+    </div>
+
+    <app-text-input
+      title="Tên không gian"
+      formControlName="name"
+      placeHolder="Nhập tên không gian"
+    ></app-text-input>
+
+    <app-text-input
+      title="Mô tả không gian"
+      formControlName="description"
+      placeHolder="Nhập mô tả không gian"
+    ></app-text-input>
+  
+</form>

@@ -17,7 +17,7 @@ export class SideNavigationMenuComponent implements OnInit {
   navigations : { [key: string]: string; } = {
     'home': '/home',
     'tenant': '/tenant',
-    'business-flow': '/business-flow'
+    'space': '/space/builder'
   };
 
   constructor(
@@ -33,7 +33,7 @@ export class SideNavigationMenuComponent implements OnInit {
         icon: PrimeIcons.HOME
       },
       {
-        key: 'business-flow',
+        key: 'space',
         label: 'Quy trình nghiệp vụ'
       }
     ];

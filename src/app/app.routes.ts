@@ -26,9 +26,9 @@ export const routes: Routes = [
       loadChildren: () => import('./pages/tenant-invitation/tenant-invitation.module').then(x => x.TenantInvitationModule)
     },
     {
-      path: 'business-flow',
-      component: BasicLayoutComponent,
-      loadChildren: () => import('./pages/business-flow/business-flow.module').then(x => x.BusinessFlowModule),
+      path: 'space',
+      component: SideBarLayout,
+      loadChildren: () => import('./pages/space/space.module').then(x => x.SpaceModule),
       // canActivate: [ AuthGuard ]
     },
     {

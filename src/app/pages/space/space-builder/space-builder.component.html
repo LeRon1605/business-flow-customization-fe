@@ -1,0 +1,33 @@
+<p-dialog header="Khởi tạo không gian" [(visible)]="visible" [style]="{ width: '100vw', height: '100vh' }" [draggable]="false" [resizable]="false">
+    <div class="card h-full">
+        <p-tabView class="h-full block">
+            <p-tabPanel header="Không gian">
+                <div class="tab-content w-full h-full flex justify-between">
+                    <div class="w-2/6">
+                        <app-space-info></app-space-info>
+                    </div>
+                    <div class="w-4/6 ml-4">
+                        <img class="h-full object-cover" src="../../../assets/images/space-builder-background.jpg"/>
+                    </div>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Biểu mẫu">
+                <div class="tab-content">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Quy trình nghiệp vụ">
+                <app-business-flow></app-business-flow>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</p-dialog>
+
+<div class="fixed bottom-0 right-0 w-screen p-4 flex justify-between" style="z-index: 2000; background-color: white; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+    <div></div>
+    <app-button 
+      text="Tạo không gian"
+      type="submit"
+    ></app-button>
+</div>

@@ -2,7 +2,7 @@
     [(visible)]="visible" 
     [modal]="true"
     [showCloseIcon]="true"
-    [dismissible]="true"
+    appendTo="body"
     position="right">
 
     <div>
@@ -90,6 +90,7 @@
     [draggable]="false"
     [modal]="true"
     [resizable]="false"
+    appendTo="body"
     [style]="{width: '20vw'}">
     
     <app-business-flow-outcome-detail 

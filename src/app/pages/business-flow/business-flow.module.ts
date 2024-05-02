@@ -3,7 +3,6 @@ import { ServeSyncCommonModule } from "../../shared/components/common/common.mod
 import { ServeSyncFormControlModule } from "../../shared/components/form-controls/form-control.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { BusinessFlowRoutingModule } from "./business-flow.routing";
 import { BusinessFlowComponent } from "./business-flow.component";
 import { NgxGraphModule } from '@kr0san89/ngx-graph';
 import { SidebarModule } from 'primeng/sidebar';
@@ -17,6 +16,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { InputTextModule } from 'primeng/inputtext';
 import { BusinessFlowBranchDetailComponent } from "./business-flow-branch-detail/business-flow-branch-detail.component";
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
     declarations: [
@@ -32,14 +32,17 @@ import { BusinessFlowBranchDetailComponent } from "./business-flow-branch-detail
         ReactiveFormsModule,
         ServeSyncFormControlModule,
         ServeSyncCommonModule,
-        BusinessFlowRoutingModule,
         NgxGraphModule,
         SidebarModule,
         CardModule,
         TooltipModule,
         DialogModule,
         ColorPickerModule,
-        InputTextModule
+        InputTextModule,
+        TabViewModule
+    ],
+    exports: [
+        BusinessFlowComponent
     ]
 })
 export class BusinessFlowModule { }

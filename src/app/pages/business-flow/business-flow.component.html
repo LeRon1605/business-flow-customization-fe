@@ -1,6 +1,19 @@
-<app-business-flow-block-selector></app-business-flow-block-selector>
-<div class="w-full h-full">
-    
-<app-business-flow-builder></app-business-flow-builder>
+<p-sidebar 
+    [visible]="true" 
+    [modal]="false"
+    [showCloseIcon]="false"
+    [appendTo]="businessFlowBuilder"
+    [style]="{position: 'absolute'}">
+
+    <app-business-flow-block-selector></app-business-flow-block-selector>
+
+</p-sidebar>
+
+<div class="w-full h-full" #businessFlowBuilder [style]="{position: 'relative'}">   
+    <app-business-flow-builder></app-business-flow-builder>
 </div>
-<app-business-flow-block-detail></app-business-flow-block-detail>
+
+<app-business-flow-block-detail
+    [appendTo]="businessFlowBuilder"
+
+></app-business-flow-block-detail>

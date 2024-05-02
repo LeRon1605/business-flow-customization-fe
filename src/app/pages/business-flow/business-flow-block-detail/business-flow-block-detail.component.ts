@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { BusinessFlowBuilderService } from "../business-flow-builder/business-flow-builder.service";
 import { Node } from "@kr0san89/ngx-graph";
@@ -7,9 +7,13 @@ import { cloneDeep } from 'lodash';
 
 @Component({
     selector: 'app-business-flow-block-detail',
+    styleUrl: 'business-flow-block-detail.component.scss',
     templateUrl: 'business-flow-block-detail.component.html'
 })
 export class BusinessFlowBlockDetailComponent implements OnInit {
+
+    @Input()
+    appendTo?: any;
 
     node?: Node;
     visible: boolean = false;
