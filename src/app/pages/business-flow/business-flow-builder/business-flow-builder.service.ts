@@ -1,18 +1,16 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
-import { BusinessFlowBlockDto, BusinessFlowBranchDto, ValidateBusinessFlowResponseDto } from "../../../core/schemas";
+import { BusinessFlowBlockDto, BusinessFlowBranchDto, BusinessFlowDto, ValidateBusinessFlowResponseDto } from "../../../core/schemas";
 import { Edge, Node } from "@kr0san89/ngx-graph";
 import { BusinessFlowService } from "../../../core/services/business-flow.service";
 import { BusinessFlowMapper } from "../../../core/mappers/business-flow.mapper";
 import { cloneDeep } from "lodash";
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class BusinessFlowBuilderService {
 
     nodes: Node[] = [];
     links: Edge[] = [];
-
-    onBlockAdded = new Subject<number>();
     
     update$: Subject<boolean> = new Subject();
     center$: Subject<boolean> = new Subject();
@@ -20,6 +18,14 @@ export class BusinessFlowBuilderService {
     selectedNode$: Subject<Node> = new Subject<Node>();
     nodes$: BehaviorSubject<Node[]> = new BehaviorSubject<Node[]>([]);
     link$: BehaviorSubject<Edge[]> = new BehaviorSubject<Edge[]>([]);
+
+    get valid() : boolean {
+        return this.nodes.every(x => x.data.errorMessages?.length == 0);
+    }
+
+    get data() : BusinessFlowDto {
+        return this.businessFlowMapper.mapBusinessFlowDto(this.nodes, this.links);
+    }
 
     constructor(
         private businessFlowService: BusinessFlowService,
@@ -73,11 +79,6 @@ export class BusinessFlowBuilderService {
     
     isAvailableNode(sourceNode: Node, targetNode: Node) {
         return this.getAvailableConnectNode(sourceNode).some(x => x.id == targetNode.id);
-    }
-
-
-    addBlock(type: number) {
-        this.onBlockAdded.next(type);
     }
 
     getNode(id: string) {
@@ -153,7 +154,7 @@ export class BusinessFlowBuilderService {
     }
 
     updateGraph(isCenter: boolean = false) {
-        const validateData = this.businessFlowMapper.mapValidateBusinessFlowDto(this.nodes, this.links);
+        const validateData = this.businessFlowMapper.mapBusinessFlowDto(this.nodes, this.links);
         this.businessFlowService.validate(validateData)
             .subscribe(x => {
                 this.mapValidationError(x);
@@ -198,12 +199,14 @@ export class BusinessFlowBuilderService {
 
     deleteNode(id: string) {
         const node = this.nodes.find(x => x.id == id);
-        if (node)
+        // Does not allow delete start node
+        if (node && node.data.type != 1) {
             this.nodes.splice(this.nodes.indexOf(node), 1);
 
-        // Delete edge that contains node
-        this.links = this.links.filter(x => x.source != id && x.target != id);
-        this.updateGraph();
+            // Delete edge that contains node
+            this.links = this.links.filter(x => x.source != id && x.target != id);
+            this.updateGraph();
+        }
     }
 
     updateNode(clonedNode: Node) {

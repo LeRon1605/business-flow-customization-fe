@@ -13,7 +13,7 @@ export class BusinessFlowBlockSelectorComponent {
     ) { }
  
     onBlockClick(type: number) {
-        this.businessFlowBuilderService.addBlock(type);
+        this.businessFlowBuilderService.addNode(type);
     }
 
 }

@@ -30,6 +30,9 @@ export class BusinessFlowBlockDetailComponent implements OnInit {
 
     ngOnInit(): void {
         this.businessFlowBuilderService.selectedNode$.subscribe(x => {
+            if (x.data.type == 1)
+                return;
+            
             const clonedNode = cloneDeep(x);
 
             this.node = clonedNode;

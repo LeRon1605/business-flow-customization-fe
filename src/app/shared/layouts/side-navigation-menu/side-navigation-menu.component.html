@@ -1,13 +1,22 @@
 <aside 
   id="sidebar-multi-level-sidebar" 
   class="fixed top-0 left-0 z-40 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-  <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+  <div class="h-full px-3 py-4 overflow-y-auto bg-[#F5F6F7]">
     <p-tree 
         class="w-full" 
         [value]="items" 
         selectionMode="single" 
-        [(selection)]="selectedNode"
+        [selection]="selectedNode"
         (selectionChange)="onSelectionChange($event)"
-      ></p-tree>
+      >
+      <ng-template let-node pTemplate="default">
+        <div class="flex items-center">
+          <div style="width: 20px; height: 20px" [style.backgroundColor]="node.data.color" class="rounded p-treenode-icon" *ngIf="node.data?.color"></div>
+          <span>{{ node.label }}</span>
+        </div>
+      </ng-template>
+    </p-tree>
   </div>
 </aside>
+
+<app-space-builder></app-space-builder>

@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { PrimeIcons, TreeNode } from 'primeng/api';
 import { UserStorageService } from '../../../core/services';
 import { UserInfo } from '../../../core/schemas/user.schema';
+import { SpaceService } from '../../../core/services/space.service';
+import { TreeNodeSelectEvent } from 'primeng/tree';
 
 @Component({
   selector: 'app-side-navigation-menu',
@@ -16,13 +18,13 @@ export class SideNavigationMenuComponent implements OnInit {
   items!: TreeNode[];
   navigations : { [key: string]: string; } = {
     'home': '/home',
-    'tenant': '/tenant',
-    'space': '/space/builder'
+    'tenant': '/tenant'
   };
 
   constructor(
     private router: Router,
-    private userStorageService: UserStorageService
+    private userStorageService: UserStorageService,
+    private spaceService: SpaceService
   ) { }
 
   ngOnInit(): void {
@@ -31,10 +33,6 @@ export class SideNavigationMenuComponent implements OnInit {
         key: 'home',
         label: 'Trang chủ',
         icon: PrimeIcons.HOME
-      },
-      {
-        key: 'space',
-        label: 'Quy trình nghiệp vụ'
       }
     ];
 
@@ -48,6 +46,53 @@ export class SideNavigationMenuComponent implements OnInit {
             icon: PrimeIcons.USERS
           })
         }
+        
+        if (this.user.permissions.includes('Permissions.Space.Management') && this.items.every(x => x.key != 'space')) {
+
+          const space : TreeNode = {
+            key: 'space',
+            label: 'Quy trình nghiệp vụ',
+            icon: PrimeIcons.SITEMAP,
+            children: []
+          };
+          
+          if (this.user.permissions.includes('Permissions.Space.Create')) {
+            space.children!.push({
+              key: 'space-new',
+              label: 'Tạo mới',
+              icon: PrimeIcons.PLUS,
+              data: {
+                ignoreSelect: true,
+                command: () => {
+                  this.spaceService.triggerCreate();
+                }
+              }
+            })
+          }
+
+          this.spaceService.load();
+
+          this.spaceService.spaces$
+            .subscribe(x => {
+              if (space.children!.length > 1) {
+                space.children?.splice(1, space.children.length - 1);
+              }
+
+              for (const s of x) {
+                space.children!.push({
+                  label: s.name,
+                  data: {
+                    color: s.color,
+                    command: () => {
+                      this.router.navigate(['space', s.id])
+                    }
+                  },
+                })
+              };
+            });
+
+          this.items.push(space);
+        }
       }
     });
 
@@ -56,7 +101,11 @@ export class SideNavigationMenuComponent implements OnInit {
 
   onSelectionChange(value: any) {
     this.selectedNode = value;
-    
+
+    if (this.selectedNode?.data?.command) {
+      this.selectedNode.data?.command();
+    }
+
     if (this.selectedNode && this.selectedNode.key && this.navigations[this.selectedNode.key]) {
       this.router.navigate([this.navigations[this.selectedNode.key]]);
     }

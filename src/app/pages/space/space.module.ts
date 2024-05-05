@@ -15,11 +15,17 @@ import { ServeSyncCommonModule } from "../../shared/components/common/common.mod
 import { SidebarModule } from "primeng/sidebar";
 import { BusinessFlowModule } from "../business-flow/business-flow.module";
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { WorkSpaceComponent } from "./workspace/workspace.component";
+import { MenuModule } from 'primeng/menu';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
     declarations: [
         SpaceInfoComponent,
         SpaceBuilderComponent,
+        WorkSpaceComponent,
         SpaceComponent
     ],
     imports: [
@@ -35,8 +41,16 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
         InputTextModule,
         TabViewModule,
         BusinessFlowModule,
-        InputTextareaModule
+        InputTextareaModule,
+        AvatarModule,
+        MenuModule,
+        AvatarGroupModule,
+        SkeletonModule
     ],
+    exports: [
+        SpaceInfoComponent,
+        SpaceBuilderComponent
+    ]
 })
 export class SpaceModule {
     

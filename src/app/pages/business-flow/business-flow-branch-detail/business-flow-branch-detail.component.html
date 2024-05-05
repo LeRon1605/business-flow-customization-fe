@@ -1,23 +1,25 @@
-<p class="text-sm mb-3">Thay đổi đầu ra nghiệp vụ mong muốn</p>
+<div class="p-5">
+    <p class="text-sm mb-3">Thay đổi đầu ra nghiệp vụ mong muốn</p>
 
-<div *ngFor="let outCome of fromNode?.data.outComes" class="flex items-center mb-1 cursor-pointer" (click)="selectedOutComeId = outCome.id">
-    <div style="width: 20px; height: 20px" [style.backgroundColor]="outCome.color" class="rounded"></div>
-    <div class="ml-2 hover:text-blue-500" [class.text-blue-500]="outCome.id == selectedOutComeId">{{ outCome.name }}</div>
-</div>
+    <div *ngFor="let outCome of fromNode?.data.outComes" class="flex items-center mb-1 cursor-pointer" (click)="selectedOutComeId = outCome.id">
+        <div style="width: 20px; height: 20px" [style.backgroundColor]="outCome.color" class="rounded"></div>
+        <div class="ml-2 hover:text-blue-500" [class.text-blue-500]="outCome.id == selectedOutComeId">{{ outCome.name }}</div>
+    </div>
 
-<p class="text-sm mt-3">Lorem Ipsum is simply dummy text.</p>
+    <p class="text-sm mt-3">Lorem Ipsum is simply dummy text.</p>
 
-<div class="flex justify-between mt-5">
-    <app-button 
-        text="Xóa"
-        type="submit"
-        severity="danger"
-        (onClick)="onDeleteBranch()"
-    ></app-button>
+    <div class="flex justify-between mt-5">
+        <app-button 
+            text="Xóa"
+            type="submit"
+            severity="danger"
+            (onClick)="onDeleteBranch()"
+        ></app-button>
 
-    <app-button 
-        text="Lưu"
-        type="submit"
-        (onClick)="onSaveBranch()"
-    ></app-button>
+        <app-button 
+            text="Lưu"
+            type="submit"
+            (onClick)="onSaveBranch()"
+        ></app-button>
+    </div>
 </div>

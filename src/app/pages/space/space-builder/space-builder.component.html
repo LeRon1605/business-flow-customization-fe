@@ -1,10 +1,24 @@
-<p-dialog header="Khởi tạo không gian" [(visible)]="visible" [style]="{ width: '100vw', height: '100vh' }" [draggable]="false" [resizable]="false">
-    <div class="card h-full">
-        <p-tabView class="h-full block">
+<p-dialog header="Khởi tạo không gian" 
+    [(visible)]="visible" 
+    [style]="{ width: '100vw', height: '100vh' }" 
+    [draggable]="false" 
+    [resizable]="false">
+    <div class="card h-full" *ngIf="visible">
+        <p-tabView class="h-full block col-span-4" (onChange)="onTabNavigated($event)">
             <p-tabPanel header="Không gian">
+                <ng-template pTemplate="header">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold white-space-nowrap ">
+                            Không gian
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15" *ngIf="!spaceInfo.valid && navigatedTabs.includes(0)">
+                            <path fill="#d8382c" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                        </svg>
+                    </div>
+                </ng-template>
                 <div class="tab-content w-full h-full flex justify-between">
                     <div class="w-2/6">
-                        <app-space-info></app-space-info>
+                        <app-space-info #spaceInfo></app-space-info>
                     </div>
                     <div class="w-4/6 ml-4">
                         <img class="h-full object-cover" src="../../../assets/images/space-builder-background.jpg"/>
@@ -12,22 +26,43 @@
                 </div>
             </p-tabPanel>
             <p-tabPanel header="Biểu mẫu">
+                <ng-template pTemplate="header">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold white-space-nowrap ">
+                            Biểu mẫu
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15" *ngIf="navigatedTabs.includes(1)">
+                            <path fill="#d8382c" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                        </svg>
+                    </div>
+                </ng-template>
                 <div class="tab-content">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </div>
             </p-tabPanel>
             <p-tabPanel header="Quy trình nghiệp vụ">
-                <app-business-flow></app-business-flow>
+                <ng-template pTemplate="header">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold white-space-nowrap ">
+                            Quy trình nghiệp vụ
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15" *ngIf="!businessFlow.valid && navigatedTabs.includes(2)">
+                            <path fill="#d8382c" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                        </svg>
+                    </div>
+                </ng-template>
+                <app-business-flow #businessFlow></app-business-flow>
+            </p-tabPanel>
+            <p-tabPanel headerStyleClass="ml-auto">
+                <ng-template pTemplate="header">
+                    <app-button 
+                        text="Tạo không gian"
+                        type="submit"
+                        (onClick)="onCreateSpace($event)"
+                    ></app-button>
+                 </ng-template>
             </p-tabPanel>
         </p-tabView>
     </div>
 </p-dialog>
-
-<div class="fixed bottom-0 right-0 w-screen p-4 flex justify-between" style="z-index: 2000; background-color: white; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
-    <div></div>
-    <app-button 
-      text="Tạo không gian"
-      type="submit"
-    ></app-button>
-</div>

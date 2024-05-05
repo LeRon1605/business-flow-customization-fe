@@ -25,6 +25,7 @@ import { ResetPasswordComponent } from "../components/reset-password-form/reset-
 import { TenantProfileComponent } from "./tenant-profile/tenant-profile.component";
 import { TenantInvitationComponent } from "./tenant-invitation/tenant-invitation.component";
 import { DataTableModule } from "../components/datatable/datatable.component";
+import { SpaceModule } from "../../pages/space/space.module";
 
 @NgModule({
     declarations: [
@@ -57,7 +58,8 @@ import { DataTableModule } from "../components/datatable/datatable.component";
         DividerModule,
         DialogModule,
         ServeSyncCommonModule,
-        DataTableModule
+        DataTableModule,
+        SpaceModule
     ]
 })
 export class LayoutModule { }

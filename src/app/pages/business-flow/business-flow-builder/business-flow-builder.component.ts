@@ -35,7 +35,7 @@ export class BusinessFlowBuilderComponent {
   public ngOnInit(): void {
     this.blocks = [
         {
-          id: 1,
+          id: crypto.randomUUID(),
           name: 'Bắt đầu',
           type: 1
         }
@@ -44,10 +44,6 @@ export class BusinessFlowBuilderComponent {
     this.branches = [];
 
     this.businessFlowBuilderService.load(this.blocks, this.branches);
-
-    this.businessFlowBuilderService.onBlockAdded.subscribe(type => {
-        this.businessFlowBuilderService.addNode(type);
-    });
   }
 
   onMouseOver(e: Event, node: Node) {

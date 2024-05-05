@@ -1,13 +1,14 @@
-<p-toolbar styleClass="p-2">
+<p-toolbar styleClass="p-2 bg-[#F5F6F7]" [style]="{ 'height': '6%' }">
   <div class="p-toolbar-group-start">
+    <p-avatar image="../../../../assets/images/logo.jpg" styleClass="flex items-center" shape="circle"></p-avatar>
   </div>
   <div class="p-toolbar-group-center">
     <form [formGroup]="form">
-      <app-text-input
+      <input 
+        id="input"
         formControlName="search"
-        placeHolder="Nhập thông tin tìm kiếm"
-        styleClass="mb-0 rounded-full"
-      ></app-text-input>
+        placeholder="Nhập thông tin tìm kiếm"
+        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900"/>
     </form>
   </div>
   <div class="p-toolbar-group-end">

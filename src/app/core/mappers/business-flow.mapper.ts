@@ -1,18 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Edge, Node } from "@kr0san89/ngx-graph";
-import { ValidateBusinessFlowBlockDto, ValidateBusinessFlowBranchDto, ValidateBusinessFlowDto } from "../schemas";
+import { BusinessFlowBlockDto, BusinessFlowBranchDto, BusinessFlowDto } from "../schemas";
 
 @Injectable({ providedIn: 'root' })
 export class BusinessFlowMapper {
 
-    mapValidateBusinessFlowDto(nodes: Node[], edges: Edge[]) : ValidateBusinessFlowDto {
+    mapBusinessFlowDto(nodes: Node[], edges: Edge[]) : BusinessFlowDto {
         return {
-            blocks: nodes.map(x => this.mapValidateBusinessFlowBlockDto(x)),
-            branches: edges.map(x => this.mapValidateBusinessFlowBranchDto(x))
+            blocks: nodes.map(x => this.mapBusinessFlowBlockDto(x)),
+            branches: edges.map(x => this.mapBusinessFlowBranchDto(x))
         }
     }
 
-    mapValidateBusinessFlowBlockDto(node: Node) : ValidateBusinessFlowBlockDto {
+    mapBusinessFlowBlockDto(node: Node) : BusinessFlowBlockDto {
         return {
             id: node.id,
             name: node.label!,
@@ -21,7 +21,7 @@ export class BusinessFlowMapper {
         }
     }
 
-    mapValidateBusinessFlowBranchDto(edge: Edge) : ValidateBusinessFlowBranchDto {
+    mapBusinessFlowBranchDto(edge: Edge) : BusinessFlowBranchDto {
         return {
             fromBlockId: edge.source,
             toBlockId: edge.target,

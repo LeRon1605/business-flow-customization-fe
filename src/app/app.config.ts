@@ -12,6 +12,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ToastService } from './core/services';
 import { registerLocaleData } from '@angular/common';
 import vi from '@angular/common/locales/vi';
+import { NgxGraphModule } from '@kr0san89/ngx-graph';
 registerLocaleData(vi);
 
 export const appConfig: ApplicationConfig = {
@@ -36,6 +37,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(    
       NgxsModule.forRoot([
       ]
-    ))
+    ), NgxGraphModule)
   ],
 };

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BusinessFlowApiService } from "../apis/business-flow.api";
-import { ValidateBusinessFlowDto } from "../schemas";
+import { BusinessFlowDto } from "../schemas";
 
 @Injectable({ providedIn: 'root' })
 export class BusinessFlowService {
@@ -9,7 +9,7 @@ export class BusinessFlowService {
         private businessFlowApiService: BusinessFlowApiService
     ) { }
 
-    validate(data: ValidateBusinessFlowDto) {
+    validate(data: BusinessFlowDto) {
         return this.businessFlowApiService.validate(data);
     }
 

@@ -1,17 +1,17 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { SpaceComponent } from "./space.component";
-import { SpaceBuilderComponent } from "./space-builder/space-builder.component";
+import { WorkSpaceComponent } from "./workspace/workspace.component";
 
 const routes : Routes = [
   {
     path: '',
     component: SpaceComponent,
     children: [
-        {
-            path: 'builder',
-            component: SpaceBuilderComponent
-        }
+      {
+        path: ':id',
+        component: WorkSpaceComponent
+      }
     ]
   }
 ];
