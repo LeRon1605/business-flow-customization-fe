@@ -42,7 +42,7 @@ export class SpaceBusinessFlowComponent implements OnInit {
                 map(x => x.map(v => {
                     return {
                         id: v.id,
-                        createdAt: <string>new DatePipe('vi_VN').transform(v.createdAt, 'hh:mm dd/MM/yyyy')
+                        createdAt: 'Phiên bản ' + <string>new DatePipe('vi_VN').transform(v.createdAt, 'hh:mm dd/MM/yyyy')
                     }
                 }))
             )
