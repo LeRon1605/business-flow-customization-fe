@@ -32,13 +32,23 @@ export class BusinessFlowBuilderService {
         private businessFlowMapper: BusinessFlowMapper
     ) { }
 
+    loadEditableMode(spaceId: number, versionId: number) {
+        this.businessFlowService.getBusinessFlow(spaceId, versionId)
+            .subscribe(x => {
+                this.load(x.blocks, x.branches);
+            });
+    }
+
     load(blocks: BusinessFlowBlockDto[], branches: BusinessFlowBranchDto[]) {
+        this.reset();
+        
         for (const block of blocks) {
             const node: Node = {
                 id: block.id.toString(),
                 label: block.name,
                 data: {
-                  type: block.type
+                  type: block.type,
+                  outComes: block.outComes
                 }
             };
 
@@ -60,6 +70,14 @@ export class BusinessFlowBuilderService {
         this.nodes$.next(this.nodes);
         this.link$.next(this.links);
         this.updateGraph(true);
+    }
+
+    reset() {
+        this.nodes = [];
+        this.links = [];
+
+        this.nodes$.next(this.nodes);
+        this.link$.next(this.links);
     }
 
     getAvailableConnectNode(node: Node) {

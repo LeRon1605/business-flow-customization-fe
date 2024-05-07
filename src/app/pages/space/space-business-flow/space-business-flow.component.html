@@ -1,0 +1,29 @@
+<app-business-flow 
+    [createMode]="false" 
+    [spaceId]="space.id" 
+    [versionId]="selectedBusinessFlowVersionId"
+    (businessFlowEditted)="onBusinessFlowUpdated($event)"
+    #businessFlow
+></app-business-flow> 
+<div class="absolute top-0 right-0 flex items-center" style="transform: translate(-5%, 25%);">
+    
+    <p-dropdown 
+        [options]="businessFlowVersions" 
+        [ngModel]="selectedBusinessFlowVersionId" 
+        appendTo="body"
+        styleClass="bg-gray-50 border border-gray-300 w-full"
+        optionLabel="createdAt"
+        optionValue="id"
+        placeholder="Chọn phiên bản nghiệp vụ" 
+        (onChange)="onBusinessFlowVersionSelected($event)"
+    />
+
+    <app-button
+        text="Lưu"
+        styleClass="ml-2"
+        [disabled]="this.selectedBusinessFlowVersionId != this.space.latestPublishedBusinessFlowId"
+        (onClick)="businessFlow.save()"
+    >
+    </app-button>
+
+</div>

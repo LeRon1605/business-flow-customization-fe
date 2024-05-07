@@ -9,7 +9,7 @@ import { ColorPickerModule } from "primeng/colorpicker";
 import { DialogModule } from "primeng/dialog";
 import { TooltipModule } from "primeng/tooltip";
 import { ServeSyncFormControlModule } from "../../shared/components/form-controls/form-control.module";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ServeSyncCommonModule } from "../../shared/components/common/common.module";
 import { SidebarModule } from "primeng/sidebar";
@@ -20,13 +20,18 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { WorkSpaceComponent } from "./workspace/workspace.component";
 import { MenuModule } from 'primeng/menu';
 import { SkeletonModule } from 'primeng/skeleton';
+import { SpaceHeaderComponent } from "./space-header/space-header.component";
+import { SpaceBusinessFlowComponent } from "./space-business-flow/space-business-flow.component";
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
     declarations: [
         SpaceInfoComponent,
         SpaceBuilderComponent,
         WorkSpaceComponent,
-        SpaceComponent
+        SpaceComponent,
+        SpaceHeaderComponent,
+        SpaceBusinessFlowComponent
     ],
     imports: [
         SpaceRoutingModule,
@@ -45,7 +50,9 @@ import { SkeletonModule } from 'primeng/skeleton';
         AvatarModule,
         MenuModule,
         AvatarGroupModule,
-        SkeletonModule
+        SkeletonModule,
+        DropdownModule,
+        FormsModule
     ],
     exports: [
         SpaceInfoComponent,

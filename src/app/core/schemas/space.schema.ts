@@ -8,6 +8,7 @@ export interface SpaceDto {
 
 export interface SpaceDetailDto extends SpaceDto {
     description: string;
+    latestPublishedBusinessFlowId: number;
 }
 
 export interface CreateSpaceDto {

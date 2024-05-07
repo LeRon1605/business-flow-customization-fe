@@ -12,6 +12,8 @@ import { SpaceService } from "../../../core/services/space.service";
 })
 export class WorkSpaceComponent implements OnInit, OnDestroy {
     
+    activeIndex!: number;
+
     spaceId!: number;
     routeSub!: Subscription;
     space?: SpaceDetailDto;
@@ -28,11 +30,14 @@ export class WorkSpaceComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.routeSub = this.route.params.subscribe(x => {
-            this.spaceId = x['id'];
-            this.spaceService.getById(this.spaceId)
-                .subscribe(x => {
-                    this.space = x;
-                })
+            if (x['id'] != this.spaceId) {
+                this.activeIndex = 0;
+                this.spaceId = x['id'];
+                this.spaceService.getById(this.spaceId)
+                    .subscribe(x => {
+                        this.space = x;
+                    });
+            }
         });
     }
 

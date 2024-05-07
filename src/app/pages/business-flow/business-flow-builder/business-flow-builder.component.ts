@@ -14,9 +14,6 @@ export class BusinessFlowBuilderComponent {
 
   branchDialogVisible: boolean = false;
 
-  blocks: BusinessFlowBlockDto[] = [];
-  branches: BusinessFlowBranchDto[] = [];
-
   layoutSettings = {
     orientation: 'TB'
   };
@@ -33,17 +30,6 @@ export class BusinessFlowBuilderComponent {
   ) { }
 
   public ngOnInit(): void {
-    this.blocks = [
-        {
-          id: crypto.randomUUID(),
-          name: 'Bắt đầu',
-          type: 1
-        }
-    ];
-
-    this.branches = [];
-
-    this.businessFlowBuilderService.load(this.blocks, this.branches);
   }
 
   onMouseOver(e: Event, node: Node) {

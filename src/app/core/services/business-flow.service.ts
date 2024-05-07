@@ -13,4 +13,15 @@ export class BusinessFlowService {
         return this.businessFlowApiService.validate(data);
     }
 
+    getSpaceBusinessFlowVersions(spaceId: number) {
+        return this.businessFlowApiService.getSpaceBusinessFlowVersions(spaceId);
+    }
+
+    getBusinessFlow(spaceId: number, versionId: number) {
+        return this.businessFlowApiService.getBusinessFlow(spaceId, versionId);
+    }
+
+    addSpaceBusinessFlow(spaceId: number, data: BusinessFlowDto) {
+        return this.businessFlowApiService.addBusinessFlow(spaceId, data);
+    }
 }

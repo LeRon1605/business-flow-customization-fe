@@ -27,3 +27,13 @@ export interface ValidateBusinessFlowResponseDto {
     id: string;
     errorMessages: string[];
 }
+
+export interface BusinessFlowVersionDto {
+    id: string;
+    createdAt: string;
+}
+
+export interface BusinessFlowVersionDetailDto extends BusinessFlowVersionDto {
+    blocks: BusinessFlowBlockDto[];
+    branches: BusinessFlowBranchDto[];
+}
