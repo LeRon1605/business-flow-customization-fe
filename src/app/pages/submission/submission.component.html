@@ -1,0 +1,42 @@
+Hehe
+
+<div class="p-4">
+    <app-submission-text-field 
+        [element]="elements[0]"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-text-field>
+
+    <app-submission-number-field
+        [element]="elements[1]"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-number-field>
+
+    <app-submission-attachment-field
+        [element]="elements[2]"
+        styleCssClass="mb-3"
+        #field
+    >
+    </app-submission-attachment-field>
+
+    <app-submission-single-select-field
+        [element]="elements[3]"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-single-select-field>
+
+    <app-submission-multi-select-field
+        [element]="elements[4]"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-multi-select-field>
+
+    <app-button
+        text="Gửi"
+        styleClass="mt-3"
+        (onClick)="onSubmit()"
+    >
+        
+    </app-button>
+</div>

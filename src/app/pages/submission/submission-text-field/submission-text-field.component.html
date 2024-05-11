@@ -1,0 +1,17 @@
+<div class="flex flex-col {{ styleCssClass }}">
+    <label class="block mb-1 text-sm font-medium text-gray-900"> {{ element.name }} </label>
+
+    <ng-container *ngIf="loading">
+        <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+    </ng-container>
+    
+    <ng-container *ngIf="!loading">
+        <input
+            class="text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900"
+            pInputText 
+            [(ngModel)]="value"
+            [placeholder]="'Nhập ' + element.name"
+        />
+    </ng-container>
+
+</div>

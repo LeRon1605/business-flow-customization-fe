@@ -1,0 +1,15 @@
+:host ::ng-deep .p-dropdown {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    background-color: rgb(249 250 251);
+    border-width: 1px;
+    border-color: rgb(209 213 219);
+    color: rgb(17 24 39);
+}
+
+:host ::ng-deep .p-dropdown-label {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}

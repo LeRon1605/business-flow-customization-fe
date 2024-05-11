@@ -23,6 +23,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { SpaceHeaderComponent } from "./space-header/space-header.component";
 import { SpaceBusinessFlowComponent } from "./space-business-flow/space-business-flow.component";
 import { DropdownModule } from 'primeng/dropdown';
+import { SubmissionModule } from "../submission/submission.module";
 
 @NgModule({
     declarations: [
@@ -52,7 +53,8 @@ import { DropdownModule } from 'primeng/dropdown';
         AvatarGroupModule,
         SkeletonModule,
         DropdownModule,
-        FormsModule
+        FormsModule,
+        SubmissionModule
     ],
     exports: [
         SpaceInfoComponent,

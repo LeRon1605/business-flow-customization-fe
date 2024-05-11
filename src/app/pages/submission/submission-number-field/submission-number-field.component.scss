@@ -1,0 +1,16 @@
+:host ::ng-deep .p-inputnumber-input {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    display: block;
+    width: 100%;
+    padding: 0.625rem;
+    border-radius: 0.5rem;
+    background-color: rgb(249 250 251);
+    border-width: 1px;
+    border-color: rgb(209 213 219);
+    color: rgb(17 24 39);
+}
+
+:host ::ng-deep .p-inputnumber {
+    width: 100%;
+}
