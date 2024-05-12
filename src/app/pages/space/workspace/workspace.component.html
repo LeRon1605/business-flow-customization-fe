@@ -8,7 +8,7 @@
     </p-tabPanel>
     <p-tabPanel header="Biểu mẫu">
         <ng-template pTemplate="content">
-            <app-form-builder></app-form-builder>
+            <app-space-form *ngIf="space" [spaceId]="space.id"></app-space-form>
         </ng-template>
     </p-tabPanel>
     <p-tabPanel header="Quy trình nghiệp vụ">

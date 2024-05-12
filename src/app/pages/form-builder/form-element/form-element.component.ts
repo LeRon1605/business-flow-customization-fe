@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { CreateFormElementDto, FormElementOptionRequestDto, FormElementSettingType } from "../../../core/schemas";
+import { FormElementDto, FormElementOptionDto, FormElementSettingType } from "../../../core/schemas";
 import { FormBuilderService } from "../form-builder.service";
 import { InputSwitchChangeEvent } from "primeng/inputswitch";
 
@@ -11,7 +11,7 @@ import { InputSwitchChangeEvent } from "primeng/inputswitch";
 export class FormElementComponent {
 
     @Input()
-    element!: CreateFormElementDto;
+    element!: FormElementDto;
 
     @Input()
     editMode: boolean = true;
@@ -24,6 +24,7 @@ export class FormElementComponent {
         let setting = this.element.settings.find(x => x.type == FormElementSettingType.Required);
         if (!setting) {
             setting = {
+                id: 0,
                 type: FormElementSettingType.Required,
                 value: JSON.stringify(value)
             };
@@ -56,12 +57,12 @@ export class FormElementComponent {
 
     onAddOption() {
         this.element.options.push({
-            name: '',
-            index: this.element.options.length + 1
+            id: 0,
+            name: ''
         })
     }
 
-    onRemoveOption(option: FormElementOptionRequestDto) {
+    onRemoveOption(option: FormElementOptionDto) {
         this.element.options.splice(this.element.options.indexOf(option), 1);
     }
 }

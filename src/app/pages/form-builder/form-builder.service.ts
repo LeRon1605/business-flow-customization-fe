@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
-import { CreateFormElementDto, FormElementType } from "../../core/schemas";
+import { FormElementDto, FormElementType } from "../../core/schemas";
+import { FormApiService } from "../../core/apis/form.api";
 
 @Injectable()
 export class FormBuilderService {
 
     draggedElementType?: FormElementType;
-    draggedElement?: CreateFormElementDto;
-    elements: CreateFormElementDto[] = [];
+    draggedElement?: FormElementDto;
+    elements: FormElementDto[] = [];
 
     get valid() {
         return this.elements.every(x => this.isValid(x)) && this.elements.length > 0;
@@ -17,11 +18,19 @@ export class FormBuilderService {
         return this.elements;
     }
 
+    constructor(
+        private formApiService: FormApiService
+    ) { }
+
+    load(elements: FormElementDto[]) {
+        this.elements = elements;
+    }
+
     dragOnAdd(type: FormElementType) {
         this.draggedElementType = type;
     }
 
-    dragOnSwap(draggedElement: CreateFormElementDto) {
+    dragOnSwap(draggedElement: FormElementDto) {
         this.draggedElement = draggedElement;
     }
     
@@ -30,7 +39,7 @@ export class FormBuilderService {
         this.elements.splice(index, 0, element);
     }
 
-    swap(element: CreateFormElementDto, index: number) {
+    swap(element: FormElementDto, index: number) {
         this.elements.splice(this.elements.indexOf(element), 1);
         this.elements.splice(index, 0, element);
     }
@@ -40,12 +49,13 @@ export class FormBuilderService {
         this.elements.push(element);
     }
 
-    remove(element: CreateFormElementDto) {
+    remove(element: FormElementDto) {
         this.elements.splice(this.elements.indexOf(element), 1);
     }
 
     getElement(type: FormElementType, index: number) {
         return {
+            id: 0,
             name: this.getName(type),
             index: index,
             type: type,
@@ -79,11 +89,11 @@ export class FormBuilderService {
         return '';
     }
 
-    isValid(element: CreateFormElementDto) {
+    isValid(element: FormElementDto) {
         return this.validate(element).length == 0;
     }
 
-    validate(element: CreateFormElementDto) {
+    validate(element: FormElementDto) {
         const errorMessages = [];
         if (element.name == '') {
             errorMessages.push('Tên trường thông tin không được để trống');

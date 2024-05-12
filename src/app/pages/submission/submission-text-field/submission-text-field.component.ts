@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { FormElementDto } from "../../../core/schemas/form-element.schema";
 import { BaseSubmissionFieldComponent } from '../base-submission-field.component'
+import { FormElementDto } from "../../../core/schemas";
 
 @Component({
     selector: 'app-submission-text-field',

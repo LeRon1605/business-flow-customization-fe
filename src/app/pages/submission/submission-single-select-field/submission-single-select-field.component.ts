@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { FormElementDto, FormElementOptionDto } from "../../../core/schemas";
+import { FormElementDto } from "../../../core/schemas";
 
 @Component({
     selector: 'app-submission-single-select-field',

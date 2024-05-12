@@ -1,6 +1,6 @@
-import { Component, HostListener } from "@angular/core";
+import { Component, HostListener, Input } from "@angular/core";
 import { FormBuilderService } from "../form-builder.service";
-import { CreateFormElementDto } from "../../../core/schemas";
+import { FormElementDto } from "../../../core/schemas";
 
 @Component({
     selector: 'app-form',
@@ -9,8 +9,20 @@ import { CreateFormElementDto } from "../../../core/schemas";
 })
 export class FormComponent {
     
-    name: string = 'Tên biểu mẫu';
-    selectedElement?: CreateFormElementDto;
+    private _name!: string;
+    @Input()
+    get name() : string {
+        return this._name;
+    }
+    set name(value: string | undefined) {
+        if (value) {
+            this._name = value;
+        } else {
+            this._name = 'Tên biểu mẫu';
+        }
+    }
+
+    selectedElement?: FormElementDto;
 
     constructor(
         public formBuilderService: FormBuilderService
@@ -33,7 +45,7 @@ export class FormComponent {
         }
     }
 
-    onElementDragStart(element: CreateFormElementDto) {
+    onElementDragStart(element: FormElementDto) {
         this.formBuilderService.dragOnSwap(element);
     }
 

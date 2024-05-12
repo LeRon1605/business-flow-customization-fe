@@ -1,32 +1,22 @@
 export interface FormElementDto {
-    id: number;
-    name: string;
-    options?: FormElementOptionDto[];
-}
-
-export interface FormElementOptionDto {
-    id: number;
-    name: string;
-    color: string;
-}
-
-export interface CreateFormElementDto {
-    name: string;
-    description: string;
-    type: FormElementType;
-    index: number;
-    settings: FormElementSettingDto[];
-    options: FormElementOptionRequestDto[];
+    id: number
+    name: string
+    description: string
+    type: number
+    index: number
+    settings: FormElementSettingDto[]
+    options: FormElementOptionDto[]
 }
 
 export interface FormElementSettingDto {
-    type: FormElementSettingType;
-    value: string;
-} 
+    id: number
+    type: FormElementSettingType
+    value: string
+}
 
-export interface FormElementOptionRequestDto {
-    index: number;
-    name: string;
+export interface FormElementOptionDto {
+    id: number
+    name: string
 }
 
 export enum FormElementType {

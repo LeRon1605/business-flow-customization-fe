@@ -3,6 +3,9 @@
         <app-form-element-selector></app-form-element-selector>
     </div> 
     <div class="w-4/5 h-full overflow-auto">
-        <app-form #form></app-form>
+        <app-form 
+            [name]="form?.name" 
+            #formComponent
+        ></app-form>
     </div>
 </div>
