@@ -15,7 +15,7 @@ export class FormComponent {
         return this._name;
     }
     set name(value: string | undefined) {
-        if (value) {
+        if (value != undefined) {
             this._name = value;
         } else {
             this._name = 'Tên biểu mẫu';
@@ -30,7 +30,7 @@ export class FormComponent {
 
     onDropOnElement($event: DragEvent, index: number) {
         if (this.formBuilderService.draggedElementType != undefined) {
-            this.formBuilderService.insert(this.formBuilderService.draggedElementType, index + 1);
+            this.formBuilderService.insert(this.formBuilderService.draggedElementType, index);
             this.formBuilderService.draggedElementType = undefined;
         } else if (this.formBuilderService.draggedElement != undefined) {
             this.formBuilderService.swap(this.formBuilderService.draggedElement, index);
@@ -42,6 +42,9 @@ export class FormComponent {
         if (this.formBuilderService.draggedElementType != undefined) {
             this.formBuilderService.pushElement(this.formBuilderService.draggedElementType);
             this.formBuilderService.draggedElementType = undefined;
+        } else if (this.formBuilderService.draggedElement != undefined) {
+            this.formBuilderService.swap(this.formBuilderService.draggedElement, this.formBuilderService.elements.length - 1);
+            this.formBuilderService.draggedElement = undefined;
         }
     }
 
@@ -49,7 +52,7 @@ export class FormComponent {
         this.formBuilderService.dragOnSwap(element);
     }
 
-    @HostListener('document:mouseup', ['$event'])
+    @HostListener('document:mousedown', ['$event'])
     onWindowMouseDown(event: MouseEvent) {
         if (!(event.target instanceof HTMLElement) || !event.target.closest('.form-element')) {
             this.selectedElement = undefined;

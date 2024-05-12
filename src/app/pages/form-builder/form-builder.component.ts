@@ -1,8 +1,9 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { FormBuilderService } from "./form-builder.service";
 import { CreateFormRequestDto, FormDto } from "../../core/schemas";
 import { FormComponent } from "./form/form.component";
-import { FormApiService } from "../../core/apis/form.api";
+import { FormService } from "../../core/services/form.service";
+import { ToastService } from "../../core/services";
 
 @Component({
     selector: 'app-form-builder',
@@ -13,9 +14,6 @@ import { FormApiService } from "../../core/apis/form.api";
 })
 export class FormBuilderComponent {
 
-    private _loadedSpaceId?: number;
-    private _loadedVersionId?: number;
-
     form?: FormDto;
 
     @ViewChild('formComponent')
@@ -24,15 +22,11 @@ export class FormBuilderComponent {
     @Input()
     createMode!: boolean;
 
-    private _spaceId?: number;
     @Input()
-    get spaceId() {
-        return this._spaceId;
-    }
-    set spaceId(value: number | undefined) {
-        this._spaceId = value;
-        this.load();
-    }
+    spaceId?: number;
+
+    @Output()
+    onFormUpdated: EventEmitter<number> = new EventEmitter<number>();
 
     private _versionId?: number;
     @Input()
@@ -41,7 +35,15 @@ export class FormBuilderComponent {
     }
     set versionId(value: number | undefined) {
         this._versionId = value;
-        this.load();
+        if (value == undefined || !this.spaceId || this.createMode) {
+            return;
+        }
+
+        this.formService.getByVersion(this.spaceId, this._versionId!)
+            .subscribe(x => {
+                this.form = x;
+                this.formBuilderService.load(x.elements);
+            });
     }
 
     get isValid() {
@@ -58,21 +60,21 @@ export class FormBuilderComponent {
 
     constructor(
         private formBuilderService: FormBuilderService,
-        private formApiService: FormApiService
+        private formService: FormService,
+        private toastService: ToastService
     ) { }
 
-    load() {
-        if (this.versionId == this._loadedVersionId && this._loadedSpaceId == this.spaceId) 
+    save() {
+        if (!this.isValid) {
+            this.toastService.error('Thông tin không hợp lệ')
             return;
-
-        if (this.versionId == undefined && !this.createMode && this.spaceId) {
-            this._loadedSpaceId = this.spaceId;
-            this._loadedVersionId = this.versionId;
-            this.formApiService.getLatestSpaceVersion(this.spaceId)
-                .subscribe(x => {
-                    this.form = x;
-                    this.formBuilderService.load(x.elements);
-                });
         }
+
+        if (this.spaceId && !this.createMode)
+            this.formService.saveForm(this.spaceId, this.data)
+                .subscribe(x => {
+                    this.toastService.success('Cập nhật biểu mẫu thành công');
+                    this.onFormUpdated.emit(x.id);
+                });
     }
 }

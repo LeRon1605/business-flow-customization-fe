@@ -1,7 +1,7 @@
 export interface FormElementDto {
     id: number
     name: string
-    description: string
+    description?: string
     type: number
     index: number
     settings: FormElementSettingDto[]
