@@ -1,0 +1,41 @@
+<div class="min-h-full bg-[#F5F6F7] flex flex-col items-center">
+    <div class="w-full h-48 bg-gray-50">
+        <img style="width: 100%; height: 100%; object-fit: cover;" src="../../../../assets/images/form-background.jpg"/>
+    </div>
+    <div class="w-4/5 bg-white rounded-lg" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; transform: translate(0, -5rem);">
+        <div class="mt-2 p-4">
+            <input
+                [(ngModel)]="name"
+                class="text-xl font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-gray-900"
+                pInputText 
+            />
+        </div>
+        <hr>
+
+        <ng-container *ngFor="let element of formBuilderService.elements; let i = index">
+            <div
+                class="form-element"
+                (onDragStart)="onElementDragStart(element)"
+                (onDrop)="onDropOnElement($event, i)"
+                (click)="selectedElement = element"
+                [draggable]="selectedElement != element"
+                pDraggable
+                pDroppable
+            >
+                <app-form-element 
+                    [element]="element"
+                    [editMode]="selectedElement == element"
+                ></app-form-element>
+            </div>
+        </ng-container>
+
+        <div class="mt-2 p-4">
+            <div 
+                class="border-dashed border border-gray-500 rounded-lg flex items-center justify-center p-5 text-gray-500 droppable-field" 
+                (onDrop)="onDrop($event)"
+                pDroppable>
+                Kéo thả trường thông tin
+            </div>
+        </div>
+    </div>
+</div>

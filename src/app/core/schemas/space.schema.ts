@@ -1,4 +1,5 @@
 import { BusinessFlowDto } from "./business-flow.schema";
+import { CreateFormRequestDto } from "./form.schema";
 
 export interface SpaceDto {
     id: number;
@@ -16,4 +17,5 @@ export interface CreateSpaceDto {
     color: string;
     description: string;
     businessFlow: BusinessFlowDto;
+    form: CreateFormRequestDto;
 }

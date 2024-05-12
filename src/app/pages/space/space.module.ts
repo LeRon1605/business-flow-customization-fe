@@ -24,6 +24,7 @@ import { SpaceHeaderComponent } from "./space-header/space-header.component";
 import { SpaceBusinessFlowComponent } from "./space-business-flow/space-business-flow.component";
 import { DropdownModule } from 'primeng/dropdown';
 import { SubmissionModule } from "../submission/submission.module";
+import { FormBuilderModule } from "../form-builder/form-builder.module";
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import { SubmissionModule } from "../submission/submission.module";
         SkeletonModule,
         DropdownModule,
         FormsModule,
-        SubmissionModule
+        SubmissionModule,
+        FormBuilderModule
     ],
     exports: [
         SpaceInfoComponent,

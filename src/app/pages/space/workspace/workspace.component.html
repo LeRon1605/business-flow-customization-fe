@@ -7,7 +7,9 @@
         <app-submission></app-submission>
     </p-tabPanel>
     <p-tabPanel header="Biểu mẫu">
-        <app-submission></app-submission>
+        <ng-template pTemplate="content">
+            <app-form-builder></app-form-builder>
+        </ng-template>
     </p-tabPanel>
     <p-tabPanel header="Quy trình nghiệp vụ">
         <ng-template pTemplate="content"> 

@@ -7,6 +7,8 @@ import { CreateSpaceDto } from "../../../core/schemas";
 import { SpaceService } from "../../../core/services/space.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
+import { FormBuilder } from "@angular/forms";
+import { FormBuilderComponent } from "../../form-builder/form-builder.component";
 
 @Component({
     selector: 'app-space-builder',
@@ -23,6 +25,9 @@ export class SpaceBuilderComponent implements OnInit, OnDestroy {
 
     @ViewChild('businessFlow')
     businessFlow!: BusinessFlowComponent;
+
+    @ViewChild('formBuilder')
+    formBuilder!: FormBuilderComponent;
 
     visibleSubscription!: Subscription;
 
@@ -47,7 +52,7 @@ export class SpaceBuilderComponent implements OnInit, OnDestroy {
     }
 
     get valid() {
-        return this.spaceInfo.valid && this.businessFlow.valid;
+        return this.spaceInfo.valid && this.businessFlow.valid && this.formBuilder.isValid;
     }
 
     onCreateSpace(e: MouseEvent) {
@@ -60,12 +65,14 @@ export class SpaceBuilderComponent implements OnInit, OnDestroy {
 
         const businessFlow = this.businessFlow.data;
         const spaceInfo = this.spaceInfo.data;
+        const form = this.formBuilder.data;
 
         const data : CreateSpaceDto = {
             name: spaceInfo.name,
             description: spaceInfo.description,
             color: spaceInfo.color,
-            businessFlow: businessFlow
+            businessFlow: businessFlow,
+            form: form
         };
 
         this.spaceService.create(data)

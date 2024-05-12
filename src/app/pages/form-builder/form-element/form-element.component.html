@@ -1,0 +1,88 @@
+<div class="p-4 cursor-pointer hover:bg-gray-100" [class.bg-gray-100]="editMode">
+    <div class="flex justify-between" [class.items-start]="editMode" [class.items-center]="!editMode">
+        <div *ngIf="!editMode" class="grow">
+            <p class="font-semibold text-base flex items-center">
+                <i 
+                    class="pi pi-exclamation-circle text-red-500 me-1" 
+                    tooltipPosition="top" 
+                    pTooltip="Trường thông tin không hợp lệ" 
+                    tooltipStyleClass="text-sm"
+                    *ngIf="!isValid"></i>
+                <span>{{ element.name }}</span>
+                <span class="text-red-500 ml-1" *ngIf="isRequired">*</span>
+            </p>
+            <span class="text-sm text-gray-500">{{ element.description }}</span>
+
+        </div>
+        <div *ngIf="editMode" class="grow">
+            <input
+                placeholder="Nhập tên trường thông tin"
+                [(ngModel)]="element.name"
+                class="font-semibold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[90%] p-2 border border-gray-300"
+                pInputText 
+            />
+            <input
+                [(ngModel)]="element.description"
+                placeholder="Nhập mô tả trường thông tin"
+                class="text-sm text-gray-500 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[90%] p-2 mt-2 border border-gray-300"
+                pInputText 
+            />
+        </div>
+        <div class="flex items-center" (click)="$event.stopPropagation()">
+            <span class="text-sm text-gray-500 me-2">Trường bắt buộc</span>
+            <p-inputSwitch 
+                styleClass="flex items-center me-2"
+                (onChange)="onToggleRequired($event)"
+                [(ngModel)]="isRequired"
+            />
+            <i class="pi pi-trash text-red-500" (click)="onRemove()"></i>
+        </div>
+    </div>
+    <div class="mt-2" *ngIf="!editMode">
+        <div class="border border-gray-300 rounded-lg flex items-center justify-between p-3 text-sm text-gray-400">
+            <span *ngIf="element.type == 0 || element.type == 1">
+                Nhập {{ element.name }}
+            </span>
+            <span *ngIf="element.type == 2">
+                dd/mm/yyyy
+            </span>
+            <span *ngIf="element.type == 3 || element.type == 4">
+                Chọn {{ element.name }}
+            </span>
+            <span *ngIf="element.type == 5">
+                Chọn tệp
+            </span>
+            <div class="flex items-center">
+                <i class="pi pi-calendar" *ngIf="element.type == 2"></i>
+                <i class="pi pi-chevron-down" *ngIf="element.type == 3 || element.type == 4"></i>
+                <i class="pi pi-file" *ngIf="element.type == 5"></i>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2" *ngIf="editMode && (element.type == 3 || element.type == 4)">
+        <h1 class="text-sm font-semibold">Danh sách lựa chọn</h1>
+        <div class="mt-1 flex items-center" *ngFor="let option of element.options">
+            <input
+                placeholder="Nhập tên trường thông tin"
+                class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 border border-gray-300 grow"
+                pInputText 
+                [(ngModel)]="option.name"
+            />
+            <i class="pi pi-trash text-red-500 ml-2" (click)="onRemoveOption(option)"></i>
+        </div>
+        <button 
+            type="button" 
+            class="mt-2 flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 rounded-lg text-sm px-5 py-2"
+            (click)="onAddOption()"
+        >
+            <i class="pi pi-plus"></i>
+            <span class="ml-1">Thêm lựa chọn</span>
+        </button>
+    </div>
+    <div class="mt-2" *ngIf="!isValid && editMode">
+        <div class="p-3 text-sm text-red-800 rounded-lg bg-red-50 flex items-center border border-red-300 mb-2" role="alert" *ngFor="let errorMessage of errorMessages">
+            <i class="pi pi-exclamation-circle text-red-500 me-1"></i>
+            <span> {{ errorMessage }} </span>
+        </div>
+    </div>
+</div>

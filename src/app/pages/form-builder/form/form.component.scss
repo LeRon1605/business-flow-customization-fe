@@ -1,0 +1,15 @@
+:host ::ng-deep {
+    .form-element {
+        &.p-draggable-enter {
+            border-top: 2px solid;
+            border-top-color: #3B82F6;
+        }
+    }
+
+    .droppable-field {
+        &.p-draggable-enter {
+            border-color: #3B82F6;
+            color: #3B82F6;
+        }
+    }
+}
