@@ -14,6 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SubmissionSingleSelectFieldComponent } from "./submission-single-select-field/submission-single-select-field.component";
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SubmissionMultiSelectFieldComponent } from "./submission-multi-select-field/submission-multi-select-field.component";
+import { CalendarModule } from 'primeng/calendar';
+import { SubmissionDateFieldComponent } from "./submission-date-field/submission-date-field.component";
 
 @NgModule({
     declarations: [
@@ -22,6 +24,7 @@ import { SubmissionMultiSelectFieldComponent } from "./submission-multi-select-f
         SubmissionAttachmentFieldComponent,
         SubmissionSingleSelectFieldComponent,
         SubmissionMultiSelectFieldComponent,
+        SubmissionDateFieldComponent,
         SubmissionComponent
     ],
     imports: [
@@ -33,7 +36,8 @@ import { SubmissionMultiSelectFieldComponent } from "./submission-multi-select-f
         ServeSyncCommonModule,
         FileUploadModule,
         DropdownModule,
-        MultiSelectModule
+        MultiSelectModule,
+        CalendarModule
     ],
     exports: [
         SubmissionComponent

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BaseSubmissionFieldComponent } from '../base-submission-field.component'
 import { FileUploadEvent } from 'primeng/fileupload';
-import { FormElementDto } from '../../../core/schemas/form-element.schema';
+import { FormElementDto, FormElementSettingType } from '../../../core/schemas/form-element.schema';
 import { environment } from '../../../../environments/environment';
 import { UploadResponseDto } from '../../../shared/components/form-controls/file-uploader/file-uploader.component';
 import { HttpResponse } from '@angular/common/http';
@@ -33,6 +33,14 @@ export class SubmissionAttachmentFieldComponent implements BaseSubmissionFieldCo
     uploadInProgress = false;
     value: SubmissionAttachmentFieldValueDto[] = [];
     uploadUrl = environment.baseUrl + '/hub/files';
+
+    get isRequired() {
+        return this.element.settings.some(x => x.type == FormElementSettingType.Required && JSON.parse(x.value) == true)
+    }
+
+    get isEmpty() {
+        return this.value.length == 0;
+    }
 
     onUpload(event: FileUploadEvent) {
         for(let file of event.files) {

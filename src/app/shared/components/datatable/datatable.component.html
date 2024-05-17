@@ -1,6 +1,7 @@
 <p-table 
     [value]="data"
     [lazy]="true"
+    [autoLayout]="true"
     [paginator]="true"
     [rows]="model.rows"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -14,7 +15,8 @@
 
     <ng-template pTemplate="caption">
         <div class="flex flex-row items-center">
-            <span> {{ model.title }} </span>
+            <span *ngIf="model.title"> {{ model.title }} </span>
+            <ng-content select="[leftHeaderTemplate]"></ng-content>
             <div class="p-input-icon-left ml-auto flex flex-row items-center">
                 <ng-content select="[rightHeaderTemplate]"></ng-content>
                 <app-filter 
@@ -25,7 +27,7 @@
                 <input 
                     id="input"
                     (keyup)="onSearch($event)"
-                    class=" text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 ms-2"
+                    class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 ms-2"
                     placeholder="Nhập thông tin tìm kiếm"
                     pInputText 
                 />
@@ -35,7 +37,7 @@
 
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let col of model.columns" class="border">
+            <th *ngFor="let col of model.columns" class="border w-48 truncate cursor-pointer" [pTooltip]=col.name tooltipPosition="top" tooltipStyleClass="text-sm">
                 {{ col.name }}
             </th>
         </tr>
@@ -52,7 +54,12 @@
         </ng-container>
         <ng-container *ngIf="model.pagedResult">
             <tr [pSelectableRow]="row">
-                <td class="border" *ngFor="let col of model.columns" [innerHTML]="col.generate != null ? col.generate(row) : row[col.field]"></td>
+                <ng-container *ngFor="let col of model.columns">
+                    <td class="border w-48 truncate"
+                        [innerHTML]="col.generate != null ? col.generate(row) : row[col.field]"
+                    > 
+                    </td>
+                </ng-container>
             </tr>
         </ng-container>
     </ng-template>

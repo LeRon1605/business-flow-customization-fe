@@ -8,5 +8,5 @@ export * from './role.schema';
 export * from './business-flow.schema';
 export * from './space.schema';
 export * from './form-element.schema';
-export * from './submission-field.schema';
+export * from './submission.schema';
 export * from './form.schema';

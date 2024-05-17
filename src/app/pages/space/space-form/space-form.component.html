@@ -22,7 +22,7 @@
             text="Lưu"
             styleClass="ml-2"
             (onClick)="formBuilder.save()"
-            [disabled]="versionId != formVersions[0].id"
+            [disabled]="formVersions.length == 0 || versionId != formVersions[0].id"
         >
         </app-button>
 

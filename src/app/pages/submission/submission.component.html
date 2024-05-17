@@ -1,42 +1,72 @@
-Hehe
+<div class="p-4 flex flex-col items-center">
+    <div class="w-full h-48 bg-gray-50">
+        <img style="width: 100%; height: 100%; object-fit: cover;" [src]="form?.coverImageUrl"/>
+    </div>
+    <div class="w-4/5 bg-white rounded-lg" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; transform: translate(0, -5rem);">
+        <div class="mt-2 p-5">
+            <input
+                [(ngModel)]="name"
+                class="text-xl font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-0 text-gray-900"
+                pInputText 
+            />
+        </div>
+        <hr>
 
-<!-- <div class="p-4">
-    <app-submission-text-field 
-        [element]="elements[0]"
-        styleCssClass="mb-3"
-        #field
-    ></app-submission-text-field>
+        <div class="p-5">
+            <ng-container *ngFor="let element of form?.elements">
+                <app-submission-text-field 
+                    *ngIf="element.type == 0" 
+                    [element]="element"
+                    styleCssClass="mb-3"
+                    #field
+                ></app-submission-text-field>
+    
+                <app-submission-number-field
+                    *ngIf="element.type == 1" 
+                    [element]="element"
+                    styleCssClass="mb-3"
+                    #field
+                ></app-submission-number-field>
 
-    <app-submission-number-field
-        [element]="elements[1]"
-        styleCssClass="mb-3"
-        #field
-    ></app-submission-number-field>
-
-    <app-submission-attachment-field
-        [element]="elements[2]"
-        styleCssClass="mb-3"
-        #field
-    >
-    </app-submission-attachment-field>
-
-    <app-submission-single-select-field
-        [element]="elements[3]"
-        styleCssClass="mb-3"
-        #field
-    ></app-submission-single-select-field>
-
-    <app-submission-multi-select-field
-        [element]="elements[4]"
-        styleCssClass="mb-3"
-        #field
-    ></app-submission-multi-select-field>
-
-    <app-button
-        text="Gửi"
-        styleClass="mt-3"
-        (onClick)="onSubmit()"
-    >
-        
-    </app-button>
-</div> -->
+                <app-submission-date-field
+                    *ngIf="element.type == 2" 
+                    [element]="element"
+                    styleCssClass="mb-3"
+                    #field
+                >
+                </app-submission-date-field>
+    
+                <app-submission-single-select-field
+                    *ngIf="element.type == 3" 
+                    [element]="element"
+                    styleCssClass="mb-3"
+                    #field
+                ></app-submission-single-select-field>
+    
+                <app-submission-multi-select-field
+                    *ngIf="element.type == 4" 
+                    [element]="element"
+                    styleCssClass="mb-3"
+                    #field
+                ></app-submission-multi-select-field>
+    
+                <app-submission-attachment-field
+                    *ngIf="element.type == 5" 
+                    [element]="element"
+                    styleCssClass="mb-3"
+                    #field
+                ></app-submission-attachment-field>
+    
+            </ng-container>
+            
+            <div class="mt-6 flex justify-between">
+                <div></div>
+                <app-button
+                    text="Gửi"
+                    (onClick)="onSubmit()"
+                >
+                </app-button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+
+<p-dialog 
+    header="Nộp biểu mẫu" 
+    [modal]="true" 
+    [(visible)]="addSubmitVisible" 
+    [style]="{ width: '50vw' }"
+    [resizable]="false"
+    [draggable]="false"
+    >
+    <app-submission 
+        [spaceId]="space.id" 
+        *ngIf="addSubmitVisible"
+        (onSubmitted)="onSubmitted()"
+    ></app-submission>    
+</p-dialog>
+
+<app-datatable
+    [model]="dataTable"
+    (pageChange)="onPageChange($event)"
+>
+    <div leftHeaderTemplate>
+        <p-dropdown 
+            [options]="versions"
+            [(ngModel)]="versionId"
+            appendTo="body"
+            styleClass="bg-gray-50 border border-gray-300 w-full"
+            optionLabel="createdAt"
+            optionValue="id"
+            placeholder="Chọn phiên bản biểu mẫu" 
+        />
+    </div>
+    <div rightHeaderTemplate *ngIf="this.versions.length > 0 && this.versionId == this.versions[0].id">
+        <button 
+            type="button" 
+            class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+            (click)="addSubmitVisible = true"
+        >
+            Thêm
+        </button>
+    </div>
+</app-datatable>

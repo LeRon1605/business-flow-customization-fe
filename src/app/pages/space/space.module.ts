@@ -26,6 +26,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SubmissionModule } from "../submission/submission.module";
 import { FormBuilderModule } from "../form-builder/form-builder.module";
 import { SpaceFormComponent } from "./space-form/space-form.component";
+import { SpaceDataComponent } from "./space-data/space-data.component";
+import { DataTableModule } from "../../shared/components/datatable/datatable.component";
 
 @NgModule({
     declarations: [
@@ -35,7 +37,8 @@ import { SpaceFormComponent } from "./space-form/space-form.component";
         SpaceComponent,
         SpaceHeaderComponent,
         SpaceBusinessFlowComponent,
-        SpaceFormComponent
+        SpaceFormComponent,
+        SpaceDataComponent
     ],
     imports: [
         SpaceRoutingModule,
@@ -58,7 +61,8 @@ import { SpaceFormComponent } from "./space-form/space-form.component";
         DropdownModule,
         FormsModule,
         SubmissionModule,
-        FormBuilderModule
+        FormBuilderModule,
+        DataTableModule
     ],
     exports: [
         SpaceInfoComponent,

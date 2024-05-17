@@ -12,9 +12,15 @@
     </ng-container>
     
     <ng-container *ngIf="!loading">
-        <p-inputNumber
-            [(ngModel)]="value"
-            [placeholder]="'Nhập ' + element.name" /> 
+        <p-calendar
+            styleClass="cursor-pointer"
+            inputStyleClass="text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 cursor-pointer"
+            [(ngModel)]="value" 
+            [showIcon]="true" 
+            [iconDisplay]="'input'" 
+            [placeholder]="'Chọn ' + element.name"
+            dateFormat="dd/mm/yy"
+        />
     </ng-container>
     
 </div>

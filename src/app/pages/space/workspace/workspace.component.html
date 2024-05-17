@@ -4,7 +4,7 @@
 
 <p-tabView class="h-full block" [(activeIndex)]="activeIndex">
     <p-tabPanel header="Dữ liệu">
-        <app-submission></app-submission>
+        <app-space-data *ngIf="space" [space]="space"></app-space-data>
     </p-tabPanel>
     <p-tabPanel header="Biểu mẫu">
         <ng-template pTemplate="content">

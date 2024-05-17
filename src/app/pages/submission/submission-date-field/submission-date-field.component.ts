@@ -1,12 +1,13 @@
 import { Component, Input } from "@angular/core";
-import { BaseSubmissionFieldComponent } from '../base-submission-field.component'
+import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
 import { FormElementDto, FormElementSettingType } from "../../../core/schemas";
+import { isEmpty } from "lodash";
 
 @Component({
-    selector: 'app-submission-text-field',
-    templateUrl: 'submission-text-field.component.html'
+    selector: 'app-submission-date-field',
+    templateUrl: 'submission-date-field.component.html'
 })
-export class SubmissionTextFieldComponent implements BaseSubmissionFieldComponent {
+export class SubmissionDateFieldComponent implements BaseSubmissionFieldComponent {
     
     @Input()
     element!: FormElementDto;
@@ -28,9 +29,10 @@ export class SubmissionTextFieldComponent implements BaseSubmissionFieldComponen
     }
 
     get isEmpty() {
-        return this.value == undefined || this.value === '';
+        return this.value == undefined;
     }
 
-    value!: string;
+    value?: Date;
     loading = false;
+    
 }

@@ -8,9 +8,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { InputTextModule } from 'primeng/inputtext';
 import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
 import { FilterField, FilterModule, SelectedFilterField } from "../filter/filter.component";
+import { TooltipModule } from 'primeng/tooltip';
 
 export interface DatatableOption {
-    title: string | null;
+    title?: string | null;
     columns: DatatableColumn[],
     rows: number;
     pagedResult?: PagedResult<any> | null,
@@ -24,6 +25,7 @@ export interface DatatableColumn {
 
 @Component({
     selector: 'app-datatable',
+    styleUrl: 'datatable.component.scss',
     templateUrl: './datatable.component.html'
 })
 export class DataTableComponent implements OnInit {
@@ -109,7 +111,8 @@ export class DataTableComponent implements OnInit {
         ReactiveFormsModule,
         ServeSyncFormControlModule,
         InputTextModule,
-        FilterModule
+        FilterModule,
+        TooltipModule
     ],
     exports: [
         DataTableComponent

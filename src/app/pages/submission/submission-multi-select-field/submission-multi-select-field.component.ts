@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
-import { FormElementDto } from "../../../core/schemas";
+import { FormElementDto, FormElementSettingType } from "../../../core/schemas";
 
 @Component({
     selector: 'app-submission-multi-select-field',
@@ -22,6 +22,14 @@ export class SubmissionMultiSelectFieldComponent implements BaseSubmissionFieldC
 
     set submissionValue(value: string) {
         this.value = JSON.parse(value);
+    }
+
+    get isRequired() {
+        return this.element.settings.some(x => x.type == FormElementSettingType.Required && JSON.parse(x.value) == true)
+    }
+
+    get isEmpty() {
+        return this.value == undefined || this.value.length == 0;
     }
 
     value?: number[];
