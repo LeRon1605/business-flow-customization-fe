@@ -1,0 +1,37 @@
+:host ::ng-deep {
+    .p-highlight .block-handle {
+        background-color: #278856;
+        color: white;
+    }
+
+    .p-highlight .block-unhandle {
+        background-color: #3167DC;
+        color: white;
+    }
+
+    .p-tabview-nav-link {
+        padding: 0;
+    }
+
+    .p-tabview-nav-content {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+    }
+
+    .p-tabview-nav-btn {
+        background-color: rgb(209 213 219);
+    }
+}
+
+.block-unhandle {
+    background-color: #DFECFC;
+    color: #3167DC;
+    cursor: pointer;
+}
+
+.block-handle {
+    background-color: #D8F8E9;
+    color: #278856;
+    cursor: pointer;
+}

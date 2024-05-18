@@ -16,6 +16,14 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SubmissionMultiSelectFieldComponent } from "./submission-multi-select-field/submission-multi-select-field.component";
 import { CalendarModule } from 'primeng/calendar';
 import { SubmissionDateFieldComponent } from "./submission-date-field/submission-date-field.component";
+import { SubmissionInlineComponent } from "./submission-inline.component";
+import { SubmissionInlineTextFieldComponent } from "./submission-inline-text-field/submission-inline-text-field.component";
+import { SubmissionInlineNumberFieldComponent } from "./submission-inline-number-field/submission-inline-number-field.component";
+import { SubmissionInlineDateFieldComponent } from "./submission-inline-date-field/submission-inline-date-field.component";
+import { SubmissionInlineSingleSelectFieldComponent } from "./submission-inline-single-select-field/submission-inline-single-select-field.component";
+import { SubmissionInlineMultiSelectFieldComponent } from "./submission-inline-multi-select-field/submission-inline-multi-select-field.component";
+import { TooltipModule } from 'primeng/tooltip';
+import { SubmissionInlineAttachmentFieldComponent } from "./submission-inline-attachment-field/submission-inline-attachment-field.component";
 
 @NgModule({
     declarations: [
@@ -25,7 +33,14 @@ import { SubmissionDateFieldComponent } from "./submission-date-field/submission
         SubmissionSingleSelectFieldComponent,
         SubmissionMultiSelectFieldComponent,
         SubmissionDateFieldComponent,
-        SubmissionComponent
+        SubmissionComponent,
+        SubmissionInlineTextFieldComponent,
+        SubmissionInlineNumberFieldComponent,
+        SubmissionInlineDateFieldComponent,
+        SubmissionInlineSingleSelectFieldComponent,
+        SubmissionInlineMultiSelectFieldComponent,
+        SubmissionInlineAttachmentFieldComponent,
+        SubmissionInlineComponent,
     ],
     imports: [
         InputTextModule,
@@ -37,10 +52,12 @@ import { SubmissionDateFieldComponent } from "./submission-date-field/submission
         FileUploadModule,
         DropdownModule,
         MultiSelectModule,
-        CalendarModule
+        CalendarModule,
+        TooltipModule
     ],
     exports: [
-        SubmissionComponent
+        SubmissionComponent,
+        SubmissionInlineComponent
     ]
 })
 export class SubmissionModule { }

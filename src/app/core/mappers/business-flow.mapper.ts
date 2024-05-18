@@ -13,11 +13,22 @@ export class BusinessFlowMapper {
     }
 
     mapBusinessFlowBlockDto(node: Node) : BusinessFlowBlockDto {
+        if (node.data.elements) {
+            node.data.elements.forEach((item: any, index: number) => item.index = index);
+        }
+
+        if (node.data.works) {
+            node.data.works.forEach((item: any, index: number) => item.index = index);
+        }
+
         return {
             id: node.id,
             name: node.label!,
             type: node.data.type,
-            outComes: node.data.outComes
+            outComes: node.data.outComes,
+            elements: node.data.elements,
+            personInChargeIds: node.data.personInChargeIds,
+            tasks: node.data.works
         }
     }
 

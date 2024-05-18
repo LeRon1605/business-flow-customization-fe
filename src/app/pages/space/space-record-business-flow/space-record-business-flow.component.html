@@ -1,0 +1,124 @@
+<p-tabView [scrollable]="true">
+    <p-tabPanel header="Header II">
+        <ng-template pTemplate="header">
+            <div class="w-48 block-handle text-sm h-full p-2 flex items-center justify-center" style="clip-path: polygon(95% 0, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);">
+                <div class="w-32 truncate text-center font-medium" pTooltip="Lọc CV" tooltipStyleClass="text-xs" tooltipPosition="bottom">
+                    ahihhhiashdihaiscacsacasccacs
+                </div>
+            </div>
+        </ng-template>
+
+        <div class="p-4">
+            <div>
+                <div class="flex items-center">
+                    <div class="text-sm font-semibold w-[25%] truncate">Người phụ trách</div>
+                    <div class="text-sm flex items-center ps-2.5 ml-2">
+                        <p-avatar 
+                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" 
+                            shape="circle" />
+                        <p class="ml-2">Lê Rôn</p>
+                    </div>
+                </div>
+                <div class="flex items-center mt-2.5">
+                    <div class="text-sm font-semibold w-[25%] truncate">Kết quả xử lý</div>
+                    <div class="text-sm ml-2.5">
+                        <div class="p-2 min-w-24 bg-[#278856] text-center rounded-full text-white">Đạt</div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="text-sm font-semibold w-[25%] truncate">Ngày hoàn thành</div>
+                    <div class="text-sm p-2.5 ml-2">
+                        <ng-container *ngIf="submission">
+                            {{ submission.createdAt | date: 'hh:mm dd/MM/yyyy' }}
+                        </ng-container>
+                        <ng-container *ngIf="!submission">
+                            ----
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="text-sm font-semibold w-[25%] truncate">Người hoàn thành</div>
+                    <div class="text-sm flex items-center ps-2.5 ml-2">
+                        <p-avatar 
+                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" 
+                            shape="circle" />
+                        <p class="ml-2">Lê Rôn</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="mt-3 mb-3">
+            <div>
+                <h1 class="font-semibold text-sm">Danh sách công việc</h1>
+                <div class="flex items-center mt-1 border-b cursor-pointer">
+                    <span class="pi pi-check-circle"></span>
+                    <input
+                        [(ngModel)]="submission.name"
+                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
+                        pInputText 
+                        *ngIf="submission"
+                    />
+                </div>
+                <div class="flex items-center mt-1 border-b">
+                    <span class="pi pi-check-circle"></span>
+                    <input
+                        [(ngModel)]="submission.name"
+                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
+                        pInputText 
+                        *ngIf="submission"
+                    />
+                </div>
+                <div class="flex items-center mt-1 border-b">
+                    <span class="pi pi-check-circle"></span>
+                    <input
+                        [(ngModel)]="submission.name"
+                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
+                        pInputText 
+                        *ngIf="submission"
+                    />
+                </div>
+                <div class="flex items-center mt-1 border-b">
+                    <span class="pi pi-check-circle"></span>
+                    <input
+                        [(ngModel)]="submission.name"
+                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
+                        pInputText 
+                        *ngIf="submission"
+                    />
+                </div>
+                <div class="flex items-center mt-1">
+                    <span class="pi pi-check-circle"></span>
+                    <input
+                        [(ngModel)]="submission.name"
+                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
+                        pInputText 
+                        *ngIf="submission"
+                    />
+                </div>
+            </div>
+
+            <hr class="mt-3 mb-3">
+
+            <app-submission-inline [form]="form" [submission]="submission"></app-submission-inline>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Header I">
+        <ng-template pTemplate="header">
+            <div class="w-48 block-unhandle text-sm h-full p-2 flex items-center justify-center" style="clip-path: polygon(95% 0, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);">
+                <div class="w-32 truncate text-center font-medium" pTooltip="Lọc CV" tooltipStyleClass="text-xs" tooltipPosition="bottom">
+                    Lọc CV
+                </div>
+                <span class="pi pi-angle-down" (click)="menu.toggle($event)"></span>
+                <p-menu #menu [model]="items" [popup]="true" appendTo="body">     
+                    <ng-template pTemplate="item" let-item>
+                        <a pRipple class="flex align-items-center p-menuitem-link justify-between text-xs">
+                            <span class="w-[40%] truncate p-2 bg-[#278856] text-center rounded-full text-white" pTooltip="Lọc CV" tooltipStyleClass="text-xs" tooltipPosition="bottom">{{ item.label }}</span>
+                            <span class="pi pi-arrow-right w-[20%] ml-2"></span>
+                            <span class="w-[35%] truncate font-semibold" pTooltip="Lọc CV" tooltipStyleClass="text-xs" tooltipPosition="bottom">Lọc CV</span>
+                        </a>
+                    </ng-template>
+                </p-menu>
+            </div>
+        </ng-template>
+    </p-tabPanel>
+</p-tabView>

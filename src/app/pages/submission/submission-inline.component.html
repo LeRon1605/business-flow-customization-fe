@@ -1,0 +1,58 @@
+<ng-container *ngFor="let element of form?.elements">
+
+    <app-submission-inline-text-field 
+        *ngIf="element.type == 0" 
+        [element]="element"
+        [loading]="submission == undefined"
+        [submissionValue]="getValue(element.id)"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-inline-text-field>
+
+    <app-submission-inline-number-field
+        *ngIf="element.type == 1" 
+        [element]="element"
+        [loading]="submission == undefined"
+        [submissionValue]="getValue(element.id)"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-inline-number-field>
+
+    <app-submission-inline-date-field
+        *ngIf="element.type == 2" 
+        [element]="element"
+        [loading]="submission == undefined"
+        [submissionValue]="getValue(element.id)"
+        styleCssClass="mb-3"
+        #field
+    >
+    </app-submission-inline-date-field>
+
+    <app-submission-inline-single-select-field
+        *ngIf="element.type == 3" 
+        [element]="element"
+        [loading]="submission == undefined"
+        [submissionValue]="getValue(element.id)"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-inline-single-select-field>
+
+    <app-submission-inline-multi-select-field
+        *ngIf="element.type == 4" 
+        [element]="element"
+        [loading]="submission == undefined"
+        [submissionValue]="getValue(element.id)"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-inline-multi-select-field>
+    
+    <app-submission-inline-attachment-field
+        *ngIf="element.type == 5" 
+        [element]="element"
+        [loading]="submission == undefined"
+        [submissionValue]="getValue(element.id)"
+        styleCssClass="mb-3"
+        #field
+    ></app-submission-inline-attachment-field>
+
+</ng-container>

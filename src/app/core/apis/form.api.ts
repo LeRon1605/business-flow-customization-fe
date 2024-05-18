@@ -45,4 +45,8 @@ export class FormApiService extends BaseApiService {
             params
         });;
     }
+
+    getSubmissionById(spaceId: number, versionId: number, submissionId: number) {
+        return this.http.get<SubmissionDto>(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/forms/${versionId}/submissions/${submissionId}`);
+    }
 }

@@ -1,20 +1,8 @@
-:host ::ng-deep {
-    .p-draggable-enter {
-        &.form-element {
-            border-top: 2px solid;
-            border-top-color: #3B82F6;
-        }
-    }
-}
-
 :host ::ng-deep .p-multiselect {
     font-size: 0.875rem;
     line-height: 1.25rem;
     width: 100%;
     border-radius: 0.5rem;
-    background-color: rgb(249 250 251);
-    border-width: 1px;
-    border-color: rgb(209 213 219);
     color: rgb(17 24 39);
 }
 
@@ -26,4 +14,8 @@
 :host ::ng-deep .p-checkbox .p-checkbox-box {
     border-width: 1px;
     border-color: rgb(209 213 219);
+}
+
+:host ::ng-deep .p-multiselect-trigger-icon {
+    display: none !important;
 }

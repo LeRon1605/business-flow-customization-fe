@@ -61,7 +61,9 @@ export class BusinessFlowComponent implements OnInit {
                 {
                   id: crypto.randomUUID(),
                   name: 'Bắt đầu',
-                  type: 1
+                  type: 1,
+                  personInChargeIds: [],
+                  tasks: []
                 }
             ];
         

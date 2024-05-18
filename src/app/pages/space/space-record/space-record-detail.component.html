@@ -1,0 +1,77 @@
+<div class="h-screen" #wrapper>
+    <div class="h-[6%] flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+            <input
+                [(ngModel)]="submission.name"
+                class="text-2xl font-bold rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded-none w-full h-[80%] p-4 text-gray-900"
+                pInputText 
+                *ngIf="submission"
+            />
+            <ng-container *ngIf="!submission">
+                <p-skeleton height="2rem"></p-skeleton>
+            </ng-container>
+            <div class="h-[80%] flex items-center ml-2 me-2" *ngIf="submission">
+                <p-menu #menu [model]="items" [popup]="true" appendTo="body" styleClass="text-sm"/>
+                <span class="pi pi-ellipsis-h hover:text-blue-500 cursor-pointer rounded p-2 border border-gray-300" (click)="menu.toggle($event)"></span>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="w-full flex h-[94%]">
+        <div class="w-[55%] border-e h-full p-4 overflow-auto">
+            <div>
+                <app-submission-inline [form]="form" [submission]="submission"></app-submission-inline>
+            </div>
+            <hr class="mt-3 mb-3">
+            <div>
+                <div class="flex items-center mb-3">
+                    <div class="text-sm font-semibold w-[25%] truncate">Ngày tạo</div>
+                    <div class="text-sm ps-2.5 ml-2">
+                        <ng-container *ngIf="submission">
+                            {{ submission.createdAt | date: 'hh:mm dd/MM/yyyy' }}
+                        </ng-container>
+                        <ng-container *ngIf="!submission">
+                            ----
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="flex items-center mb-3">
+                    <div class="text-sm font-semibold w-[25%] truncate">Người tạo</div>
+                    <div class="text-sm flex items-center ps-2.5 ml-2">
+                        <p-avatar 
+                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" 
+                            shape="circle" />
+                        <p class="ml-2">Lê Rôn</p>
+                    </div>
+                </div>
+                <div class="flex items-center mb-3">
+                    <div class="text-sm font-semibold w-[25%] truncate">Ngày cập nhật</div>
+                    <div class="text-sm ps-2.5 ml-2">
+                        <ng-container *ngIf="submission">  
+                            {{ submission.updatedAt ? ( submission.updatedAt | date: 'hh:mm dd/MM/yyyy') : '----' }}
+                        </ng-container>
+                        <ng-container *ngIf="!submission">
+                            ----
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="flex items-center mb-3">
+                    <div class="text-sm font-semibold w-[25%] truncate">Người cập nhật</div>
+                    <div class="text-sm flex items-center ps-2.5 ml-2">
+                        <p-avatar 
+                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" 
+                            shape="circle" />
+                        <p class="ml-2">Lê Rôn</p>
+                    </div>
+                </div>
+                <div class="flex items-center mb-3">
+                    <div class="text-sm font-semibold w-[25%] truncate">Nguồn dữ liệu</div>
+                    <div class="text-sm ps-2.5 ml-2">Nhập thủ công</div>
+                </div>
+            </div>
+        </div>
+        <div class="w-[45%] overflow-auto">
+            <app-space-record-business-flow [form]="form" [submission]="submission"></app-space-record-business-flow>
+        </div>
+    </div>
+</div>

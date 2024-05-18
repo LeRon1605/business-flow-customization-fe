@@ -10,13 +10,18 @@ import { DragDropModule } from 'primeng/dragdrop';
 import { FormElementComponent } from "./form-element/form-element.component";
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { TooltipModule } from 'primeng/tooltip';
+import { FormBuilderDialogComponent } from "./form-builder-dialog/form-builder-dialog.component";
+import { DropdownModule } from 'primeng/dropdown';
+import { ServeSyncCommonModule } from "../../shared/components/common/common.module";
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
     declarations: [
         FormComponent,
         FormElementSelectorComponent,
         FormBuilderComponent,
-        FormElementComponent
+        FormElementComponent,
+        FormBuilderDialogComponent
     ],
     imports: [
         CommonModule,
@@ -25,10 +30,14 @@ import { TooltipModule } from 'primeng/tooltip';
         InputTextModule,
         DragDropModule,
         InputSwitchModule,
-        TooltipModule
+        TooltipModule,
+        DropdownModule,
+        ServeSyncCommonModule,
+        MultiSelectModule
     ],
     exports: [
-        FormBuilderComponent
+        FormBuilderComponent,
+        FormBuilderDialogComponent
     ]
 })
 export class FormBuilderModule {

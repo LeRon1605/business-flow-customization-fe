@@ -3,12 +3,12 @@ import { FormElementDto, FormElementSettingType } from "../../../core/schemas";
 import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
 
 @Component({
-    selector: 'app-submission-single-select-field',
-    styleUrl: 'submission-single-select-field.component.scss',
-    templateUrl: 'submission-single-select-field.component.html'
+    selector: 'app-submission-inline-single-select-field',
+    styleUrl: 'submission-inline-single-select-field.component.scss',
+    templateUrl: 'submission-inline-single-select-field.component.html'
 })
-export class SubmissionSingleSelectFieldComponent implements BaseSubmissionFieldComponent {
-
+export class SubmissionInlineSingleSelectFieldComponent implements BaseSubmissionFieldComponent {
+    
     @Input()
     element!: FormElementDto;
 
@@ -16,12 +16,18 @@ export class SubmissionSingleSelectFieldComponent implements BaseSubmissionField
     styleCssClass?: string;
 
     @Input()
+    loading!: boolean;
+
+    @Input()
     get submissionValue() : string {
         return JSON.stringify(this.value);
     }
 
-    set submissionValue(value: string) {
-        this.value = JSON.parse(value);
+    set submissionValue(value: string | undefined) {
+        if (value) {
+            const optionIds = JSON.parse(value);
+            this.value = optionIds[0];
+        }
     }
 
     get isRequired() {
@@ -33,5 +39,5 @@ export class SubmissionSingleSelectFieldComponent implements BaseSubmissionField
     }
 
     value?: number;
-    loading = false;
+    
 }

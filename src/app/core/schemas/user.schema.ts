@@ -19,6 +19,7 @@ export interface UserInfo {
     tenantId: number;
     isTenantOwner: boolean;
     tenants: Tenant[];
+    tenantUsers: BasicUserInfo[];
 }
 
 export interface Tenant {
@@ -30,4 +31,11 @@ export interface Tenant {
 export interface UserUpdateDto {
     fullName: string;
     avatarUrl: string;
+}
+
+export interface BasicUserInfo {
+    id: string;
+    fullName: string;
+    avatarUrl: string;
+    email: string;
 }

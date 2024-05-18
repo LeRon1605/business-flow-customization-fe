@@ -32,7 +32,6 @@
             <span class="text-sm text-gray-500 me-2">Trường bắt buộc</span>
             <p-inputSwitch 
                 styleClass="flex items-center me-2"
-                (onChange)="onToggleRequired($event)"
                 [(ngModel)]="isRequired"
             />
             <i class="pi pi-trash text-red-500" (click)="onRemove()"></i>

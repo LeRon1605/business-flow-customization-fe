@@ -1,0 +1,44 @@
+<div class="mb-1 flex items-center">
+    <div class="text-sm font-semibold w-[25%] truncate flex items-center">
+        <label class="block text-sm font-semibold text-gray-900 truncate" [pTooltip]=element.name tooltipPosition="top" tooltipStyleClass="text-xs"> {{ element.name }} </label>
+        <span class="text-red-500 ml-1" *ngIf="isRequired">*</span>
+    </div>
+    <div class="w-[75%] ml-2">
+        <ng-container *ngIf="loading">
+            <p-skeleton height="2rem"></p-skeleton>
+        </ng-container>
+
+        <ng-container *ngIf="!loading">
+            <div class="flex items-center ps-2.5">
+
+                <div class="flex items-center"> 
+                    <div class="group relative" *ngFor="let file of value">
+                        <a [href]="file.fileUrl" target="_blank" class="flex items-center border border-gray-300 text-gray-900 hover:text-blue-500 p-2.5 rounded me-5 cursor-pointer text-sm">
+                            <i class="pi pi-file"></i>
+                            <p class="ml-1 truncate max-w-64">{{ file.name }}</p>
+                        </a>
+                        <span 
+                            class="ml-1 pi pi-times border border-gray-300 rounded-full p-2 bg-white cursor-pointer text-red-500 text-sm absolute top-0 right-0 delete-file-icon"
+                            (click)="value.splice(value.indexOf(file), 1)"
+                            style="transform: translate(-25%, -50%);"
+                        ></span>
+                    </div>
+                </div>
+    
+                <p-fileUpload 
+                    mode="basic" 
+                    [multiple]="true"
+                    chooseIcon="pi pi-upload"
+                    [disabled]="uploadInProgress"
+                    name="file" 
+                    [auto]="true"
+                    [url]="uploadUrl"
+                    (onUpload)="onUpload($event)"
+                    (onError)="onUploadError()"
+                    (onBeforeUpload)="onUploadProgress()">
+                </p-fileUpload>
+    
+            </div>
+        </ng-container>
+    </div>
+</div>

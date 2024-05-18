@@ -28,6 +28,8 @@ import { FormBuilderModule } from "../form-builder/form-builder.module";
 import { SpaceFormComponent } from "./space-form/space-form.component";
 import { SpaceDataComponent } from "./space-data/space-data.component";
 import { DataTableModule } from "../../shared/components/datatable/datatable.component";
+import { SpaceRecordDetailComponent } from "./space-record/space-record-detail.component";
+import { SpaceRecordBusinessFlowComponent } from "./space-record-business-flow/space-record-business-flow.component";
 
 @NgModule({
     declarations: [
@@ -38,7 +40,9 @@ import { DataTableModule } from "../../shared/components/datatable/datatable.com
         SpaceHeaderComponent,
         SpaceBusinessFlowComponent,
         SpaceFormComponent,
-        SpaceDataComponent
+        SpaceDataComponent,
+        SpaceRecordDetailComponent,
+        SpaceRecordBusinessFlowComponent,
     ],
     imports: [
         SpaceRoutingModule,

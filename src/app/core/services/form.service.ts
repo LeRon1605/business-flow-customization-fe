@@ -32,4 +32,8 @@ export class FormService {
     getSpaceSubmissions(data: SubmissionFilterRequestDto) {
         return this.formApiService.getSpaceSubmissions(data);
     }
+
+    getSubmissionById(spaceId: number, versionId: number, submissionId: number) {
+        return this.formApiService.getSubmissionById(spaceId, versionId, submissionId);
+    }
 }

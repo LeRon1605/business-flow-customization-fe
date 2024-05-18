@@ -22,6 +22,7 @@ export interface SubmissionFilterRequestDto {
 }
 
 export interface SubmissionDto {
+    id: number;
     name: string;
     formVersionId: number;
     fields: SubmissionFieldModel[];

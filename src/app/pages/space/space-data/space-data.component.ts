@@ -17,8 +17,10 @@ export class SpaceDataComponent implements OnChanges {
 
     form?: FormDto;
     addSubmitVisible: boolean = false;
+    recordDetailVisible: boolean = false;
     submissions: SubmissionDto[] = [];
     versions: FormVersionDto[] = [];
+    selectedRecordId?: number;
     
     private _versionId?: number;
     get versionId() {
@@ -129,7 +131,7 @@ export class SpaceDataComponent implements OnChanges {
                                 return JSON.parse(fieldValue.value);
 
                             case FormElementType.Date:
-                                return new DatePipe('vi_VN').transform(JSON.parse(fieldValue.value), 'dd/MM/yyyy');
+                                return new DatePipe('vi_VN').transform(JSON.parse(fieldValue.value), 'dd/MM/yyyy', '7');
                             
                             case FormElementType.MultiOption:
                             case FormElementType.SingleOption:
@@ -172,5 +174,10 @@ export class SpaceDataComponent implements OnChanges {
     onSubmitted() {
         this.addSubmitVisible = false;
         this.loadData();
+    }
+
+    onRecordSelected(data: SubmissionDto) {
+        this.selectedRecordId = data.id;
+        this.recordDetailVisible = true;
     }
 }

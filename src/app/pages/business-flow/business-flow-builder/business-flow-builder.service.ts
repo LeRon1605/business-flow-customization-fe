@@ -48,7 +48,10 @@ export class BusinessFlowBuilderService {
                 label: block.name,
                 data: {
                   type: block.type,
-                  outComes: block.outComes
+                  outComes: block.outComes,
+                  elements: block.elements,
+                  works: block.tasks,
+                  personInChargeIds: block.personInChargeIds
                 }
             };
 
@@ -115,7 +118,10 @@ export class BusinessFlowBuilderService {
             label: name,
             data: {
                 type: type,
-                outComes: this.getNodeOutCome(type)
+                outComes: this.getNodeOutCome(type),
+                elements: [],
+                personInChargeIds: [],
+                works: []
             }
         };
     
@@ -268,6 +274,10 @@ export class BusinessFlowBuilderService {
             for (const outCome of addedOutComes) {
                 node.data.outComes.push(outCome);
             }
+
+            node.data.elements = clonedNode.data.elements;
+            node.data.works = clonedNode.data.works;
+            node.data.personInChargeIds = clonedNode.data.personInChargeIds;
 
             this.updateGraph();
         }

@@ -17,6 +17,7 @@
 <app-datatable
     [model]="dataTable"
     (pageChange)="onPageChange($event)"
+    (rowSelected)="onRecordSelected($event)"
 >
     <div leftHeaderTemplate>
         <p-dropdown 
@@ -39,3 +40,17 @@
         </button>
     </div>
 </app-datatable>
+
+<p-sidebar 
+    [(visible)]="recordDetailVisible" 
+    position="right"
+    styleClass="w-[70vw]"
+    [showCloseIcon]="false"
+>
+    <app-space-record-detail 
+        *ngIf="recordDetailVisible && selectedRecordId && form" 
+        [submissionId]="selectedRecordId"
+        [form]="form"
+        [spaceId]="space.id">
+    </app-space-record-detail>
+</p-sidebar>

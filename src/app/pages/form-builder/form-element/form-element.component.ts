@@ -47,10 +47,6 @@ export class FormElementComponent {
         private formBuilderService: FormBuilderService
     ) { }
 
-    onToggleRequired(value: InputSwitchChangeEvent) {
-        console.log(value);
-    }
-
     onRemove() {
         this.formBuilderService.remove(this.element);
     }

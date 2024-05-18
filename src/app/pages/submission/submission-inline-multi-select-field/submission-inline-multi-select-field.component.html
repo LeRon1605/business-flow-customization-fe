@@ -1,0 +1,21 @@
+<div class="mb-1 flex items-center">
+    <div class="text-sm font-semibold w-[25%] truncate flex items-center">
+        <label class="block text-sm font-semibold text-gray-900 truncate" [pTooltip]=element.name tooltipPosition="top" tooltipStyleClass="text-xs"> {{ element.name }} </label>
+        <span class="text-red-500 ml-1" *ngIf="isRequired">*</span>
+    </div>
+    <div class="w-[75%] ml-2">
+        <ng-container *ngIf="loading">
+            <p-skeleton height="2rem"></p-skeleton>
+        </ng-container>
+
+        <ng-container *ngIf="!loading">
+            <p-multiSelect 
+                optionLabel="name" 
+                optionValue="id"
+                [(ngModel)]="value"
+                [options]="element.options"
+                [showHeader]="false"
+                [placeholder]="'Chọn ' + element.name" />
+        </ng-container>
+    </div>
+</div>

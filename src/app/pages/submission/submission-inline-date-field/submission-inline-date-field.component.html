@@ -1,0 +1,23 @@
+<div class="mb-1 flex items-center">
+    <div class="text-sm font-semibold w-[25%] truncate flex items-center">
+        <label class="block text-sm font-semibold text-gray-900 truncate" [pTooltip]=element.name tooltipPosition="top" tooltipStyleClass="text-xs"> {{ element.name }} </label>
+        <span class="text-red-500 ml-1" *ngIf="isRequired">*</span>
+    </div>
+    <div class="w-[75%] ml-2">
+        <ng-container *ngIf="loading">
+            <p-skeleton height="2rem"></p-skeleton>
+        </ng-container>
+
+        <ng-container *ngIf="!loading">
+            <p-calendar
+                styleClass="cursor-pointer"
+                inputStyleClass="text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 text-gray-900 cursor-pointer"
+                [(ngModel)]="value" 
+                [showIcon]="true" 
+                [iconDisplay]="'input'" 
+                [placeholder]="'Chọn ' + element.name"
+                dateFormat="dd/mm/yy"
+            />
+        </ng-container>
+    </div>
+</div>

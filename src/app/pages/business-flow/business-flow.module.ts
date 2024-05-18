@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { ServeSyncCommonModule } from "../../shared/components/common/common.module";
 import { ServeSyncFormControlModule } from "../../shared/components/form-controls/form-control.module";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { BusinessFlowComponent } from "./business-flow.component";
 import { NgxGraphModule } from '@kr0san89/ngx-graph';
@@ -17,6 +17,10 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { InputTextModule } from 'primeng/inputtext';
 import { BusinessFlowBranchDetailComponent } from "./business-flow-branch-detail/business-flow-branch-detail.component";
 import { TabViewModule } from 'primeng/tabview';
+import { FormBuilderModule } from "../form-builder/form-builder.module";
+import { DragDropModule } from 'primeng/dragdrop';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
     declarations: [
@@ -39,7 +43,12 @@ import { TabViewModule } from 'primeng/tabview';
         DialogModule,
         ColorPickerModule,
         InputTextModule,
-        TabViewModule
+        TabViewModule,
+        FormBuilderModule,
+        DragDropModule,
+        DropdownModule,
+        MultiSelectModule,
+        FormsModule
     ],
     exports: [
         BusinessFlowComponent

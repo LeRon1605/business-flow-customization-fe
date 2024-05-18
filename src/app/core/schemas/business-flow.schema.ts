@@ -1,3 +1,5 @@
+import { FormElementDto } from "./form-element.schema";
+
 export interface BusinessFlowDto {
     blocks: BusinessFlowBlockDto[];
     branches: BusinessFlowBranchDto[];
@@ -7,7 +9,10 @@ export interface BusinessFlowBlockDto {
     id: string;
     name: string;
     type: number;
-    outComes?: BusinessFlowOutComeDto[]
+    outComes?: BusinessFlowOutComeDto[];
+    elements?: FormElementDto[];
+    personInChargeIds: string[];
+    tasks: BusinessFlowBlockWorkDto[];
 }
 
 export interface BusinessFlowOutComeDto {
@@ -36,4 +41,9 @@ export interface BusinessFlowVersionDto {
 export interface BusinessFlowVersionDetailDto extends BusinessFlowVersionDto {
     blocks: BusinessFlowBlockDto[];
     branches: BusinessFlowBranchDto[];
+}
+
+export interface BusinessFlowBlockWorkDto {
+    index: number;
+    name: string;
 }
