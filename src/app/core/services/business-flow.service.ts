@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BusinessFlowApiService } from "../apis/business-flow.api";
-import { BusinessFlowDto } from "../schemas";
+import { BusinessFlowDto, SubmissionExecutionTaskStatus } from "../schemas";
 
 @Injectable({ providedIn: 'root' })
 export class BusinessFlowService {
@@ -23,5 +23,17 @@ export class BusinessFlowService {
 
     addSpaceBusinessFlow(spaceId: number, data: BusinessFlowDto) {
         return this.businessFlowApiService.addBusinessFlow(spaceId, data);
+    }
+
+    getSubmissionExecution(submissionId: number) {
+        return this.businessFlowApiService.getSubmissionExecution(submissionId);
+    }
+
+    selectOutCome(submissionId: number, outComeId: string) {
+        return this.businessFlowApiService.selectOutCome(submissionId, outComeId);
+    }
+
+    updateExecutionTaskStatus(executionId: number, taskId: number, status: SubmissionExecutionTaskStatus) {
+        return this.businessFlowApiService.updateTaskStatus(executionId, taskId, status);
     }
 }

@@ -1,9 +1,10 @@
-import { Component, Input } from "@angular/core";
-import { FormElementDto, FormElementSettingType } from "../../../core/schemas";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormElementDto, FormElementSettingType, SubmissionFieldModel } from "../../../core/schemas";
 import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
 
 @Component({
     selector: 'app-submission-inline-date-field',
+    styleUrl: 'submission-inline-date-field.component.scss',
     templateUrl: 'submission-inline-date-field.component.html'
 })
 export class SubmissionInlineDateFieldComponent implements BaseSubmissionFieldComponent {
@@ -36,5 +37,14 @@ export class SubmissionInlineDateFieldComponent implements BaseSubmissionFieldCo
     }
 
     value?: Date;
+
+    @Output()
+    elementEditted = new EventEmitter<SubmissionFieldModel>();
     
+    onBlur() {
+        this.elementEditted.emit({
+            elementId: this.element.id,
+            value: this.submissionValue
+        });
+    }
 }

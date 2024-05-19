@@ -1,123 +1,132 @@
-<p-tabView [scrollable]="true">
-    <p-tabPanel header="Header II">
+<div class="p-4" *ngIf="!executions">
+    <p-skeleton height="2rem" styleClass="mb-2" />
+    <hr class="mt-3 mb-3">
+    <p-skeleton height="10rem" />
+    <hr class="mt-3 mb-3">
+    <p-skeleton height="10rem" />
+</div>
+<p-tabView [scrollable]="true" [(activeIndex)]="activeIndex" *ngIf="executions" (activeIndexChange)="onTabChange($event)">
+    <p-tabPanel *ngFor="let execution of executions; let i = index">
         <ng-template pTemplate="header">
-            <div class="w-48 block-handle text-sm h-full p-2 flex items-center justify-center" style="clip-path: polygon(95% 0, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);">
-                <div class="w-32 truncate text-center font-medium" pTooltip="Lọc CV" tooltipStyleClass="text-xs" tooltipPosition="bottom">
-                    ahihhhiashdihaiscacsacasccacs
+            <div 
+                [class.block-handle]="execution.status == 1"
+                [class.block-unhandle]="execution.status == 0"
+                class="w-48 text-sm h-full p-2 flex items-center justify-center" style="clip-path: polygon(95% 0, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);"
+            >
+                <div class="w-32 truncate text-center font-medium" [pTooltip]="execution.businessFlowBlock.name" tooltipStyleClass="text-xs" tooltipPosition="bottom">
+                    {{ execution.businessFlowBlock.name }}
                 </div>
+                <ng-container *ngIf="execution.status == 0">
+                    <span class="pi pi-angle-down" (click)="menu.toggle($event)"></span>
+                    <p-menu #menu [model]="items" [popup]="true" appendTo="body">     
+                        <ng-template pTemplate="item" let-item>
+                            <div class="flex align-items-center p-menuitem-link justify-between text-xs" (click)="onSelectOutCome(item.id)">
+                                <span 
+                                    class="w-[40%] truncate p-2 text-center rounded-full text-white" 
+                                    [style]="{ 'background-color': item.color }"
+                                    [pTooltip]="item.label" 
+                                    tooltipStyleClass="text-xs" 
+                                    tooltipPosition="bottom"
+                                >{{ item.label }}</span>
+                                <ng-container *ngIf="item.toBlockName">
+                                    <span class="pi pi-arrow-right w-[20%] ml-2"></span>
+                                    <span class="w-[35%] truncate font-semibold" [pTooltip]="item.toBlockName" tooltipStyleClass="text-xs" tooltipPosition="bottom">
+                                        {{ item.toBlockName }}
+                                    </span>
+                                </ng-container>
+                            </div>
+                        </ng-template>
+                    </p-menu>
+                </ng-container>
             </div>
         </ng-template>
 
-        <div class="p-4">
-            <div>
-                <div class="flex items-center">
-                    <div class="text-sm font-semibold w-[25%] truncate">Người phụ trách</div>
-                    <div class="text-sm flex items-center ps-2.5 ml-2">
-                        <p-avatar 
-                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" 
-                            shape="circle" />
-                        <p class="ml-2">Lê Rôn</p>
+        <ng-template pTemplate="content">
+            <div class="p-4">
+                <div>
+                    <div class="flex items-center">
+                        <i class="pi pi-user" style="color: #6b7280"></i>
+                        <div class="text-sm font-semibold w-[25%] truncate ml-2">Người phụ trách</div>
+                        <div class="text-sm flex items-center ps-2.5 ml-2" *ngFor="let personInCharge of execution.personInChargeIds">
+                            <p-avatar 
+                                [image]="user(personInCharge)?.avatarUrl" 
+                                shape="circle" />
+                            <p class="ml-2">{{ user(personInCharge)?.fullName }}</p>
+                        </div>
+                        <div class="text-sm ps-2.5 ml-2" *ngIf="execution.personInChargeIds.length == 0">
+                            Không có người phụ trách
+                        </div>
                     </div>
+                    <ng-container *ngIf="execution.status == 1">
+                        <div class="flex items-center mt-2.5" *ngIf="execution.businessFlowBlock.type == 2">
+                            <i class="pi pi-sitemap" style="color: #6b7280"></i>
+                            <div class="text-sm font-semibold w-[25%] truncate ml-2">Kết quả xử lý</div>
+                            <div class="text-sm ml-2.5">
+                                <div 
+                                    [style]="{ 'background-color': execution.outCome.color }"
+                                    class="p-2 min-w-24 text-center rounded-full text-white">
+                                    {{ execution.outCome.name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center mt-2.5">
+                            <i class="pi pi-user" style="color: #6b7280"></i>
+                            <div class="text-sm font-semibold w-[25%] truncate ml-2">Người hoàn thành</div>
+                            <div class="text-sm flex items-center ps-2.5 ml-2">
+                                <p-avatar 
+                                    [image]="user(execution.completedBy)?.avatarUrl" 
+                                    shape="circle" />
+                                <p class="ml-2">{{ user(execution.completedBy)?.fullName }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="pi pi-calendar" style="color: #6b7280"></i>
+                            <div class="text-sm font-semibold w-[25%] truncate ml-2">Ngày hoàn thành</div>
+                            <div class="text-sm p-2.5 ml-2">
+                                {{ execution.completedAt | date: 'hh:mm dd/MM/yyyy' }}
+                            </div>
+                        </div>
+                    </ng-container>
                 </div>
-                <div class="flex items-center mt-2.5">
-                    <div class="text-sm font-semibold w-[25%] truncate">Kết quả xử lý</div>
-                    <div class="text-sm ml-2.5">
-                        <div class="p-2 min-w-24 bg-[#278856] text-center rounded-full text-white">Đạt</div>
+    
+                <ng-container *ngIf="execution.businessFlowBlock.type == 2">
+                    <hr class="mt-3 mb-4">
+                    <div>
+                        <h1 class="font-semibold text-sm">Danh sách công việc (<span class="text-[#278856]">{{ completedTask(execution) }}</span>/<span>{{ execution.tasks.length }}</span>)</h1>
+                        <div class="flex items-center mt-1 cursor-pointer" *ngFor="let task of execution.tasks; let i = index" [class.border-b]="i != execution.tasks.length - 1">
+                            <span class="pi pi-check-circle" [class.text-[#278856]]="task.status == 1" (click)="toggleTaskStatus(execution, task)"></span>
+                            <input
+                                [(ngModel)]="task.name"
+                                [class.text-gray-900]="task.status == 0"
+                                [class.text-gray-400]="task.status == 1"
+                                class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 ml-1"
+                                pInputText 
+                                *ngIf="execution.status == 0"
+                            />
+                            <span class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 ml-1 text-gray-400" *ngIf="execution.status == 1"> {{ task.name }} </span>
+                        </div>
+                        <!-- <div class="mt-3" *ngIf="execution.status == 0">
+                            <button 
+                                type="button" 
+                                class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+                            >Thêm công việc</button>
+                        </div> -->
                     </div>
-                </div>
-                <div class="flex items-center">
-                    <div class="text-sm font-semibold w-[25%] truncate">Ngày hoàn thành</div>
-                    <div class="text-sm p-2.5 ml-2">
-                        <ng-container *ngIf="submission">
-                            {{ submission.createdAt | date: 'hh:mm dd/MM/yyyy' }}
-                        </ng-container>
-                        <ng-container *ngIf="!submission">
-                            ----
-                        </ng-container>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <div class="text-sm font-semibold w-[25%] truncate">Người hoàn thành</div>
-                    <div class="text-sm flex items-center ps-2.5 ml-2">
-                        <p-avatar 
-                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" 
-                            shape="circle" />
-                        <p class="ml-2">Lê Rôn</p>
-                    </div>
-                </div>
-            </div>
+                </ng-container>
 
-            <hr class="mt-3 mb-3">
-            <div>
-                <h1 class="font-semibold text-sm">Danh sách công việc</h1>
-                <div class="flex items-center mt-1 border-b cursor-pointer">
-                    <span class="pi pi-check-circle"></span>
-                    <input
-                        [(ngModel)]="submission.name"
-                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
-                        pInputText 
-                        *ngIf="submission"
-                    />
-                </div>
-                <div class="flex items-center mt-1 border-b">
-                    <span class="pi pi-check-circle"></span>
-                    <input
-                        [(ngModel)]="submission.name"
-                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
-                        pInputText 
-                        *ngIf="submission"
-                    />
-                </div>
-                <div class="flex items-center mt-1 border-b">
-                    <span class="pi pi-check-circle"></span>
-                    <input
-                        [(ngModel)]="submission.name"
-                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
-                        pInputText 
-                        *ngIf="submission"
-                    />
-                </div>
-                <div class="flex items-center mt-1 border-b">
-                    <span class="pi pi-check-circle"></span>
-                    <input
-                        [(ngModel)]="submission.name"
-                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
-                        pInputText 
-                        *ngIf="submission"
-                    />
-                </div>
-                <div class="flex items-center mt-1">
-                    <span class="pi pi-check-circle"></span>
-                    <input
-                        [(ngModel)]="submission.name"
-                        class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded w-full p-2 text-gray-900 ml-1"
-                        pInputText 
-                        *ngIf="submission"
-                    />
-                </div>
-            </div>
+                <ng-container *ngIf="execution.businessFlowBlock.formId">
+                    <hr class="mt-3 mb-3">
 
-            <hr class="mt-3 mb-3">
-
-            <app-submission-inline [form]="form" [submission]="submission"></app-submission-inline>
-        </div>
-    </p-tabPanel>
-    <p-tabPanel header="Header I">
-        <ng-template pTemplate="header">
-            <div class="w-48 block-unhandle text-sm h-full p-2 flex items-center justify-center" style="clip-path: polygon(95% 0, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);">
-                <div class="w-32 truncate text-center font-medium" pTooltip="Lọc CV" tooltipStyleClass="text-xs" tooltipPosition="bottom">
-                    Lọc CV
-                </div>
-                <span class="pi pi-angle-down" (click)="menu.toggle($event)"></span>
-                <p-menu #menu [model]="items" [popup]="true" appendTo="body">     
-                    <ng-template pTemplate="item" let-item>
-                        <a pRipple class="flex align-items-center p-menuitem-link justify-between text-xs">
-                            <span class="w-[40%] truncate p-2 bg-[#278856] text-center rounded-full text-white" pTooltip="Lọc CV" tooltipStyleClass="text-xs" tooltipPosition="bottom">{{ item.label }}</span>
-                            <span class="pi pi-arrow-right w-[20%] ml-2"></span>
-                            <span class="w-[35%] truncate font-semibold" pTooltip="Lọc CV" tooltipStyleClass="text-xs" tooltipPosition="bottom">Lọc CV</span>
-                        </a>
-                    </ng-template>
-                </p-menu>
+                    <p-skeleton height="10rem" *ngIf="!businessFlowBlockForms[i]" />
+        
+                    <app-submission-inline
+                        *ngIf="businessFlowBlockForms[i]" 
+                        [form]="businessFlowBlockForms[i]" 
+                        [submission]="businessFlowSubmissions[i]"
+                        (elementEditted)="onElementEditted(businessFlowSubmissions[i], $event)"
+                    >
+                    </app-submission-inline>
+                </ng-container>
             </div>
         </ng-template>
     </p-tabPanel>

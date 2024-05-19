@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import { FormElementDto, FormElementSettingType } from "../../../core/schemas";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormElementDto, FormElementSettingType, SubmissionFieldModel } from "../../../core/schemas";
 import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
 
 @Component({
@@ -8,6 +8,10 @@ import { BaseSubmissionFieldComponent } from "../base-submission-field.component
     templateUrl: 'submission-inline-number-field.component.html'
 })
 export class SubmissionInlineNumberFieldComponent implements BaseSubmissionFieldComponent {
+
+    @Output()
+    elementEditted = new EventEmitter<SubmissionFieldModel>();
+    
     @Input()
     element!: FormElementDto;
     
@@ -36,4 +40,11 @@ export class SubmissionInlineNumberFieldComponent implements BaseSubmissionField
     }
 
     value!: number;
+
+    onBlur() {
+        this.elementEditted.emit({
+            elementId: this.element.id,
+            value: this.submissionValue
+        });
+    }
 }

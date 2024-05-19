@@ -1,6 +1,7 @@
 <div class="mb-1 flex items-center">
     <div class="text-sm font-semibold w-[25%] truncate flex items-center">
-        <label class="block text-sm font-semibold text-gray-900 truncate" [pTooltip]=element.name tooltipPosition="top" tooltipStyleClass="text-xs"> {{ element.name }} </label>
+        <i class="pi pi-language" style="color: #6b7280"></i>
+        <label class="block text-sm font-semibold text-gray-900 truncate ml-2" [pTooltip]=element.name tooltipPosition="top" tooltipStyleClass="text-xs"> {{ element.name }} </label>
         <span class="text-red-500 ml-1" *ngIf="isRequired">*</span>
     </div>
     <div class="w-[75%] ml-2">
@@ -14,6 +15,7 @@
                 pInputText 
                 [(ngModel)]="value"
                 [placeholder]="'Nhập ' + element.name"
+                (blur)="onBlur()"
             />
         </ng-container>
     </div>

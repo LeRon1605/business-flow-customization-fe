@@ -8,7 +8,7 @@
                 *ngIf="submission"
             />
             <ng-container *ngIf="!submission">
-                <p-skeleton height="2rem"></p-skeleton>
+                <p-skeleton class="w-full" height="4rem"></p-skeleton>
             </ng-container>
             <div class="h-[80%] flex items-center ml-2 me-2" *ngIf="submission">
                 <p-menu #menu [model]="items" [popup]="true" appendTo="body" styleClass="text-sm"/>
@@ -20,12 +20,19 @@
     <div class="w-full flex h-[94%]">
         <div class="w-[55%] border-e h-full p-4 overflow-auto">
             <div>
-                <app-submission-inline [form]="form" [submission]="submission"></app-submission-inline>
+                <app-submission-inline 
+                    [form]="form" 
+                    [submission]="submission"
+                    (elementEditted)="onElementEditted($event)"
+                ></app-submission-inline>
             </div>
             <hr class="mt-3 mb-3">
-            <div>
+            <div *ngIf="submission">
                 <div class="flex items-center mb-3">
-                    <div class="text-sm font-semibold w-[25%] truncate">Ngày tạo</div>
+                    <div class="w-[25%] truncate flex items-center">
+                        <i class="pi pi-calendar" style="color: #6b7280"></i>
+                        <div class="text-sm font-semibold ml-2">Ngày tạo</div>
+                    </div>
                     <div class="text-sm ps-2.5 ml-2">
                         <ng-container *ngIf="submission">
                             {{ submission.createdAt | date: 'hh:mm dd/MM/yyyy' }}
@@ -36,16 +43,22 @@
                     </div>
                 </div>
                 <div class="flex items-center mb-3">
-                    <div class="text-sm font-semibold w-[25%] truncate">Người tạo</div>
+                    <div class="w-[25%] truncate flex items-center">
+                        <i class="pi pi-user" style="color: #6b7280"></i>
+                        <div class="text-sm font-semibold ml-2">Người tạo</div>
+                    </div>
                     <div class="text-sm flex items-center ps-2.5 ml-2">
                         <p-avatar 
-                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" 
+                            [image]="user(submission.createdBy)?.avatarUrl" 
                             shape="circle" />
-                        <p class="ml-2">Lê Rôn</p>
+                        <p class="ml-2"> {{ user(submission.createdBy)?.fullName }} </p>
                     </div>
                 </div>
-                <div class="flex items-center mb-3">
-                    <div class="text-sm font-semibold w-[25%] truncate">Ngày cập nhật</div>
+                <div class="flex items-center mb-3" *ngIf="submission.updatedAt">
+                    <div class="w-[25%] truncate flex items-center">
+                        <i class="pi pi-calendar" style="color: #6b7280"></i>
+                        <div class="text-sm font-semibold ml-2">Ngày cập nhật</div>
+                    </div>
                     <div class="text-sm ps-2.5 ml-2">
                         <ng-container *ngIf="submission">  
                             {{ submission.updatedAt ? ( submission.updatedAt | date: 'hh:mm dd/MM/yyyy') : '----' }}
@@ -55,13 +68,18 @@
                         </ng-container>
                     </div>
                 </div>
-                <div class="flex items-center mb-3">
-                    <div class="text-sm font-semibold w-[25%] truncate">Người cập nhật</div>
+                <div class="flex items-center mb-3" *ngIf="submission.updatedBy">
+                    <div class="w-[25%] truncate flex items-center">
+                        <i class="pi pi-user" style="color: #6b7280"></i>
+                        <div class="text-sm font-semibold ml-2">Người cập nhật</div>
+                    </div>
                     <div class="text-sm flex items-center ps-2.5 ml-2">
                         <p-avatar 
-                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png" 
+                            [image]="user(submission.updatedBy)?.avatarUrl" 
                             shape="circle" />
-                        <p class="ml-2">Lê Rôn</p>
+                        <p class="ml-2">
+                            {{ user(submission.updatedBy)?.fullName }}
+                        </p>
                     </div>
                 </div>
                 <div class="flex items-center mb-3">

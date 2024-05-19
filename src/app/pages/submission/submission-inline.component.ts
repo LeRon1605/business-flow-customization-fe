@@ -1,11 +1,14 @@
-import { Component, Input } from "@angular/core";
-import { FormDto, SubmissionDto } from "../../core/schemas";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormDto, SubmissionDto, SubmissionFieldModel } from "../../core/schemas";
 
 @Component({
     selector: 'app-submission-inline',
     templateUrl: 'submission-inline.component.html'
 })
 export class SubmissionInlineComponent {
+
+    @Output()
+    elementEditted = new EventEmitter<SubmissionFieldModel>();
 
     @Input()
     form!: FormDto;
@@ -21,4 +24,7 @@ export class SubmissionInlineComponent {
         return undefined;
     }
 
+    onElementEditted(value: SubmissionFieldModel) {
+        this.elementEditted.emit(value);
+    }
 }

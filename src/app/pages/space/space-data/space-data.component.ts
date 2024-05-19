@@ -40,7 +40,7 @@ export class SpaceDataComponent implements OnChanges {
 
     currentPage = 1;
     dataTable: DatatableOption = {
-        rows: 13,
+        rows: 10,
         columns: [
             {
                 name: 'Tên',

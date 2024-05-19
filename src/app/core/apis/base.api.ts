@@ -24,7 +24,8 @@ export class BaseApiService {
             ROLE: this.baseApiUrl + '/identity/roles',
             VALIDATE_BUSINESS_FLOW: this.baseApiUrl + '/business-flow/business-flows/validate',
             SPACE: this.baseApiUrl + '/business-flow/spaces',
-            SUBMISSION: this.baseApiUrl + '/submissions'
+            SUBMISSION: this.baseApiUrl + '/submissions',
+            BUSINESS_FLOW: this.baseApiUrl + '/business-flow/business-flows'
         };
     }
 }

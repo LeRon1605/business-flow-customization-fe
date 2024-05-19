@@ -1,3 +1,5 @@
+import { BusinessFlowOutComeDto } from "./business-flow.schema";
+
 export interface SubmissionModel {
     name: string;
     formVersionId: number;
@@ -26,8 +28,52 @@ export interface SubmissionDto {
     name: string;
     formVersionId: number;
     fields: SubmissionFieldModel[];
-    createdBy: number;
+    createdBy: string;
     createdAt: string;
-    updatedBy: number;
+    updatedBy: string;
     updatedAt: string;
+}
+
+export interface SubmissionExecutionBusinessFlowDto {
+    id: number;
+    status: SubmissionExecutionStatus
+    completedBy: string
+    completedAt: string
+    outCome: BusinessFlowOutComeDto
+    businessFlowBlock: SubmissionExecutionBusinessFlowBlock
+    tasks: SubmissionExecutionTaskDto[]
+    personInChargeIds: string[]
+}
+
+export interface BasicBusinessFlowBlockDto {
+    id: string
+    name: string
+    type: number
+}
+
+export interface SubmissionExecutionBusinessFlowBlock extends BasicBusinessFlowBlockDto {
+    formId?: number;
+    outComes: SubmissionExecutionBusinessFlowOutComeDto[]
+}
+
+export interface SubmissionExecutionBusinessFlowOutComeDto {
+    outCome: BusinessFlowOutComeDto;
+    toBlock: BasicBusinessFlowBlockDto | null;
+}
+
+export interface SubmissionExecutionTaskDto {
+    id: number
+    status: SubmissionExecutionTaskStatus
+    name: string
+    index: number
+}
+
+export enum SubmissionExecutionStatus {
+    InProgress,
+    Completed
+}
+
+export enum SubmissionExecutionTaskStatus {
+    Pending,
+    Done
 }

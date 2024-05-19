@@ -1,8 +1,8 @@
 import { HttpResponse } from "@angular/common/http";
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { UploadResponseDto } from "../../../shared/components/form-controls/file-uploader/file-uploader.component";
 import { FileUploadEvent } from "primeng/fileupload";
-import { FormElementDto, FormElementSettingType, SubmissionAttachmentFieldValueDto } from "../../../core/schemas";
+import { FormElementDto, FormElementSettingType, SubmissionAttachmentFieldValueDto, SubmissionFieldModel } from "../../../core/schemas";
 import { environment } from "../../../../environments/environment";
 import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
 
@@ -13,6 +13,9 @@ import { BaseSubmissionFieldComponent } from "../base-submission-field.component
 })
 export class SubmissionInlineAttachmentFieldComponent implements BaseSubmissionFieldComponent {
 
+    @Output()
+    elementEditted = new EventEmitter<SubmissionFieldModel>();
+    
     @Input()
     element!: FormElementDto;
 
@@ -30,7 +33,6 @@ export class SubmissionInlineAttachmentFieldComponent implements BaseSubmissionF
     set submissionValue(value: string | undefined) {
         if (value)
             this.value = JSON.parse(value);
-            console.log(this.value);
     }
 
     uploadInProgress = false;
@@ -54,6 +56,11 @@ export class SubmissionInlineAttachmentFieldComponent implements BaseSubmissionF
             });
         }
 
+        this.elementEditted.emit({
+            elementId: this.element.id,
+            value: this.submissionValue
+        });
+
         this.uploadInProgress = false;
     }
 
@@ -63,5 +70,13 @@ export class SubmissionInlineAttachmentFieldComponent implements BaseSubmissionF
 
     onUploadProgress() {
         this.uploadInProgress = true;
+    }
+
+    onDeleteAttachment(file: SubmissionAttachmentFieldValueDto) {
+        this.value.splice(this.value.indexOf(file), 1);
+        this.elementEditted.emit({
+            elementId: this.element.id,
+            value: this.submissionValue
+        });
     }
 }

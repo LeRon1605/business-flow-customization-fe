@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import { FormElementDto, FormElementSettingType } from "../../../core/schemas";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormElementDto, FormElementSettingType, SubmissionFieldModel } from "../../../core/schemas";
 import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
 
 @Component({
@@ -40,4 +40,13 @@ export class SubmissionInlineSingleSelectFieldComponent implements BaseSubmissio
 
     value?: number;
     
+    @Output()
+    elementEditted = new EventEmitter<SubmissionFieldModel>();
+    
+    onBlur() {
+        this.elementEditted.emit({
+            elementId: this.element.id,
+            value: this.submissionValue
+        });
+    }
 }

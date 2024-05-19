@@ -49,4 +49,16 @@ export class FormApiService extends BaseApiService {
     getSubmissionById(spaceId: number, versionId: number, submissionId: number) {
         return this.http.get<SubmissionDto>(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/forms/${versionId}/submissions/${submissionId}`);
     }
+
+    getBusinessFlowBlockForm(blockId: string) {
+        return this.http.get<FormDto>(`${this.API_END_POINTS.SUBMISSION}/forms/business-flows/${blockId}`);
+    }
+
+    updateSubmissionField(submissionId: number, field: SubmissionFieldModel) {
+        return this.http.put(`${this.API_END_POINTS.SUBMISSION}/submissions/${submissionId}/fields`, { field });
+    }
+    
+    getExecutionSubmission(executionId: number) {
+        return this.http.get<SubmissionDto>(`${this.API_END_POINTS.SUBMISSION}/submissions/executions/${executionId}`);
+    }
 }

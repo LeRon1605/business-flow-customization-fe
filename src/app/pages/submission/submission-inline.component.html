@@ -5,6 +5,7 @@
         [element]="element"
         [loading]="submission == undefined"
         [submissionValue]="getValue(element.id)"
+        (elementEditted)="onElementEditted($event)"
         styleCssClass="mb-3"
         #field
     ></app-submission-inline-text-field>
@@ -14,6 +15,7 @@
         [element]="element"
         [loading]="submission == undefined"
         [submissionValue]="getValue(element.id)"
+        (elementEditted)="onElementEditted($event)"
         styleCssClass="mb-3"
         #field
     ></app-submission-inline-number-field>
@@ -23,6 +25,7 @@
         [element]="element"
         [loading]="submission == undefined"
         [submissionValue]="getValue(element.id)"
+        (elementEditted)="onElementEditted($event)"
         styleCssClass="mb-3"
         #field
     >
@@ -33,6 +36,7 @@
         [element]="element"
         [loading]="submission == undefined"
         [submissionValue]="getValue(element.id)"
+        (elementEditted)="onElementEditted($event)"
         styleCssClass="mb-3"
         #field
     ></app-submission-inline-single-select-field>
@@ -42,6 +46,7 @@
         [element]="element"
         [loading]="submission == undefined"
         [submissionValue]="getValue(element.id)"
+        (elementEditted)="onElementEditted($event)"
         styleCssClass="mb-3"
         #field
     ></app-submission-inline-multi-select-field>
@@ -51,6 +56,7 @@
         [element]="element"
         [loading]="submission == undefined"
         [submissionValue]="getValue(element.id)"
+        (elementEditted)="onElementEditted($event)"
         styleCssClass="mb-3"
         #field
     ></app-submission-inline-attachment-field>
