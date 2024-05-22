@@ -45,22 +45,25 @@
       [modal]="true"
       [style]="{width: '50vw'}">
 
-      <app-tenant-profile
-        #tenantPanelComponent
-      ></app-tenant-profile>
+      <ng-container *ngIf="tenantPanelVisible">
+        <app-tenant-profile
+          #tenantPanelComponent
+        ></app-tenant-profile>
 
-      <ng-template pTemplate="footer">
-        
-        <app-permission-wrapper permission="Permissions.Tenants.Edit">
-          <app-button 
-            icon="pi pi-check" 
-            text="Lưu"
-            [disabled]="tenantPanelComponent.disabled"
-            (click)="tenantPanelComponent.saveProfile()"
-          ></app-button>
-        </app-permission-wrapper>
+        <ng-template pTemplate="footer">
+          
+          <app-permission-wrapper permission="Permissions.Tenants.Edit">
+            <app-button 
+              icon="pi pi-check" 
+              text="Lưu"
+              [disabled]="tenantPanelComponent.disabled"
+              (click)="tenantPanelComponent.saveProfile()"
+            ></app-button>
+          </app-permission-wrapper>
 
-      </ng-template>
+        </ng-template>
+      
+      </ng-container>
       
     </p-dialog>
 

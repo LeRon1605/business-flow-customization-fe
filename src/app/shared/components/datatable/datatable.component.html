@@ -17,7 +17,7 @@
         <div class="flex flex-row items-center">
             <span *ngIf="model.title"> {{ model.title }} </span>
             <ng-content select="[leftHeaderTemplate]"></ng-content>
-            <div class="p-input-icon-left ml-auto flex flex-row items-center">
+            <div class="p-input-icon-left ml-auto flex flex-row items-center w-auto">
                 <ng-content select="[rightHeaderTemplate]"></ng-content>
                 <app-filter 
                     *ngIf="filterFields"
@@ -37,7 +37,7 @@
 
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let col of model.columns" class="border w-48 truncate cursor-pointer" [pTooltip]=col.name tooltipPosition="top" tooltipStyleClass="text-sm">
+            <th *ngFor="let col of activeColumns" class="border w-48 truncate cursor-pointer" [pTooltip]=col.name tooltipPosition="top" tooltipStyleClass="text-sm">
                 {{ col.name }}
             </th>
         </tr>
@@ -54,7 +54,7 @@
         </ng-container>
         <ng-container *ngIf="model.pagedResult">
             <tr [pSelectableRow]="row">
-                <ng-container *ngFor="let col of model.columns">
+                <ng-container *ngFor="let col of activeColumns">
                     <td class="border w-48 truncate"
                         [innerHTML]="col.generate != null ? col.generate(row) : row[col.field]"
                     > 

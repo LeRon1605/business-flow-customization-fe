@@ -26,6 +26,7 @@ import { TenantProfileComponent } from "./tenant-profile/tenant-profile.componen
 import { TenantInvitationComponent } from "./tenant-invitation/tenant-invitation.component";
 import { DataTableModule } from "../components/datatable/datatable.component";
 import { SpaceModule } from "../../pages/space/space.module";
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import { SpaceModule } from "../../pages/space/space.module";
         DialogModule,
         ServeSyncCommonModule,
         DataTableModule,
-        SpaceModule
+        SpaceModule,
+        TooltipModule
     ]
 })
 export class LayoutModule { }

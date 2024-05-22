@@ -10,7 +10,7 @@
         (selectionChange)="onSelectionChange($event)"
       >
       <ng-template let-node pTemplate="default">
-        <div class="flex items-center">
+        <div class="flex items-center" [pTooltip]="node.label" tooltipPosition="bottom" tooltipStyleClass="text-xs">
           <div style="width: 20px; height: 20px" [style.backgroundColor]="node.data.color" class="rounded p-treenode-icon" *ngIf="node.data?.color"></div>
           <span>{{ node.label }}</span>
         </div>

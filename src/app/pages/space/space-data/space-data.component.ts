@@ -1,19 +1,31 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { FormDto, FormElementType, FormVersionDto, SpaceDetailDto, SubmissionDto, SubmissionFilterRequestDto } from "../../../core/schemas";
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from "@angular/core";
+import { BasicUserInfo, FormDto, FormElementDto, FormElementType, FormVersionDto, RecordDateElementFilterValue, RecordDateFieldFilter, RecordFilterField, RecordFilterFieldType, SpaceDetailDto, SubmissionDto, SubmissionFilterRequestDto } from "../../../core/schemas";
 import { DatatableColumn, DatatableOption } from "../../../shared/components/datatable/datatable.component";
 import { FormService } from "../../../core/services/form.service";
 import { DatePipe } from "@angular/common";
 import { map } from "rxjs";
+import { SpaceRecordDetailComponent } from "../space-record/space-record-detail.component";
+import { FilterField, SelectedFilterField } from "../../../shared/components/filter/filter.component";
+import { UserStorageService } from "../../../core/services";
+import * as Moment from 'moment';
+import { extendMoment } from 'moment-range';
+import { PrimeIcons } from "primeng/api";
+import { InputSwitchChangeEvent } from "primeng/inputswitch";
+
+const moment = extendMoment(Moment);
 
 @Component({
     selector: 'app-space-data',
     styleUrl: 'space-data.component.scss',
     templateUrl: 'space-data.component.html'
 })
-export class SpaceDataComponent implements OnChanges {
+export class SpaceDataComponent implements OnInit, OnChanges {
 
     @Input()
     space!: SpaceDetailDto;
+
+    @ViewChild('recordDetail')
+    recordDetailComponent?: SpaceRecordDetailComponent;
 
     form?: FormDto;
     addSubmitVisible: boolean = false;
@@ -21,6 +33,11 @@ export class SpaceDataComponent implements OnChanges {
     submissions: SubmissionDto[] = [];
     versions: FormVersionDto[] = [];
     selectedRecordId?: number;
+    filterFields: FilterField[] = [];
+    search?: string;
+    filters: RecordFilterField[] = [];
+
+    tenantUsers: BasicUserInfo[] = [];
     
     private _versionId?: number;
     get versionId() {
@@ -33,6 +50,7 @@ export class SpaceDataComponent implements OnChanges {
                 .subscribe(x => {
                     this.form = x;
                     this.loadColumn();
+                    this.loadFilter();
                 });
         }
         this._versionId = value;
@@ -42,32 +60,21 @@ export class SpaceDataComponent implements OnChanges {
     dataTable: DatatableOption = {
         rows: 10,
         columns: [
-            {
-                name: 'Tên',
-                field: 'name'
-            },
-            {
-                name: 'Người tạo',
-                field: 'fullName'
-            },
-            {
-                name: 'Ngày tạo',
-                field: 'createdAt'
-            },
-            {
-                name: 'Người chỉnh sửa',
-                field: 'updatedBy'
-            },
-            {
-                name: 'Ngày chỉnh sửa',
-                field: 'updatedAt'
-            }
         ]
     }
 
     constructor(
-        private formService: FormService
+        private formService: FormService,
+        private userStorageSevice: UserStorageService
     ) { }
+
+    ngOnInit(): void {
+        this.userStorageSevice.currentUser
+            .subscribe(x => {
+                if (x)
+                    this.tenantUsers = x.tenantUsers
+            })
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         const spaceId = (changes['space'].currentValue as SpaceDetailDto).id;
@@ -92,34 +99,56 @@ export class SpaceDataComponent implements OnChanges {
     }
 
     loadColumn() {
+        this.dataTable.activeColumnIds = ['createdBy', 'createdAt', 'updatedBy', 'updatedAt', 'name'];
         let columns : DatatableColumn[] = [
             {
+                id: 'createdBy',
                 name: 'Người tạo',
                 field: 'fullName',
-                generate: x => 'Lê Rôn'
+                metadata: {
+                    icon: PrimeIcons.USER
+                },
+                generate: x => this.tenantUsers.find(u => u.id == x.createdBy)?.fullName ?? ''
             },
             {
+                id: 'createdAt',
                 name: 'Ngày tạo',
                 field: 'createdAt',
+                metadata: {
+                    icon: PrimeIcons.CALENDAR
+                },
                 generate: (x: SubmissionDto) => <string>new DatePipe('vi_VN').transform(x.createdAt, 'hh:mm dd/MM/yyyy')
             },
             {
+                id: 'updatedBy',
                 name: 'Người chỉnh sửa',
-                field: 'updatedBy'
+                field: 'updatedBy',
+                metadata: {
+                    icon: PrimeIcons.USER
+                },
+                generate: x => this.tenantUsers.find(u => u.id == x.updatedBy)?.fullName ?? ''
             },
             {
+                id: 'updatedAt',
                 name: 'Ngày chỉnh sửa',
                 field: 'updatedAt',
+                metadata: {
+                    icon: PrimeIcons.CALENDAR
+                },
                 generate: (x: SubmissionDto) => x.updatedAt ? <string>new DatePipe('vi_VN').transform(x.updatedAt, 'hh:mm dd/MM/yyyy') : ''
             }
         ];
 
         if (this.form) {
             const fieldColumns : DatatableColumn[] = [];
-            for (const field of this.form.elements.filter(x => x.type != FormElementType.Attachment).slice(0, 3)) {
-                fieldColumns.unshift({
+            for (const field of this.form.elements.filter(x => x.type != FormElementType.Attachment)) {
+                fieldColumns.push({
+                    id: field.id.toString(),
                     name: field.name,
                     field: field.name,
+                    metadata: {
+                        icon: this.getFieldIcon(field.type)
+                    },
                     generate: (x: SubmissionDto) => {
                         const fieldValue = x.fields.find(f => f.elementId == field.id);
                         if (!fieldValue)
@@ -142,10 +171,17 @@ export class SpaceDataComponent implements OnChanges {
                 })
             }
 
+            const formActiveFields = this.form.elements.filter(x => x.type != FormElementType.Attachment).map(x => x.id.toString()).slice(0, 3);
+            this.dataTable.activeColumnIds = [...this.dataTable.activeColumnIds, ...formActiveFields];
+
             columns = [
                 {
+                    id: 'name',
                     name: 'Tên bản ghi',
-                    field: 'name'
+                    field: 'name',
+                    metadata: {
+                        icon: PrimeIcons.LANGUAGE
+                    }
                 },
                 ...fieldColumns, 
                 ...columns];
@@ -153,6 +189,76 @@ export class SpaceDataComponent implements OnChanges {
 
         this.dataTable.columns = columns;
         this.loadData();
+    }
+
+    loadFilter() {
+        if (!this.form) 
+            return;
+
+        this.filters = [];
+        this.filterFields = [];
+        for (const field of this.form.elements) {
+            const filterField = this.getFilterField(field);
+            if (filterField)
+                this.filterFields.push(filterField);
+        }
+    }
+
+    getFilterField(element: FormElementDto) : FilterField | undefined {
+        const field : FilterField = {
+            id: element.id.toString(),
+            name: element.name,
+            data: [],
+            type: 'single-select',
+            metadata: element
+        };
+
+        switch (element.type) {
+            case FormElementType.SingleOption:
+            case FormElementType.MultiOption:
+                field.type = 'multi-select';
+                field.data = element.options.map((x) => {
+                    return {
+                        text: x.name,
+                        value: x.id.toString()
+                    }
+                });
+                field.placeHolder = 'Chọn ' + field.name;
+                break;
+
+            case FormElementType.Text:
+                field.type = 'text';
+                field.placeHolder = 'Nhập ' + field.name;
+                break;
+
+            case FormElementType.Date:
+                field.type = 'multi-select';
+                field.placeHolder = 'Chọn ' + field.name;
+                field.data = [
+                    {
+                        text: 'Hôm nay',
+                        value: RecordDateFieldFilter.Today
+                    },
+                    {
+                        text: 'Tuần này',
+                        value: RecordDateFieldFilter.ThisWeek
+                    },
+                    {
+                        text: 'Tháng này',
+                        value: RecordDateFieldFilter.ThisMonth
+                    },
+                    {
+                        text: 'Năm này',
+                        value: RecordDateFieldFilter.ThisYear
+                    }
+                ]
+                break;
+
+            default:
+                return undefined;
+        }
+
+        return field;
     }
 
     loadData() {
@@ -163,7 +269,9 @@ export class SpaceDataComponent implements OnChanges {
             page: this.currentPage,
             size: this.dataTable.rows,
             formVersionId: this.versionId,
-            spaceId: this.space.id
+            spaceId: this.space.id,
+            search: this.search,
+            filters: this.filters
         };
         this.formService.getSpaceSubmissions(data)
             .subscribe(x => {
@@ -179,5 +287,146 @@ export class SpaceDataComponent implements OnChanges {
     onRecordSelected(data: SubmissionDto) {
         this.selectedRecordId = data.id;
         this.recordDetailVisible = true;
+    }
+
+    onSearchChange(search: string) {
+        this.search = search;
+        this.loadData();
+    }
+
+    onRecordDetailHide() {
+        if (!this.recordDetailComponent)
+            return;
+
+        const index = this.dataTable.pagedResult?.data.findIndex(x => x.id == this.recordDetailComponent?.submission.id);
+        if (index != undefined && index >= 0) {
+            this.dataTable.pagedResult?.data.splice(index, 1, this.recordDetailComponent.submission);
+        }
+    }
+
+    onFilterChange(fields: SelectedFilterField[]) {
+        this.filters = [];
+        const filters : RecordFilterField[] = [];
+        for (const field of fields) {
+            switch (field.type) {
+                case 'text':
+                    filters.push({
+                        type: RecordFilterFieldType.RecordElement,
+                        value: JSON.stringify({
+                            elementId: field.id,
+                            value: field.value
+                        })
+                    });
+                    break;
+
+                case 'single-select':
+                    filters.push({
+                        type: RecordFilterFieldType.RecordElement,
+                        value: JSON.stringify({
+                            elementId: field.id,
+                            value: JSON.stringify([field.value])
+                        })
+                    });
+                    break;
+
+                case 'multi-select':
+                    const element = field.metadata as FormElementDto;
+                    switch (element.type) {
+                        case FormElementType.SingleOption:
+                        case FormElementType.MultiOption:
+                            filters.push({
+                                type: RecordFilterFieldType.RecordElement,
+                                value: JSON.stringify({
+                                    elementId: field.id,
+                                    value: JSON.stringify(field.value)
+                                })
+                            })
+                            break;
+
+                        case FormElementType.Date:
+                            filters.push({
+                                type: RecordFilterFieldType.RecordElement,
+                                value: JSON.stringify({
+                                    elementId: field.id,
+                                    value: JSON.stringify(this.getDateRange(field.value))
+                                })
+                            })
+                    }
+                    break;
+            }
+        }
+
+        this.filters = filters;
+        this.loadData();
+    }
+
+    getDateRange(types: RecordDateFieldFilter[]) : RecordDateElementFilterValue[] {
+        const filters : RecordDateElementFilterValue[] = [];
+        for (const type of types) {
+            switch (type) {
+                case RecordDateFieldFilter.Today:
+                    filters.push({
+                        from: moment().startOf('day').toISOString(),
+                        to: moment().endOf('day').toISOString()
+                    });
+                    break;
+
+                    case RecordDateFieldFilter.ThisWeek:
+                        filters.push({
+                            from: moment().startOf('week').toISOString(),
+                            to: moment().endOf('week').toISOString()
+                        });
+                        break;
+    
+                case RecordDateFieldFilter.ThisMonth:
+                    filters.push({
+                        from: moment().startOf('month').toISOString(),
+                        to: moment().endOf('month').toISOString()
+                    });
+                    break;
+    
+                case RecordDateFieldFilter.ThisYear:
+                    filters.push({
+                        from: moment().startOf('year').toISOString(),
+                        to: moment().endOf('year').toISOString()
+                    });
+                    break;
+            }
+        }
+        
+        return filters;
+    }
+
+    getFieldIcon(type: FormElementType) {
+        switch (type) {
+            case FormElementType.Text:
+                return PrimeIcons.LANGUAGE;
+
+            case FormElementType.Number:
+                return PrimeIcons.HASHTAG;
+
+            case FormElementType.Date:
+                return PrimeIcons.CALENDAR;
+
+            case FormElementType.Attachment:
+                return PrimeIcons.FILE
+
+            case FormElementType.MultiOption:
+                return PrimeIcons.CHECK_CIRCLE;
+
+            case FormElementType.SingleOption:
+                return PrimeIcons.CHECK_SQUARE;
+        }
+    }
+
+    onToggerField(id: string | undefined, $event: InputSwitchChangeEvent) {
+        if (!this.dataTable.activeColumnIds || !id)
+            return;
+
+        if ($event.checked) {
+            this.dataTable.activeColumnIds.push(id);
+        } else {
+            this.dataTable.activeColumnIds.splice(this.dataTable.activeColumnIds.indexOf(id), 1);
+        }
     }
 }

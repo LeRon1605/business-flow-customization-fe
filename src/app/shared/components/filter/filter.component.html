@@ -1,55 +1,114 @@
 <p-overlayPanel #op>
-    <div class="p-2 w-96">
-        <p>Danh sách lọc</p>
-        <p class="font-light italic text-xs" *ngIf="isDraft">Bản nháp</p>
-        <ng-container *ngFor="let field of fields">
-            <div class="p-float-label mt-10">
-                <p-dropdown 
-                    [(ngModel)]="field.selectedValue"
-                    [showClear]="true" 
-                    [options]="field.data"
-                    [placeholder]="field.placeHolder"
-                    (onChange)="onFilterFieldChanged(field, $event)"
-                    styleClass="bg-gray-50 border border-gray-300 w-full"
-                    optionLabel="text" 
-                    optionValue="value"
-                ></p-dropdown>
-                <label for="float-label">{{ field.name }}</label>
-            </div>
-        </ng-container>
-        <div class="mt-10 flex flex-row justify-between">
-            <div>
+    <div class="w-96">
+        <div class="p-2">
+            <p class="text-normal font-semibold">Danh sách lọc</p>
+            <p class="text-xs">Thiết lập điều kiện lọc theo các trường thông tin bên dưới</p>
+        </div>
+        <div class="max-h-96 w-full overflow-auto ps-2 pe-2 pb-2">
+            <ng-container *ngFor="let field of activeFields">
+                <div class="mt-3">
+                    <label class="text-sm font-semibold mb-1">{{ field.name }}</label>
+                    <div class="flex items-center mt-1">
+                        <ng-container>
+
+                            <p-dropdown 
+                                *ngIf="field.type == 'single-select'"
+                                [(ngModel)]="field.selectedValue"
+                                [showClear]="true" 
+                                [options]="field.data"
+                                [placeholder]="field.placeHolder"
+                                (onChange)="onFilterFieldChanged(field, $event)"
+                                styleClass="bg-gray-50 border border-gray-300 w-full mt-1 text-sm"
+                                panelStyleClass="text-sm"
+                                optionLabel="text" 
+                                optionValue="value"
+                                appendTo="body"
+                                (onBlur)="onApplyFilter()"
+                            ></p-dropdown>
+    
+                            <input
+                                *ngIf="field.type == 'text'"
+                                class="text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900"
+                                pInputText 
+                                [(ngModel)]="field.selectedValue"
+                                [placeholder]="field.placeHolder"
+                                (blur)="onApplyFilter()"
+                            />
+    
+                            <p-multiSelect 
+                                *ngIf="field.type == 'multi-select'"
+                                [(ngModel)]="field.selectedValue"
+                                [options]="field.data"
+                                [showHeader]="false"
+                                [showClear]="true"
+                                optionLabel="text" 
+                                optionValue="value"
+                                panelStyleClass="text-sm"
+                                styleClass="bg-gray-50 border border-gray-300 w-full mt-1 text-sm"
+                                [placeholder]="field.placeHolder"
+                                appendTo="body" 
+                                (onPanelHide)="onApplyFilter()"
+                                />
+    
+                        </ng-container>
+    
+                        <i class="pi pi-times ml-2 cursor-pointer" (click)="onInActiveField(field)"></i>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="mt-5 flex flex-row justify-between p-2">
+            <div class="relative">
                 <app-button
+                    *ngIf="fields.length > 0"
                     text="Thêm lọc"
                     styleClass="ml-auto"
                     icon="pi pi-plus"
+                    (onClick)="availableFilterFields.toggle($event)"
                 >
                 </app-button>
+
+                <p-overlayPanel #availableFilterFields styleClass="availableField">
+                    <div class="w-62">
+                
+                        <div class="p-2">
+                            <p class="text-normal font-semibold">Danh sách trường thông tin</p>
+                            <p class="text-xs">Chọn trường thông tin</p>
+                        </div>
+                        
+                        <div class="w-full overflow-y-auto max-h-64">
+                            <ng-container *ngFor="let field of fields">
+                                <div class="flex items-center border-t p-3 cursor-pointer hover:bg-gray-50" 
+                                    (click)="onActiveField(field, availableFilterFields)">
+                                    <i class="pi pi-language" style="color: #6b7280" *ngIf="field.type == 'text'"></i>
+                                    <i class="pi pi-check-circle" style="color: #6b7280" *ngIf="field.type == 'single-select'"></i>
+                                    <i class="pi pi-check-square" style="color: #6b7280" *ngIf="field.type == 'multi-select'"></i>
+                                    <label class="block text-sm font-semibold text-gray-900 w-[80%] truncate ml-2 cursor-pointer"> {{ field.name }} </label>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                    </div>
+                </p-overlayPanel>
             </div>
             <div>
                 <app-button
-                    text="Hủy"
+                    text="Bỏ lọc"
                     styleClass="mr-1"
                     severity="danger"
                     (onClick)="onResetFilter()"
-                >
-                </app-button>
-                <app-button
-                    text="Lưu"
-                    styleClass="ml-auto"
-                    [disabled]="!isDraft"
-                    (onClick)="onApplyFilter()"
                 >
                 </app-button>
             </div>
         </div>
     </div>
 </p-overlayPanel>
+
 <div class="relative">
     <app-button 
         text="Lọc"
         icon="pi pi-list"
-        [badge]="fields.length.toString()"
+        [badge]="activeFields.length.toString()"
         (onClick)="op.toggle($event)" 
     ></app-button>
 </div>

@@ -26,24 +26,8 @@ export class FormApiService extends BaseApiService {
         return this.http.post<{ id: number }>(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/submissions`, data);
     }
 
-    getSpaceSubmissions(data: SubmissionFilterRequestDto) {
-        let params: HttpParams = new HttpParams();
-
-        if (data.page) {
-            params = params.append('page', data.page);
-        }
-
-        if (data.size) {
-            params = params.append('size', data.size);
-        }
-        
-        if (data.formVersionId) {
-            params = params.append('formVersionId', data.formVersionId);
-        }
-        
-        return this.http.get<PagedResult<SubmissionDto>>(`${this.API_END_POINTS.SUBMISSION}/spaces/${data.spaceId}/submissions`, {
-            params
-        });;
+    getSpaceSubmissions(data: SubmissionFilterRequestDto) {        
+        return this.http.post<PagedResult<SubmissionDto>>(`${this.API_END_POINTS.SUBMISSION}/spaces/${data.spaceId}/submissions/search`, data);;
     }
 
     getSubmissionById(spaceId: number, versionId: number, submissionId: number) {
@@ -60,5 +44,9 @@ export class FormApiService extends BaseApiService {
     
     getExecutionSubmission(executionId: number) {
         return this.http.get<SubmissionDto>(`${this.API_END_POINTS.SUBMISSION}/submissions/executions/${executionId}`);
+    }
+
+    updateSubmission(submissionId: number, name: string) {
+        return this.http.put(`${this.API_END_POINTS.SUBMISSION}/submissions/${submissionId}`, { name });
     }
 }

@@ -18,6 +18,9 @@
     [model]="dataTable"
     (pageChange)="onPageChange($event)"
     (rowSelected)="onRecordSelected($event)"
+    [filterFields]="filterFields"
+    (filterChange)="onFilterChange($event)"
+    (searchChange)="onSearchChange($event)"
 >
     <div leftHeaderTemplate>
         <p-dropdown 
@@ -31,13 +34,48 @@
         />
     </div>
     <div rightHeaderTemplate *ngIf="this.versions.length > 0 && this.versionId == this.versions[0].id">
-        <button 
-            type="button" 
-            class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
-            (click)="addSubmitVisible = true"
-        >
-            Thêm
-        </button>
+        <div class="flex items-center">
+
+            <button 
+                type="button" 
+                class="w-40 py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+                (click)="addSubmitVisible = true"
+            >
+                Thêm bản ghi
+            </button>
+
+            <button 
+                type="button" 
+                class="w-40 py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+                (click)="op.toggle($event)"
+            >
+                Trường thông tin
+            </button>
+
+            <p-overlayPanel #op styleClass="list-field">
+                <div class="w-96">
+                    <div class="p-2">
+                        <p class="text-normal font-semibold">Danh sách trường thông tin</p>
+                        <div class="text-xs">Chọn để hiển thị dữ liệu của trường thông tin</div>
+                    </div>
+                    <div class="w-full overflow-y-auto max-h-96">
+                        <div class="w-full overflow-y-auto max-h-96">
+                            <ng-container *ngFor="let field of this.dataTable.columns">
+                                <div class="flex items-center border-t p-3 cursor-pointer hover:bg-gray-50" >
+                                    <i [class]="field.metadata?.icon" style="color: #6b7280;"></i>
+                                    <label class="block text-sm font-semibold text-gray-900 w-[80%] truncate ml-2 cursor-pointer"> {{ field.name }} </label>
+                                    <p-inputSwitch 
+                                        styleClass="flex items-center" 
+                                        [ngModel]="field.id && this.dataTable.activeColumnIds?.includes(field.id)" 
+                                        (onChange)="onToggerField(field.id, $event)"
+                                    />
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </p-overlayPanel>
+        </div>
     </div>
 </app-datatable>
 
@@ -46,11 +84,13 @@
     position="right"
     styleClass="w-[70vw]"
     [showCloseIcon]="false"
+    (onHide)="onRecordDetailHide()"
 >
     <app-space-record-detail 
         *ngIf="recordDetailVisible && selectedRecordId && form" 
         [submissionId]="selectedRecordId"
         [form]="form"
-        [spaceId]="space.id">
+        [spaceId]="space.id"
+        #recordDetail>
     </app-space-record-detail>
 </p-sidebar>

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { BasicUserInfo, FormDto, SubmissionDto, SubmissionFieldModel } from "../../../core/schemas";
 import { FormService } from "../../../core/services/form.service";
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { UserStorageService } from "../../../core/services";
+import { ToastService, UserStorageService } from "../../../core/services";
 
 @Component({
     selector: 'app-space-record-detail',
@@ -19,7 +19,6 @@ export class SpaceRecordDetailComponent implements OnInit {
     @Input()
     form!: FormDto;
 
-    @Input()
     submission!: SubmissionDto;
 
     items: MenuItem[] = [
@@ -34,7 +33,8 @@ export class SpaceRecordDetailComponent implements OnInit {
 
     constructor(
         private formService: FormService,
-        private userStorageService: UserStorageService
+        private userStorageService: UserStorageService,
+        private toastService: ToastService
     ) { }
 
     ngOnInit(): void {
@@ -56,7 +56,21 @@ export class SpaceRecordDetailComponent implements OnInit {
     onElementEditted(field: SubmissionFieldModel) {
         this.formService.updateSubmissionField(this.submission.id, field)
             .subscribe(x => {
-
+                const index = this.submission.fields.findIndex(x => x.elementId == field.elementId);
+                if (index >= 0)
+                    this.submission.fields.splice(index, 1, field);
             });
+    }
+
+    onUpdateName() {
+        if (!this.submission.name) {
+            this.toastService.error('Không thể để trống tên bản ghi');
+            return;
+        }
+
+        this.formService.updateSubmission(this.submission.id, this.submission.name)
+            .subscribe(x => {
+
+            }); 
     }
 }

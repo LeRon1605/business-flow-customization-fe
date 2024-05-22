@@ -21,6 +21,8 @@ export interface SubmissionFilterRequestDto {
     size: number;
     spaceId: number;
     formVersionId: number;
+    search?: string;
+    filters: RecordFilterField[]
 }
 
 export interface SubmissionDto {
@@ -76,4 +78,30 @@ export enum SubmissionExecutionStatus {
 export enum SubmissionExecutionTaskStatus {
     Pending,
     Done
+}
+
+export interface RecordFilterField {
+    type: RecordFilterFieldType;
+    value: string;
+}
+
+export interface RecordElementFilterField {
+    elementId: number;
+    value: string;
+}
+
+export enum RecordFilterFieldType {
+    RecordElement
+}
+
+export enum RecordDateFieldFilter {
+    Today,
+    ThisWeek,
+    ThisMonth,
+    ThisYear
+}
+
+export interface RecordDateElementFilterValue {
+    from: string;
+    to: string;
 }

@@ -13,13 +13,16 @@ import { TooltipModule } from 'primeng/tooltip';
 export interface DatatableOption {
     title?: string | null;
     columns: DatatableColumn[],
+    activeColumnIds?: string[];
     rows: number;
     pagedResult?: PagedResult<any> | null,
 }
 
 export interface DatatableColumn {
+    id?: string;
     name: string;
     field: string;
+    metadata?: any;
     generate?: (item: any) => string;
 }
 
@@ -58,6 +61,13 @@ export class DataTableComponent implements OnInit {
     })
 
     selectedRow: any;
+
+    get activeColumns() : DatatableColumn[] {
+        if (!this.model.activeColumnIds)
+            return this.model.columns;
+
+        return this.model.columns.filter(x => x.id && this.model.activeColumnIds?.includes(x.id));
+    }
 
     get totalRecords() : number {
         if (this.model.pagedResult)

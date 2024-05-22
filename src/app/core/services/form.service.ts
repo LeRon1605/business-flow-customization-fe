@@ -48,4 +48,8 @@ export class FormService {
     getExecutionSubmission(executionId: number) {
         return this.formApiService.getExecutionSubmission(executionId);
     }
+
+    updateSubmission(submissionId: number, name: string) {
+        return this.formApiService.updateSubmission(submissionId, name);
+    }
 }

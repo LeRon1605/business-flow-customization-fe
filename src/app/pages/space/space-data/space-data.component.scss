@@ -13,3 +13,9 @@
 :host ::ng-deep .p-sidebar-content {
     padding: 0;
 }
+
+.list-field {
+    .p-overlaypanel-content {
+        padding: 0 !important;
+    }
+}

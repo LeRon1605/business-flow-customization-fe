@@ -30,6 +30,8 @@ import { SpaceDataComponent } from "./space-data/space-data.component";
 import { DataTableModule } from "../../shared/components/datatable/datatable.component";
 import { SpaceRecordDetailComponent } from "./space-record/space-record-detail.component";
 import { SpaceRecordBusinessFlowComponent } from "./space-record-business-flow/space-record-business-flow.component";
+import { OverlayPanelModule } from "primeng/overlaypanel";
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
     declarations: [
@@ -66,7 +68,9 @@ import { SpaceRecordBusinessFlowComponent } from "./space-record-business-flow/s
         FormsModule,
         SubmissionModule,
         FormBuilderModule,
-        DataTableModule
+        DataTableModule,
+        OverlayPanelModule,
+        InputSwitchModule
     ],
     exports: [
         SpaceInfoComponent,

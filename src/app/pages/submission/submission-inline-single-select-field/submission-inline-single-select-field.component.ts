@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormElementDto, FormElementSettingType, SubmissionFieldModel } from "../../../core/schemas";
 import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
+import { isArray, parseInt } from "lodash";
 
 @Component({
     selector: 'app-submission-inline-single-select-field',
@@ -26,7 +27,11 @@ export class SubmissionInlineSingleSelectFieldComponent implements BaseSubmissio
     set submissionValue(value: string | undefined) {
         if (value) {
             const optionIds = JSON.parse(value);
-            this.value = optionIds[0];
+            if (isArray(optionIds)) {    
+                this.value = optionIds[0];
+            } else {
+                this.value = parseInt(value);
+            }
         }
     }
 
