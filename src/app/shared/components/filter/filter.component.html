@@ -1,13 +1,18 @@
 <p-overlayPanel #op>
     <div class="w-96">
-        <div class="p-2">
+        <div class="p-2 border-b border-gray-300">
             <p class="text-normal font-semibold">Danh sách lọc</p>
             <p class="text-xs">Thiết lập điều kiện lọc theo các trường thông tin bên dưới</p>
         </div>
-        <div class="max-h-96 w-full overflow-auto ps-2 pe-2 pb-2">
+        <div class="max-h-96 w-full overflow-y-auto ps-2 pe-2 pb-2">
+            <div *ngIf="activeFields.length == 0" class="mt-3 text-center text-sm font-semibold">Bộ lọc trống</div>
             <ng-container *ngFor="let field of activeFields">
-                <div class="mt-3">
-                    <label class="text-sm font-semibold mb-1">{{ field.name }}</label>
+                <div class="mt-3 w-full">
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-sm font-semibold">{{ field.name }}</label>
+                        <span class="pi pi-minus text-xs bg-gray-200 px-3 py-1.5 font-medium rounded-full text-red-500 cursor-pointer hover:bg-gray-300" (click)="onInActiveField(field)"></span>
+                    </div>
+
                     <div class="flex items-center mt-1">
                         <ng-container>
 
@@ -33,6 +38,7 @@
                                 [(ngModel)]="field.selectedValue"
                                 [placeholder]="field.placeHolder"
                                 (blur)="onApplyFilter()"
+                                (keydown.enter)="onApplyFilter()"
                             />
     
                             <p-multiSelect 
@@ -40,33 +46,31 @@
                                 [(ngModel)]="field.selectedValue"
                                 [options]="field.data"
                                 [showHeader]="false"
-                                [showClear]="true"
+                                [showClear]="false"
                                 optionLabel="text" 
                                 optionValue="value"
                                 panelStyleClass="text-sm"
-                                styleClass="bg-gray-50 border border-gray-300 w-full mt-1 text-sm"
+                                styleClass="bg-gray-50 border border-gray-300 mt-1 text-sm"
                                 [placeholder]="field.placeHolder"
                                 appendTo="body" 
                                 (onPanelHide)="onApplyFilter()"
-                                />
+                            />
     
                         </ng-container>
-    
-                        <i class="pi pi-times ml-2 cursor-pointer" (click)="onInActiveField(field)"></i>
                     </div>
                 </div>
             </ng-container>
         </div>
-        <div class="mt-5 flex flex-row justify-between p-2">
+        <div class="flex flex-row justify-between p-2">
             <div class="relative">
-                <app-button
+                <button 
                     *ngIf="fields.length > 0"
-                    text="Thêm lọc"
-                    styleClass="ml-auto"
-                    icon="pi pi-plus"
-                    (onClick)="availableFilterFields.toggle($event)"
+                    type="button" 
+                    class="w-40 py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100"
+                    (click)="availableFilterFields.toggle($event)"
                 >
-                </app-button>
+                    Thêm lọc
+                </button>
 
                 <p-overlayPanel #availableFilterFields styleClass="availableField">
                     <div class="w-62">
@@ -92,13 +96,14 @@
                 </p-overlayPanel>
             </div>
             <div>
-                <app-button
-                    text="Bỏ lọc"
-                    styleClass="mr-1"
-                    severity="danger"
-                    (onClick)="onResetFilter()"
+                <button 
+                    *ngIf="activeFields.length > 0"
+                    type="button" 
+                    class="w-40 py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-red-600 rounded-lg border border-gray-200 hover:bg-red-700"
+                    (click)="onResetFilter()"
                 >
-                </app-button>
+                    Bỏ lọc
+                </button>
             </div>
         </div>
     </div>

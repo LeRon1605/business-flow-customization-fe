@@ -20,4 +20,13 @@ export class ToastService {
             detail: detail
         })
     }
+
+    notification(title: string, detail: string) {
+        this.messageService.add({
+            severity: 'contrast',
+            summary: title,
+            detail: detail,
+            key: 'notification'
+        })
+    }
 }

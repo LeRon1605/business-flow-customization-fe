@@ -1,0 +1,43 @@
+<div 
+    class="flex items-center text-gray-500 p-2 bg-white rounded-full hover:bg-gray-200 me-2 cursor-pointer" 
+    (click)="op.toggle($event)"
+>
+
+<p-skeleton shape="circle" size="2rem" *ngIf="unReadCount == undefined"/>
+<i class="pi pi-bell" pBadge styleClass="text-xs" *ngIf="unReadCount != undefined" [value]="unReadCount > 9 ? '9+' : unReadCount.toString()"></i>
+
+<p-overlayPanel #op styleClass="notification" (onShow)="onShow()">
+    <div class="w-96">
+        <div class="p-2 flex justify-between items-center">
+            <p class="text-normal font-semibold">Thông báo</p>
+            <span class="text-sm font-semibold cursor-pointer" (click)="markAllRead()">Đọc tất cả</span>
+        </div>
+        <div *ngIf="notifications.length == 0" class="p-2 border-t border-gray-300 flex flex-col items-center">
+            <span class="text-sm font-semibold">Không có thông báo</span>
+        </div>
+        <p-scroller 
+            *ngIf="notifications.length > 0"
+            [items]="notifications"
+            [itemSize]="50" 
+            styleClass="border-1 surface-border h-96 w-full" 
+            (onScrollIndexChange)="onScroll($event)">
+                <ng-template pTemplate="item" let-item let-options="options">
+                    <div class="flex items-center p-2 border-t border-gray-300 cursor-pointer bg-gray-50 hover:bg-gray-100 w-full" (click)="onClickNotification(item)">
+                        <p-avatar [image]="user(item.senderId)?.avatarUrl" styleClass="flex items-center border borde-gray-300" shape="circle" size="large"></p-avatar>
+                        <div class="ml-3 w-[80%]">
+                            <div class="flex items-center text-sm font-semibold truncate">
+                                <div [innerHTML]="item.title" class="line-clamp-1"></div>
+                                <div class="w-2 h-2 bg-blue-500 rounded-full ml-1" *ngIf="item.status == 1"></div>
+                            </div>
+                            <div class="text-sm line-clamp-3" [innerHTML]="item.content"></div>
+                            <div class="text-xs font-normal flex items-center mt-1">
+                                <span class="pi pi-clock me-1"></span>
+                                {{ item.created | timeAgo }}
+                            </div>
+                        </div>
+                    </div> 
+                </ng-template>
+        </p-scroller>
+    </div>
+</p-overlayPanel>
+</div>

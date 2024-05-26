@@ -13,6 +13,7 @@ import { ToastService } from './core/services';
 import { registerLocaleData } from '@angular/common';
 import vi from '@angular/common/locales/vi';
 import { NgxGraphModule } from '@kr0san89/ngx-graph';
+import { CacheInterceptor } from './core/interceptors/cache.interceptor';
 registerLocaleData(vi);
 
 export const appConfig: ApplicationConfig = {
@@ -28,6 +29,11 @@ export const appConfig: ApplicationConfig = {
         provide: HTTP_INTERCEPTORS,
         useClass: ErrorHandlerInterceptor,
         multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true,
     },
     MessageService,
     ToastService,

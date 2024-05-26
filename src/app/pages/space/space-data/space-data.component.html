@@ -33,13 +33,14 @@
             placeholder="Chọn phiên bản biểu mẫu" 
         />
     </div>
-    <div rightHeaderTemplate *ngIf="this.versions.length > 0 && this.versionId == this.versions[0].id">
+    <div rightHeaderTemplate>
         <div class="flex items-center">
 
             <button 
                 type="button" 
                 class="w-40 py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
                 (click)="addSubmitVisible = true"
+                *ngIf="this.versions.length > 0 && this.versionId == this.versions[0].id"
             >
                 Thêm bản ghi
             </button>
@@ -90,7 +91,7 @@
         *ngIf="recordDetailVisible && selectedRecordId && form" 
         [submissionId]="selectedRecordId"
         [form]="form"
-        [spaceId]="space.id"
+        [spaceId]="spaceId"
         #recordDetail>
     </app-space-record-detail>
 </p-sidebar>

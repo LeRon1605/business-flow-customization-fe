@@ -8,6 +8,7 @@ export interface CreateFormRequestDto {
 
 export interface FormDto {
     id: number
+    spaceId: number
     versionId: number
     name: string
     coverImageUrl: string

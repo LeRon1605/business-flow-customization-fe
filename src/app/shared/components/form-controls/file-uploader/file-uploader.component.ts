@@ -16,7 +16,7 @@ export interface UploadResponseDto {
 })
 export class FileUploaderComponent implements ControlValueAccessor, OnInit {
 
-    uploadUrl = environment.baseUrl + '/hub/files';
+    uploadUrl = environment.baseApiUrl + '/hub/files';
 
     private _value!: string;
     private _placeHolder?: string;

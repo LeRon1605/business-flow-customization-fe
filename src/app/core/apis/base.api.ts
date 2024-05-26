@@ -4,7 +4,7 @@ import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class BaseApiService {
-    protected baseApiUrl = environment.baseUrl;
+    protected baseApiUrl = environment.baseApiUrl;
     protected API_END_POINTS: any;
 
     constructor(protected http: HttpClient) {
@@ -25,7 +25,8 @@ export class BaseApiService {
             VALIDATE_BUSINESS_FLOW: this.baseApiUrl + '/business-flow/business-flows/validate',
             SPACE: this.baseApiUrl + '/business-flow/spaces',
             SUBMISSION: this.baseApiUrl + '/submissions',
-            BUSINESS_FLOW: this.baseApiUrl + '/business-flow/business-flows'
+            BUSINESS_FLOW: this.baseApiUrl + '/business-flow/business-flows',
+            NOTIFICATION: this.baseApiUrl + '/hub/notifications'
         };
     }
 }

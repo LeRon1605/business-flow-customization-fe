@@ -1,22 +1,36 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { AfterViewChecked, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { BasicUserInfo, FormDto, SubmissionDto, SubmissionExecutionBusinessFlowDto, SubmissionExecutionStatus, SubmissionExecutionTaskDto, SubmissionExecutionTaskStatus, SubmissionFieldModel } from "../../../core/schemas";
+import { BasicUserInfo, FormDto, NotificationType, SubmissionDto, SubmissionExecutionBusinessFlowDto, SubmissionExecutionStatus, SubmissionExecutionTaskDto, SubmissionExecutionTaskStatus, SubmissionFieldModel } from "../../../core/schemas";
 import { BusinessFlowService } from "../../../core/services/business-flow.service";
 import { ToastService, UserStorageService } from "../../../core/services";
 import { FormService } from "../../../core/services/form.service";
+import { ChangeDetectorRef, AfterContentChecked} from '@angular/core';
+import { Subscription, switchMap, tap } from "rxjs";
+import { SignalrService } from "../../../core/services/realtime-client.service";
 
 @Component({
     selector: 'app-space-record-business-flow',
     styleUrl: 'space-record-business-flow.component.scss',
     templateUrl: 'space-record-business-flow.component.html'
 })
-export class SpaceRecordBusinessFlowComponent implements OnInit, OnChanges {
+export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecked, OnDestroy {
     
+    private _submission?: SubmissionDto;
+
     @Input()
     form!: FormDto;
 
     @Input()
-    submission!: SubmissionDto;
+    get submission() {
+        return this._submission;
+    }
+
+    set submission(value: SubmissionDto | undefined) {
+        this._submission = value;
+        if (this._submission) {
+            this.loadExecutions();
+        }
+    }
 
     activeIndex: number = 0;
 
@@ -27,6 +41,8 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, OnChanges {
     businessFlowBlockForms: FormDto[] = [];
 
     businessFlowSubmissions: SubmissionDto[] = [];
+
+    realTimeSubscription!: Subscription;
 
     get items() : MenuItem[] {
         const inProgressExecution = this.executions?.find(x => x.status == SubmissionExecutionStatus.InProgress);
@@ -56,38 +72,56 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, OnChanges {
         private businessFlowService: BusinessFlowService,
         private toastService: ToastService,
         private userStorageService: UserStorageService,
-        private formService: FormService
+        private formService: FormService,
+        private cdref: ChangeDetectorRef,
+        private realTimeService: SignalrService
     ) { }
+    
+    ngAfterViewChecked(): void {
+        this.cdref.detectChanges();
+    }
 
     ngOnInit(): void {
         this.userStorageService.currentUser.subscribe(x => {
             if (x)
                 this.tenantUsers = x.tenantUsers;
         });
+
+        this.realTimeSubscription = this.realTimeService.realtime$.subscribe(x => {
+            if (x.type != NotificationType.SubmissionExecutionInitiated || this.executions == undefined)
+                return;
+
+            const data : { Id: string, ExecutionId: string } = JSON.parse(x.metaData);
+            const index = this.executions.findIndex(x => x.id.toString() == data.ExecutionId);
+            if (index >= 0) {
+                this.formService.getExecutionSubmission(this.executions[index].id)
+                    .subscribe(x => {
+                        this.businessFlowSubmissions[index] = x;
+                    });
+            } 
+        });
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        this.loadExecutions();
+    ngOnDestroy(): void {
+        this.realTimeSubscription.unsubscribe();
     }
     
     onSelectOutCome(outComeId: string) {
-        this.businessFlowService.selectOutCome(this.submission.id, outComeId)
+        this.businessFlowService.selectOutCome(this.submission!.id, outComeId)
             .subscribe(x => {
+                this.loadExecutions(true);
                 this.toastService.success('Chuyển bước nghiệp vụ thành công');
-                this.loadExecutions();
             });
     }
 
-    loadExecutions() {
+    loadExecutions(onSelectOutCome: boolean = false) {
         this.executions = undefined;
-        if (this.submission) {
-            this.businessFlowService.getSubmissionExecution(this.submission.id)
-                .subscribe(x => {
-                    this.executions = x;
-                    this.activeIndex = this.executions.length - 1;
-                    this.onTabChange(this.activeIndex);
-                });
-        }
+        this.businessFlowService.getSubmissionExecution(this.submission!.id)
+            .subscribe(x => {
+                this.executions = x;
+                this.activeIndex = this.executions.length - 1;
+                this.onTabChange(this.activeIndex, onSelectOutCome);
+            });
     }
 
     toggleTaskStatus(execution: SubmissionExecutionBusinessFlowDto, task: SubmissionExecutionTaskDto) {
@@ -105,7 +139,7 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, OnChanges {
         return execution.tasks.filter(x => x.status == SubmissionExecutionTaskStatus.Done).length;
     }
 
-    onTabChange(index: number) {
+    onTabChange(index: number, onSelectOutCome: boolean = false) {
         if (!this.executions)
             return;
 
@@ -121,11 +155,13 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, OnChanges {
                 });
         }
 
-        if (!this.businessFlowSubmissions[index]) {
-            this.formService.getExecutionSubmission(this.executions[index].id)
-                .subscribe(x => {
-                    this.businessFlowSubmissions[index] = x;
-                });
+        if (!onSelectOutCome) {
+            if (!this.businessFlowSubmissions[index]) {
+                this.formService.getExecutionSubmission(this.executions[index].id)
+                    .subscribe(x => {
+                        this.businessFlowSubmissions[index] = x;
+                    });
+            }
         }
     }
 

@@ -89,7 +89,7 @@
                     </ng-container>
                 </div>
     
-                <ng-container *ngIf="execution.businessFlowBlock.type == 2">
+                <ng-container *ngIf="execution.businessFlowBlock.type == 2 && execution.tasks.length > 0">
                     <hr class="mt-3 mb-4">
                     <div>
                         <h1 class="font-semibold text-sm">Danh sách công việc (<span class="text-[#278856]">{{ completedTask(execution) }}</span>/<span>{{ execution.tasks.length }}</span>)</h1>

@@ -32,7 +32,7 @@ export class SubmissionAttachmentFieldComponent implements BaseSubmissionFieldCo
     loading = false;
     uploadInProgress = false;
     value: SubmissionAttachmentFieldValueDto[] = [];
-    uploadUrl = environment.baseUrl + '/hub/files';
+    uploadUrl = environment.baseApiUrl + '/hub/files';
 
     get isRequired() {
         return this.element.settings.some(x => x.type == FormElementSettingType.Required && JSON.parse(x.value) == true)

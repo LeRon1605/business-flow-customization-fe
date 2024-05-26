@@ -79,6 +79,7 @@ export class FilterComponent implements OnInit, OnChanges {
     onInActiveField(field: FilterField) {
         this.fields.push(field);
         this.activeFields.splice(this.activeFields.indexOf(field), 1);
+        this.onApplyFilter();
     }
 
     ngOnInit(): void {

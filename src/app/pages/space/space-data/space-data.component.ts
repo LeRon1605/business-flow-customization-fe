@@ -11,6 +11,8 @@ import * as Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { PrimeIcons } from "primeng/api";
 import { InputSwitchChangeEvent } from "primeng/inputswitch";
+import { isArray } from "lodash";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 
 const moment = extendMoment(Moment);
 
@@ -20,6 +22,9 @@ const moment = extendMoment(Moment);
     templateUrl: 'space-data.component.html'
 })
 export class SpaceDataComponent implements OnInit, OnChanges {
+
+    @Input()
+    spaceId!: number;
 
     @Input()
     space!: SpaceDetailDto;
@@ -36,6 +41,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
     filterFields: FilterField[] = [];
     search?: string;
     filters: RecordFilterField[] = [];
+    isOpenSubmissionAfterLoaded: boolean = false;
 
     tenantUsers: BasicUserInfo[] = [];
     
@@ -49,6 +55,10 @@ export class SpaceDataComponent implements OnInit, OnChanges {
             this.formService.getByVersion(this.space.id, value)
                 .subscribe(x => {
                     this.form = x;
+                    if (this.isOpenSubmissionAfterLoaded) {
+                        this.recordDetailVisible = true;
+                        this.isOpenSubmissionAfterLoaded = false;
+                    }
                     this.loadColumn();
                     this.loadFilter();
                 });
@@ -65,10 +75,25 @@ export class SpaceDataComponent implements OnInit, OnChanges {
 
     constructor(
         private formService: FormService,
-        private userStorageSevice: UserStorageService
+        private userStorageSevice: UserStorageService,
+        private router: Router,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
+        this.route.queryParams.subscribe(queryParams => {
+            const submissionId = queryParams['submissionId'];
+            const spaceId = parseInt(this.route.snapshot.paramMap.get('id')!);
+            if (submissionId) {
+                this.selectedRecordId = submissionId;
+                if (!this.form || this.form.spaceId != spaceId) {
+                    this.isOpenSubmissionAfterLoaded = true;
+                } else {
+                    this.recordDetailVisible = true;
+                }
+            }
+        });
+
         this.userStorageSevice.currentUser
             .subscribe(x => {
                 if (x)
@@ -77,20 +102,22 @@ export class SpaceDataComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        const spaceId = (changes['space'].currentValue as SpaceDetailDto).id;
-        this.formService.getSpaceVersions(spaceId)
-            .pipe(
-                map(x => x.map(v => {
-                    return {
-                        id: v.id,
-                        createdAt: 'Phiên bản ' + <string>new DatePipe('vi_VN').transform(v.createdAt, 'hh:mm dd/MM/yyyy')
-                    }
-                }))
-            )
-            .subscribe(x => {
-                this.versions = x;
-                this.versionId= this.versions[0].id;
-            });
+        const spaceId = (changes['space']?.currentValue as SpaceDetailDto)?.id;
+        if (spaceId) {
+            this.formService.getSpaceVersions(spaceId)
+                .pipe(
+                    map(x => x.map(v => {
+                        return {
+                            id: v.id,
+                            createdAt: 'Phiên bản ' + <string>new DatePipe('vi_VN').transform(v.createdAt, 'hh:mm dd/MM/yyyy')
+                        }
+                    }))
+                )
+                .subscribe(x => {
+                    this.versions = x;
+                    this.versionId = this.versions[0].id;
+                });
+        }
     }
 
     onPageChange(page: number) {
@@ -164,8 +191,11 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                             
                             case FormElementType.MultiOption:
                             case FormElementType.SingleOption:
-                                const optionIds = JSON.parse(fieldValue.value);
-                                return field.options.filter(x => optionIds.includes(x.id)).map(x => x.name).join(', ');
+                                let value = JSON.parse(fieldValue.value);
+                                if (!isArray(value))   
+                                    value = [ parseInt(value) ];
+
+                                return field.options.filter(x => value.includes(x.id)).map(x => x.name).join(', ');
                         }
                     }
                 })
@@ -295,6 +325,13 @@ export class SpaceDataComponent implements OnInit, OnChanges {
     }
 
     onRecordDetailHide() {
+        const qParams: Params = {};
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: qParams,
+            queryParamsHandling: ''
+        });
+
         if (!this.recordDetailComponent)
             return;
 

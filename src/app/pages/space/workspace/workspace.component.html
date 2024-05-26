@@ -4,7 +4,9 @@
 
 <p-tabView class="h-full block" [(activeIndex)]="activeIndex">
     <p-tabPanel header="Dữ liệu">
-        <app-space-data *ngIf="space" [space]="space"></app-space-data>
+        <ng-template pTemplate="content">     
+            <app-space-data *ngIf="space" [space]="space" [spaceId]="spaceId"></app-space-data>
+        </ng-template>
     </p-tabPanel>
     <p-tabPanel header="Biểu mẫu">
         <ng-template pTemplate="content">

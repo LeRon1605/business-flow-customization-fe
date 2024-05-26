@@ -27,8 +27,16 @@ import { TenantInvitationComponent } from "./tenant-invitation/tenant-invitation
 import { DataTableModule } from "../components/datatable/datatable.component";
 import { SpaceModule } from "../../pages/space/space.module";
 import { TooltipModule } from 'primeng/tooltip';
+import { BadgeModule } from 'primeng/badge';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { NotificationComponent } from "./notification/notification.component";
+import { ScrollerModule } from 'primeng/scroller';
+import { TimeAgoPipe } from "../../core/pipes/time-ago.pipe";
 
 @NgModule({
+    providers: [
+        TimeAgoPipe
+    ],
     declarations: [
         FooterComponent,
         HeaderComponent,
@@ -38,7 +46,9 @@ import { TooltipModule } from 'primeng/tooltip';
         UserPanelComponent,
         ResetPasswordComponent,
         TenantProfileComponent,
-        TenantInvitationComponent
+        TenantInvitationComponent,
+        NotificationComponent,
+        TimeAgoPipe
     ],
     imports: [
         CoreModule,
@@ -61,7 +71,10 @@ import { TooltipModule } from 'primeng/tooltip';
         ServeSyncCommonModule,
         DataTableModule,
         SpaceModule,
-        TooltipModule
+        TooltipModule,
+        BadgeModule,
+        OverlayPanelModule,
+        ScrollerModule
     ]
 })
 export class LayoutModule { }
