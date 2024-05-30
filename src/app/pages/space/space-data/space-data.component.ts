@@ -51,7 +51,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
     }
 
     set versionId(value: number | undefined) {
-        if (value) {
+        if (value && value != this._versionId) {
             this.formService.getByVersion(this.space.id, value)
                 .subscribe(x => {
                     this.form = x;
@@ -63,7 +63,10 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                     this.loadFilter();
                 });
         }
+
         this._versionId = value;
+
+        console.log(this._versionId, this.versions);
     }
 
     currentPage = 1;
@@ -83,14 +86,20 @@ export class SpaceDataComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this.route.queryParams.subscribe(queryParams => {
             const submissionId = queryParams['submissionId'];
+            const versionId = parseInt(queryParams['versionId']);
             const spaceId = parseInt(this.route.snapshot.paramMap.get('id')!);
+
             if (submissionId) {
                 this.selectedRecordId = submissionId;
-                if (!this.form || this.form.spaceId != spaceId) {
+                if (!this.form || this.form.spaceId != spaceId || (versionId && this.form.versionId != versionId)) {
                     this.isOpenSubmissionAfterLoaded = true;
                 } else {
                     this.recordDetailVisible = true;
                 }
+            }
+
+            if (versionId) {
+                this.versionId = versionId;
             }
         });
 

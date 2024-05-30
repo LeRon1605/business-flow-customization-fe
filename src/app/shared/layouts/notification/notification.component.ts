@@ -60,6 +60,11 @@ export class NotificationComponent implements OnInit {
         this.isLoading = false;
         this.loadedPages = [];
 
+        this.notificationService.getUnReadNotificationCount()
+            .subscribe(x => {
+                this.unReadCount = x;
+            });
+
         this.notificationService.getNotification(1, 10)
             .subscribe(x => {
                 this.totalPage = x.totalPages;
@@ -115,8 +120,8 @@ export class NotificationComponent implements OnInit {
     }
 
     onPersonInChargeAssignedNotification(notification: NotificationDto) {
-        const data : { SpaceId: string, BusinessFlowBlockId: string, SubmissionId: string } = JSON.parse(notification.metaData);
+        const data : { SpaceId: string, BusinessFlowBlockId: string, SubmissionId: string, FormVersionId: string } = JSON.parse(notification.metaData);
         
-        this.router.navigate([`/space/${data.SpaceId}`], { queryParams: { submissionId: data.SubmissionId } });
+        this.router.navigate([`/space/${data.SpaceId}`], { queryParams: { submissionId: data.SubmissionId, versionId: data.FormVersionId } });
     }
 }

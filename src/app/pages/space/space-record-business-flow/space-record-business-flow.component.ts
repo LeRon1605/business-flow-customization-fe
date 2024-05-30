@@ -18,9 +18,6 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
     private _submission?: SubmissionDto;
 
     @Input()
-    form!: FormDto;
-
-    @Input()
     get submission() {
         return this._submission;
     }
