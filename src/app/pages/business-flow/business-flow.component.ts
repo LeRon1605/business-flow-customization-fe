@@ -3,6 +3,7 @@ import { BusinessFlowBuilderService } from "./business-flow-builder/business-flo
 import { BusinessFlowBlockDto } from "../../core/schemas";
 import { BusinessFlowService } from "../../core/services/business-flow.service";
 import { ToastService } from "../../core/services";
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
     selector: 'app-business-flow',
@@ -59,7 +60,7 @@ export class BusinessFlowComponent implements OnInit {
         if (this.createMode) {
             const blocks : BusinessFlowBlockDto[] = [
                 {
-                  id: crypto.randomUUID(),
+                  id: uuidv4(),
                   name: 'Bắt đầu',
                   type: 1,
                   personInChargeIds: [],

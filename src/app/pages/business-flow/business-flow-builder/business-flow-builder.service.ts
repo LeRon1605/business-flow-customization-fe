@@ -5,6 +5,7 @@ import { Edge, Node } from "@kr0san89/ngx-graph";
 import { BusinessFlowService } from "../../../core/services/business-flow.service";
 import { BusinessFlowMapper } from "../../../core/mappers/business-flow.mapper";
 import { cloneDeep } from "lodash";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class BusinessFlowBuilderService {
@@ -114,7 +115,7 @@ export class BusinessFlowBuilderService {
         const name = type == 2 ? 'Không có tiêu đề' : 'Kết thúc';
 
         const node: Node = {
-            id: crypto.randomUUID(),
+            id: uuidv4(),
             label: name,
             data: {
                 type: type,
@@ -212,7 +213,7 @@ export class BusinessFlowBuilderService {
             return availableOutCome;
 
         const outCome = {
-            id: crypto.randomUUID(),
+            id: uuidv4(),
             name: 'Kết quả',
             color: '#7F879C'
         };
@@ -289,12 +290,12 @@ export class BusinessFlowBuilderService {
 
         return [
             {
-                id: crypto.randomUUID(),
+                id: uuidv4(),
                 name: 'Đồng ý',
                 color: '#00904F'
             },
             {
-                id: crypto.randomUUID(),
+                id: uuidv4(),
                 name: 'Từ chối',
                 color: '#D8382C'
             }

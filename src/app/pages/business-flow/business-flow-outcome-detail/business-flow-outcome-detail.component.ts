@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Node } from "@kr0san89/ngx-graph";
 import { BusinessFlowOutComeDto } from "../../../core/schemas";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
     selector: 'app-business-flow-outcome-detail',
@@ -53,7 +54,7 @@ export class BusinessFlowOutComeDetailComponent implements OnInit {
     onSaveOutCome() {
         if (this.form.valid) {
             this.saveOutCome.emit({
-                id: this.createMode ? crypto.randomUUID() : <string>this.outComeId,
+                id: this.createMode ? uuidv4() : <string>this.outComeId,
                 name: <string>this.form.value.name,
                 color: <string>this.form.value.color
             });
