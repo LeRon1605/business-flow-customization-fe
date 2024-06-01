@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BaseApiService } from "./base.api";
-import { CreateFormRequestDto, FormDto, FormVersionDto, PagedResult, SubmissionDto, SubmissionFieldModel, SubmissionFilterRequestDto, SubmissionModel } from "../schemas";
+import { CreateFormRequestDto, FormDto, FormVersionDto, InChargeSubmissionDto, PagedResult, SubmissionDto, SubmissionFieldModel, SubmissionFilterRequestDto, SubmissionModel, SubmittableFormDto } from "../schemas";
 import { HttpParams } from "@angular/common/http";
 
 @Injectable({ providedIn: 'root' })
@@ -48,5 +48,13 @@ export class FormApiService extends BaseApiService {
 
     updateSubmission(submissionId: number, name: string) {
         return this.http.put(`${this.API_END_POINTS.SUBMISSION}/submissions/${submissionId}`, { name });
+    }
+
+    getSubmittableForms() {
+        return this.http.get<SubmittableFormDto[]>(`${this.baseApiUrl}/forms`);
+    }
+
+    getInChargeSubmissions() {
+        return this.http.get<InChargeSubmissionDto[]>(`${this.baseApiUrl}/submissions/in-charge-submissions`);
     }
 }

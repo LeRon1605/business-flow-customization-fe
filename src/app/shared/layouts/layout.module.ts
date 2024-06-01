@@ -31,12 +31,9 @@ import { BadgeModule } from 'primeng/badge';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { NotificationComponent } from "./notification/notification.component";
 import { ScrollerModule } from 'primeng/scroller';
-import { TimeAgoPipe } from "../../core/pipes/time-ago.pipe";
+import { NotificationModule } from "../components/notification/notification.module";
 
 @NgModule({
-    providers: [
-        TimeAgoPipe
-    ],
     declarations: [
         FooterComponent,
         HeaderComponent,
@@ -47,8 +44,7 @@ import { TimeAgoPipe } from "../../core/pipes/time-ago.pipe";
         ResetPasswordComponent,
         TenantProfileComponent,
         TenantInvitationComponent,
-        NotificationComponent,
-        TimeAgoPipe
+        NotificationComponent
     ],
     imports: [
         CoreModule,
@@ -74,7 +70,8 @@ import { TimeAgoPipe } from "../../core/pipes/time-ago.pipe";
         TooltipModule,
         BadgeModule,
         OverlayPanelModule,
-        ScrollerModule
+        ScrollerModule,
+        NotificationModule
     ]
 })
 export class LayoutModule { }

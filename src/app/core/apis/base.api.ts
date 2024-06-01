@@ -26,7 +26,8 @@ export class BaseApiService {
             SPACE: this.baseApiUrl + '/business-flow/spaces',
             SUBMISSION: this.baseApiUrl + '/submissions',
             BUSINESS_FLOW: this.baseApiUrl + '/business-flow/business-flows',
-            NOTIFICATION: this.baseApiUrl + '/hub/notifications'
+            NOTIFICATION: this.baseApiUrl + '/hub/notifications',
+            FORMS: this.baseApiUrl + '/submissions/forms'
         };
     }
 }

@@ -6,10 +6,11 @@ import { NotificationDto, PagedResult } from "../schemas";
 @Injectable({ providedIn: 'root' })
 export class NotificationApiService extends BaseApiService {
 
-    getNotification(page: number, size: number) {
+    getNotification(page: number, size: number, isPaging: boolean) {
         let params: HttpParams = new HttpParams()
             .append('page', page)
-            .append('size', size);
+            .append('size', size)
+            .append('isPaging', isPaging);
 
         return this.http.get<PagedResult<NotificationDto>>(this.API_END_POINTS.NOTIFICATION, {
             params

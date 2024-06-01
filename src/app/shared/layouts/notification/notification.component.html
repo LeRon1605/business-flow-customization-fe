@@ -21,21 +21,12 @@
             [itemSize]="50" 
             styleClass="border-1 surface-border h-96 w-full" 
             (onScrollIndexChange)="onScroll($event)">
-                <ng-template pTemplate="item" let-item let-options="options">
-                    <div class="flex items-center p-2 border-t border-gray-300 cursor-pointer bg-gray-50 hover:bg-gray-100 w-full" (click)="onClickNotification(item)">
-                        <p-avatar [image]="user(item.senderId)?.avatarUrl" styleClass="flex items-center border borde-gray-300" shape="circle" size="large"></p-avatar>
-                        <div class="ml-3 w-[80%]">
-                            <div class="flex items-center text-sm font-semibold truncate">
-                                <div [innerHTML]="item.title" class="line-clamp-1"></div>
-                                <div class="w-2 h-2 bg-blue-500 rounded-full ml-1" *ngIf="item.status == 1"></div>
-                            </div>
-                            <div class="text-sm line-clamp-3" [innerHTML]="item.content"></div>
-                            <div class="text-xs font-normal flex items-center mt-1">
-                                <span class="pi pi-clock me-1"></span>
-                                {{ item.created | timeAgo }}
-                            </div>
-                        </div>
-                    </div> 
+                <ng-template pTemplate="item" let-item let-options="options"> 
+                    <app-notification-item 
+                        [item]="item" 
+                        (readNotification)="onReadNotification()"
+                        styleClass="p-2 border-t border-gray-300 bg-gray-50 hover:bg-gray-100"
+                    ></app-notification-item>
                 </ng-template>
         </p-scroller>
     </div>

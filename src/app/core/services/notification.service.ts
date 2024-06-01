@@ -8,8 +8,10 @@ export class NotificationService {
         private notificationApiService: NotificationApiService
     ) {}
 
-    getNotification(page: number, size: number) {
-        return this.notificationApiService.getNotification(page, size);
+    getNotification(page?: number, size?: number) {
+        const isPaging = page != undefined && size != undefined;
+
+        return this.notificationApiService.getNotification(page ?? 1, size ?? 10, isPaging);
     }
 
     getUnReadNotificationCount() {

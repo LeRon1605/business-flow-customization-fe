@@ -70,6 +70,7 @@ export class NotificationComponent implements OnInit {
                 this.totalPage = x.totalPages;
                 this.total = x.total;
                 this.notifications = x.data;
+                console.log(this.notifications);
                 this.loadedPages.push(1);
             });
     }
@@ -93,25 +94,6 @@ export class NotificationComponent implements OnInit {
         }
     }
 
-    onClickNotification(notification: NotificationDto) {
-        if (notification.status == NotificationStatus.UnRead) {
-            this.notificationService.markRead(notification.id)
-                .subscribe(x => {
-                    notification.status = NotificationStatus.Read;
-                    this.unReadCount = this.unReadCount! - 1;
-                })
-        }
-
-        switch (notification.type) {
-            case NotificationType.PersonInChargeAssigned:
-                this.onPersonInChargeAssignedNotification(notification);
-                break;
-            case NotificationType.UserInvitationAccepted:
-                this.onInvitationAcceptedNotification(notification);
-                break;
-        }
-    }
-
     markAllRead() {
         this.notificationService.markAllRead() 
             .subscribe(x => {
@@ -122,13 +104,8 @@ export class NotificationComponent implements OnInit {
             });
     }
 
-    onPersonInChargeAssignedNotification(notification: NotificationDto) {
-        const data : { SpaceId: string, BusinessFlowBlockId: string, SubmissionId: string, FormVersionId: string } = JSON.parse(notification.metaData);
-        
-        this.router.navigate([`/space/${data.SpaceId}`], { queryParams: { submissionId: data.SubmissionId, versionId: data.FormVersionId } });
-    }
-
-    onInvitationAcceptedNotification(notification: NotificationDto) {
-        this.router.navigate(['/tenant']);
+    onReadNotification() {
+        if (this.unReadCount)
+            this.unReadCount = this.unReadCount - 1;
     }
 }

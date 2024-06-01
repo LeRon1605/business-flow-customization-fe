@@ -6,6 +6,15 @@ export interface CreateFormRequestDto {
     elements: FormElementDto[];
 }
 
+export interface SubmittableFormDto {
+    id: number
+    spaceId: number
+    versionId: number
+    name: string
+    spaceName: string
+    spaceColor: string
+}
+
 export interface FormDto {
     id: number
     spaceId: number

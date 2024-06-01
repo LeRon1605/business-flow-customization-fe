@@ -53,7 +53,8 @@ export class SideNavigationMenuComponent implements OnInit {
             key: 'space',
             label: 'Quy trình nghiệp vụ',
             icon: PrimeIcons.SITEMAP,
-            children: []
+            children: [],
+            expanded: true
           };
           
           if (this.user.permissions.includes('Permissions.Space.Create')) {

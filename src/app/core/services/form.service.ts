@@ -52,4 +52,12 @@ export class FormService {
     updateSubmission(submissionId: number, name: string) {
         return this.formApiService.updateSubmission(submissionId, name);
     }
+
+    getSubmittableForms() {
+        return this.formApiService.getSubmittableForms();
+    }
+
+    getInChargeSubmissions() {
+        return this.formApiService.getInChargeSubmissions();
+    }
 }

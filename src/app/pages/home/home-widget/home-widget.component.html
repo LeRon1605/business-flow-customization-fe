@@ -1,0 +1,97 @@
+<div class="border border-gray-300 rounded-lg h-full cursor-pointer flex flex-col">
+    <div class="border-b border-gray-300 p-4 font-semibold flex items-center">
+        <span class="pi pi-bell" *ngIf="type == 0"></span>
+        <span class="pi pi-sitemap" *ngIf="type == 1"></span>
+        <span class="pi pi-database" *ngIf="type == 2"></span>
+        <span class="pi pi-file" *ngIf="type == 3"></span>
+
+        <span class="ml-2">{{ name }}</span>
+    </div>
+
+    <div class="flex-grow overflow-hidden">
+        <p-skeleton styleClass="w-full rounded-none" height="100%" *ngIf="isLoading" />
+
+        <p-scrollPanel 
+            styleClass="h-full"
+        >
+            <ng-container *ngIf="type == 1">
+                <div *ngIf="!isLoading && spaces.length == 0" class="flex flex-col justify-center items-center h-full">
+                    <img src="../../../../assets/images/NoTasks.png" class="object-cover h-[50%]"/>
+                    <span class="text-sm font-semibold">Không có quy trình nghiệp vụ</span>
+                </div>
+
+                <ng-container *ngFor="let space of spaces">
+                    <div class="flex items-center p-4 border-b border-gray-300 hover:bg-blue-50" (click)="onSpaceClick(space)">
+                        <div style="width: 20px; height: 20px" [style.backgroundColor]="space.color" class="rounded p-treenode-icon"></div>
+                        <span class="ml-2 truncate text-gray-900">{{ space.name }}</span>
+                    </div>
+                </ng-container>
+            </ng-container>
+            
+            <ng-container *ngIf="type == 2">
+                <div *ngIf="!isLoading && submissions.length == 0" class="flex flex-col justify-center items-center h-full">
+                    <img src="../../../../assets/images/NoTasks.png" class="object-cover h-[50%]"/>
+                    <span class="text-sm font-semibold">Không có bản ghi phụ trách</span>
+                </div>
+                
+                <ng-container *ngFor="let submission of submissions">
+                    <div class="flex items-center justify-between p-4 border-b border-gray-300 hover:bg-blue-50" (click)="onSubmissionClick(submission)">
+                        <div class="flex items-center">
+                            <div style="width: 40px; height: 40px;" [style.backgroundColor]="submission.spaceColor" class="rounded p-treenode-icon"></div>
+                            <div class="flex flex-col justify-between ml-2">
+                                <span class="truncate text-xs text-gray-800">{{ submission.spaceName }}</span>
+                                <span class="text-gray-900">{{ submission.name  }}</span>
+                            </div>   
+                        </div>
+                        <p-chip styleClass="text-xs" [label]="submission.businessFlowName" />
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="type == 0">
+                <div *ngIf="!isLoading && notifications.length == 0" class="flex flex-col justify-center items-center h-full">
+                    <img src="../../../../assets/images/EmptyInbox.png" class="object-cover h-[50%]"/>
+                    <span class="text-sm font-semibold">Không có thông báo</span>
+                </div>
+
+                <ng-container *ngFor="let notification of notifications">
+                    <app-notification-item
+                        [item]="notification"
+                        styleClass="p-4 border-b border-gray-300 hover:bg-blue-50"
+                    ></app-notification-item>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="type == 3">
+                <div *ngIf="!isLoading && forms.length == 0" class="flex flex-col justify-center items-center h-full">
+                    <img src="../../../../assets/images/NoDocuments.png" class="object-cover h-[50%]"/>
+                    <span class="text-sm font-semibold">Không có biểu mẫu</span>
+                </div>
+                <ng-container *ngFor="let form of forms">
+                    <div class="flex items-center p-4 border-b border-gray-300 hover:bg-blue-50" (click)="onFormClick(form)">
+                        <div style="width: 40px; height: 40px;" [style.backgroundColor]="form.spaceColor" class="rounded p-treenode-icon"></div>
+                        <div class="flex flex-col justify-between ml-2">
+                            <span class="truncate text-xs text-gray-800">{{ form.spaceName }}</span>
+                            <span class="text-gray-900">{{ form.name }}</span>
+                        </div>   
+                    </div>
+                </ng-container>
+            </ng-container>
+        </p-scrollPanel>
+    </div>
+</div>
+
+<p-dialog 
+    header="Nộp biểu mẫu" 
+    [modal]="true" 
+    [(visible)]="addSubmitVisible" 
+    [style]="{ width: '50vw' }"
+    [resizable]="false"
+    [draggable]="false"
+    >
+    <app-submission 
+        [spaceId]="spaceId" 
+        *ngIf="addSubmitVisible && spaceId"
+        (onSubmitted)="addSubmitVisible = false"
+    ></app-submission>    
+</p-dialog>

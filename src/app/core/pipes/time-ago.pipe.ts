@@ -7,7 +7,18 @@ import moment from 'moment';
 export class TimeAgoPipe implements PipeTransform {
 
   transform(value: Date, ...args: unknown[]): unknown {
-    return moment(value).fromNow(); 
+    const str = moment(value).fromNow();
+    
+    return str
+    .replaceAll('a few', 'vài')
+    .replaceAll('a minute', '1 phút')
+    .replaceAll('minutes', 'phút')
+    .replaceAll('years', 'năm')
+    .replaceAll('seconds', 'giây')
+    .replaceAll('hours', 'giờ')
+    .replaceAll('days', 'ngày')
+    .replaceAll('ago', 'trước')
+    .replaceAll('month', 'tháng');
   }
 
 }

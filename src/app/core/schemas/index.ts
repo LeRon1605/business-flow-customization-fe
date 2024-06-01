@@ -11,3 +11,4 @@ export * from './form-element.schema';
 export * from './submission.schema';
 export * from './form.schema';
 export * from './notification.schema';
+export * from './widget.schema';

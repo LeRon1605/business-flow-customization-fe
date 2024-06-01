@@ -105,3 +105,14 @@ export interface RecordDateElementFilterValue {
     from: string;
     to: string;
 }
+
+export interface InChargeSubmissionDto {
+    id: number
+    name: string
+    formVersionId: number
+    businessFlowId: string
+    businessFlowName: string
+    spaceId: number
+    spaceName: string
+    spaceColor: string
+}
