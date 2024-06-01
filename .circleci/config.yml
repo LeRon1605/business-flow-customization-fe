@@ -34,6 +34,15 @@ jobs:
           command: |
             ssh $SSH_USER@$SSH_HOST "cd /usr/business-flow && sudo ./deploy-web.sh"
 
+  clean-image:
+    machine:
+      image: ubuntu-2204:2022.10.2
+    steps:
+      - run:
+          name: Clean images
+          command: |
+            ssh $SSH_USER@$SSH_HOST "cd /usr/business-flow && sudo ./clean.sh"
+
 workflows:
   deploy-web:
     jobs:
@@ -49,3 +58,7 @@ workflows:
             branches:
               only:
                 - master
+
+      - clean-image:
+          requires:
+            - deploy
