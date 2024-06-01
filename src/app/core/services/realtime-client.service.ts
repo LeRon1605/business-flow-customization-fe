@@ -4,7 +4,6 @@ import { environment } from '../../../environments/environment';
 import { ToastService, TokenStorageService, UserStorageService } from '.';
 import { NotificationDto } from '../schemas';
 import { Subject } from 'rxjs';
-import { HubConnectionState } from '@microsoft/signalr';
 
 @Injectable({
   providedIn: 'root'

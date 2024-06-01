@@ -8,6 +8,8 @@ import { UserStorageService } from './user-storage.service';
 import { UserInfo, UserUpdateDto } from '../schemas/user.schema';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
+import { SignalrService } from './realtime-client.service';
+import { NotificationType } from '../schemas';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -26,8 +28,17 @@ export class AuthService {
     private tokenStorageService: TokenStorageService,
     private userStorageService: UserStorageService,
     private router: Router,
-    private toastService: ToastService
-  ) { }
+    private toastService: ToastService,
+    private realtimeService: SignalrService
+  ) { 
+    this.realtimeService.notification$.subscribe(x => {
+      if (x.type == NotificationType.UserInvitationAccepted && this.isAuthenticated())
+          this.authApiService.getUserInfo()
+              .subscribe(x => {
+                  this.userStorageService.setCurrentUser(x);
+              });
+    });
+  }
 
   signIn(userNameOrEmail: string, password: string) {
     const signInRequest : LoginRequestDto = { userNameOrEmail, password };

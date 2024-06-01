@@ -106,6 +106,9 @@ export class NotificationComponent implements OnInit {
             case NotificationType.PersonInChargeAssigned:
                 this.onPersonInChargeAssignedNotification(notification);
                 break;
+            case NotificationType.UserInvitationAccepted:
+                this.onInvitationAcceptedNotification(notification);
+                break;
         }
     }
 
@@ -123,5 +126,9 @@ export class NotificationComponent implements OnInit {
         const data : { SpaceId: string, BusinessFlowBlockId: string, SubmissionId: string, FormVersionId: string } = JSON.parse(notification.metaData);
         
         this.router.navigate([`/space/${data.SpaceId}`], { queryParams: { submissionId: data.SubmissionId, versionId: data.FormVersionId } });
+    }
+
+    onInvitationAcceptedNotification(notification: NotificationDto) {
+        this.router.navigate(['/tenant']);
     }
 }
