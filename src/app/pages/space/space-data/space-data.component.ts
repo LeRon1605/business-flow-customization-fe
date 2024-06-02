@@ -34,10 +34,10 @@ export class SpaceDataComponent implements OnInit, OnChanges {
 
     form?: FormDto;
     addSubmitVisible: boolean = false;
-    recordDetailVisible: boolean = true;
+    recordDetailVisible: boolean = false;
     submissions: SubmissionDto[] = [];
     versions: FormVersionDto[] = [];
-    selectedRecordId?: number = 42;
+    selectedRecordId?: number;
     filterFields: FilterField[] = [];
     search?: string;
     filters: RecordFilterField[] = [];
@@ -45,7 +45,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
 
     tenantUsers: BasicUserInfo[] = [];
     
-    private _versionId?: number = 47;
+    private _versionId?: number;
     get versionId() {
         return this._versionId;
     }
