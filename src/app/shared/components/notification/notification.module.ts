@@ -1,20 +1,17 @@
 import { NgModule } from "@angular/core";
 import { NotificationItemComponent } from "./notification-item.component";
 import { AvatarModule } from "primeng/avatar";
-import { TimeAgoPipe } from "../../../core/pipes/time-ago.pipe";
 import { CommonModule } from "@angular/common";
+import { ApplicationPipeModule } from "../../../core/pipes/application-pipe.module";
 
 @NgModule({
-    providers: [
-        TimeAgoPipe
-    ],
     imports: [
         AvatarModule,
-        CommonModule
+        CommonModule,
+        ApplicationPipeModule
     ],
     declarations: [
-        NotificationItemComponent,
-        TimeAgoPipe
+        NotificationItemComponent
     ],
     exports: [
         NotificationItemComponent

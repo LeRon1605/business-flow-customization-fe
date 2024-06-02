@@ -11,6 +11,7 @@ export class TimeAgoPipe implements PipeTransform {
     
     return str
     .replaceAll('a few', 'vài')
+    .replaceAll('an hour', '1 giờ')
     .replaceAll('a minute', '1 phút')
     .replaceAll('minutes', 'phút')
     .replaceAll('years', 'năm')

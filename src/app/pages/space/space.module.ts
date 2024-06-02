@@ -32,6 +32,9 @@ import { SpaceRecordDetailComponent } from "./space-record/space-record-detail.c
 import { SpaceRecordBusinessFlowComponent } from "./space-record-business-flow/space-record-business-flow.component";
 import { OverlayPanelModule } from "primeng/overlaypanel";
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { EditorModule } from 'primeng/editor';
+import { SpaceRecordCommentComponent } from "./space-record-comment/space-record-comment.component";
+import { ApplicationPipeModule } from "../../core/pipes/application-pipe.module";
 
 @NgModule({
     declarations: [
@@ -45,6 +48,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         SpaceDataComponent,
         SpaceRecordDetailComponent,
         SpaceRecordBusinessFlowComponent,
+        SpaceRecordCommentComponent,
     ],
     imports: [
         SpaceRoutingModule,
@@ -70,7 +74,9 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         FormBuilderModule,
         DataTableModule,
         OverlayPanelModule,
-        InputSwitchModule
+        InputSwitchModule,
+        EditorModule,
+        ApplicationPipeModule
     ],
     exports: [
         SpaceInfoComponent,

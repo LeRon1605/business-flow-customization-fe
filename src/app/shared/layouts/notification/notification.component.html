@@ -18,7 +18,8 @@
         <p-scroller 
             *ngIf="notifications.length > 0"
             [items]="notifications"
-            [itemSize]="50" 
+            [itemSize]="70" 
+            [autoSize]="true"
             styleClass="border-1 surface-border h-96 w-full" 
             (onScrollIndexChange)="onScroll($event)">
                 <ng-template pTemplate="item" let-item let-options="options"> 

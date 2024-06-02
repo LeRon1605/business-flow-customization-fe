@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { BasicUserInfo, FormDto, SubmissionDto, SubmissionFieldModel } from "../../../core/schemas";
 import { FormService } from "../../../core/services/form.service";
 import { MenuItem, PrimeIcons } from "primeng/api";
@@ -6,10 +6,11 @@ import { ToastService, UserStorageService } from "../../../core/services";
 
 @Component({
     selector: 'app-space-record-detail',
+    styleUrl: 'space-record-detail.component.scss',
     templateUrl: 'space-record-detail.component.html'
 })
 export class SpaceRecordDetailComponent implements OnInit {
-
+    
     @Input()
     spaceId!: number;
 

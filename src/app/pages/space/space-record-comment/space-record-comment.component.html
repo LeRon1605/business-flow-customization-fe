@@ -1,0 +1,73 @@
+<div class="min-h-96 flex flex-col p-4 bg-gray-100">
+    <p class="text-sm font-semibold">Bình luận</p>
+
+    <div class="mt-2 mb-2 flex-grow">
+        <p-scroller 
+            #sc
+            [items]="comments"
+            [itemSize]="70"
+            [autoSize]="true"
+            styleClass="border-1 surface-border h-full" 
+            (onScrollIndexChange)="onScroll($event)">
+                <ng-template pTemplate="item" let-item let-options="options">
+                    <div class="mb-2 flex items-start cursor-pointer w-full bg-white p-2 rounded-lg comment-block">
+                        <p-avatar [image]="user(item.createdBy)?.avatarUrl" styleClass="flex items-center border borde-gray-300" shape="circle" size="large"></p-avatar>
+                        <div class="ml-3 w-full">
+                            <div class="flex items-center justify-between text-sm font-semibold truncate">
+                                <div class="line-clamp-1 w-[80%]">{{ user(item.createdBy)?.fullName }}</div>
+                                <div class="text-xs font-normal hidden edit-block" *ngIf="item.createdBy == currentUser.id">
+                                    <span class="hover:text-blue-500" (click)="onEdit(item)">Chỉnh sửa</span>
+                                    <span class="ml-2 text-red-500">Xóa</span>
+                                </div>
+                            </div>
+                            <div class="text-sm" [innerHTML]="item.content"></div>
+                            <div class="text-xs font-normal flex items-center mt-1">
+                                <span class="pi pi-clock me-1"></span>
+                                <span *ngIf="item.lastModified">Cập nhật</span>
+                                <span *ngIf="!item.lastModified">
+                                    {{ item.created | timeAgo }}
+                                </span>
+                                <span *ngIf="item.lastModified">
+                                    {{ item.lastModified | timeAgo }}
+                                </span>
+                            </div>
+                        </div>
+                    </div> 
+                </ng-template>
+        </p-scroller>
+    </div>
+
+    <div class="mt-auto">
+
+        <p-editor 
+            #editor 
+            placeholder="Nhập bình luận"
+            [modules]="modules" 
+            [(ngModel)]="text">
+
+            <ng-template pTemplate="header">
+                <div class="ql-formats flex items-center justify-between w-full">
+                    <div class="flex items-center">
+                        <button type="button" class="ql-bold" aria-label="Bold"></button>
+                        <button type="button" class="ql-italic" aria-label="Italic"></button>
+                        <button type="button" class="ql-underline" aria-label="Underline"></button>
+
+                        <button type="button" class="ql-list" aria-label="Ordered list" value="ordered"></button>
+                        <button type="button" class="ql-list" aria-label="Bullet list" value="bullet"></button>
+                    </div>
+
+                    <button 
+                        type="button" 
+                        class="text-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 ml-auto"
+                        (click)="sendMessage()"
+                    >
+                        <i class="pi pi-send text-blue-500"></i>
+                    </button>
+
+                </div>
+            </ng-template>
+
+        </p-editor>
+
+    </div>
+</div>

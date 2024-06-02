@@ -19,3 +19,69 @@
 .p-overlaypanel-content {
     padding: 0 !important;
 }
+
+.p-editor-container {
+    display: flex;
+    flex-direction: column-reverse !important; 
+    border: 1px solid rgb(209 213 219);
+    border-radius: 5px;
+}
+
+.p-editor-toolbar {
+    border: 0 !important;
+}
+
+.p-editor-content {
+    border: 0 !important;
+}
+
+.p-editor-container .p-editor-content .ql-editor {
+    border-top-right-radius: 5px !important;
+    border-top-left-radius: 5px !important;
+}
+
+.p-editor-container .p-editor-toolbar {
+    border-bottom-right-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+}
+
+.ql-mention-list-container {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border: 1px;
+    border-color: rgb(107 114 128);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.ql-mention-list-item {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.ql-mention-list-item.selected {
+    background-color: #EFF6FF;
+}
+
+.ql-editor .mention {
+    background-color: #EFF6FF;
+    color: #3167DC;
+    padding: 2px 4px;
+    border-radius: 5px;
+}
+
+.ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
+    float: none !important;
+}
+
+.ql-snow .ql-formats {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.mention {
+    background-color: #EFF6FF;
+    color: #3167DC;
+    padding: 2px 4px;
+    border-radius: 5px;
+}

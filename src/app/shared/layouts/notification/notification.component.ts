@@ -70,7 +70,6 @@ export class NotificationComponent implements OnInit {
                 this.totalPage = x.totalPages;
                 this.total = x.total;
                 this.notifications = x.data;
-                console.log(this.notifications);
                 this.loadedPages.push(1);
             });
     }

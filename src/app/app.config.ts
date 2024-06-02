@@ -14,6 +14,7 @@ import { registerLocaleData } from '@angular/common';
 import vi from '@angular/common/locales/vi';
 import { NgxGraphModule } from '@kr0san89/ngx-graph';
 import { CacheInterceptor } from './core/interceptors/cache.interceptor';
+
 registerLocaleData(vi);
 
 export const appConfig: ApplicationConfig = {
@@ -44,5 +45,5 @@ export const appConfig: ApplicationConfig = {
       NgxsModule.forRoot([
       ]
     ), NgxGraphModule)
-  ],
+  ]
 };

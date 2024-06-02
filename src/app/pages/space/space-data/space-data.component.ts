@@ -24,7 +24,7 @@ const moment = extendMoment(Moment);
 export class SpaceDataComponent implements OnInit, OnChanges {
 
     @Input()
-    spaceId!: number;
+    spaceId: number = 1;
 
     @Input()
     space!: SpaceDetailDto;
@@ -34,10 +34,10 @@ export class SpaceDataComponent implements OnInit, OnChanges {
 
     form?: FormDto;
     addSubmitVisible: boolean = false;
-    recordDetailVisible: boolean = false;
+    recordDetailVisible: boolean = true;
     submissions: SubmissionDto[] = [];
     versions: FormVersionDto[] = [];
-    selectedRecordId?: number;
+    selectedRecordId?: number = 42;
     filterFields: FilterField[] = [];
     search?: string;
     filters: RecordFilterField[] = [];
@@ -45,7 +45,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
 
     tenantUsers: BasicUserInfo[] = [];
     
-    private _versionId?: number;
+    private _versionId?: number = 47;
     get versionId() {
         return this._versionId;
     }
