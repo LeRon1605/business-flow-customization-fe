@@ -58,8 +58,14 @@ export class NotificationItemComponent implements OnInit, OnDestroy {
             case NotificationType.PersonInChargeAssigned:
                 this.onPersonInChargeAssignedNotification(notification);
                 break;
+
             case NotificationType.UserInvitationAccepted:
                 this.onInvitationAcceptedNotification(notification);
+                break;
+
+            case NotificationType.SubmissionCommentMentioned:
+            case NotificationType.SubmissionComment:
+                this.onSubmissionCommentNotification(notification);
                 break;
         }
     }
@@ -72,5 +78,11 @@ export class NotificationItemComponent implements OnInit, OnDestroy {
 
     onInvitationAcceptedNotification(notification: NotificationDto) {
         this.router.navigate(['/tenant']);
+    }
+
+    onSubmissionCommentNotification(notification: NotificationDto) {
+        const data : { SpaceId: string, SubmissionId: string, FormVersionId: string } = JSON.parse(notification.metaData);
+        
+        this.router.navigate([`/space/${data.SpaceId}`], { queryParams: { submissionId: data.SubmissionId, versionId: data.FormVersionId } });
     }
 }

@@ -97,7 +97,7 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.loadedPages = [];
 
-        this.commentService.getSubmissionComment(this.submissionId, 1, 10)
+        this.commentService.getSubmissionComment(this.submissionId, 1, 20)
             .subscribe(x => {
                 this.totalPage = x.totalPages;
                 this.total = x.total;
@@ -136,15 +136,15 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
     }
 
     onScroll($event: ScrollerScrollIndexChangeEvent) {
-        this.currentPage = Math.floor($event.last / 10);
+        this.currentPage = Math.floor($event.last / 20);
         if (this.currentPage == this.totalPage || this.isLoading)
             return;
 
-        const isLastOfCurrentPage = $event.last == (this.currentPage * 10);
+        const isLastOfCurrentPage = $event.last == (this.currentPage * 20);
         if (isLastOfCurrentPage && !this.loadedPages.includes(this.currentPage + 1)) {
             this.isLoading = true;
             this.loadedPages.push(this.currentPage + 1);
-            this.commentService.getSubmissionComment(this.submissionId, this.currentPage + 1, 10)
+            this.commentService.getSubmissionComment(this.submissionId, this.currentPage + 1, 20)
                 .pipe(
                     finalize(() => this.isLoading = false)
                 )

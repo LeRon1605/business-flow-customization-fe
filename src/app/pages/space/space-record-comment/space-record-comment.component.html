@@ -1,16 +1,15 @@
-<div class="min-h-96 flex flex-col p-4 bg-gray-100">
-    <p class="text-sm font-semibold">Bình luận</p>
+<div class="flex flex-col justify-between p-4 h-full">
 
-    <div class="mt-2 mb-2 flex-grow">
+    <div class="flex-grow">
         <p-scroller 
             #sc
             [items]="comments"
             [itemSize]="70"
             [autoSize]="true"
-            styleClass="border-1 surface-border h-full" 
+            styleClass="border-1 surface-border" 
             (onScrollIndexChange)="onScroll($event)">
                 <ng-template pTemplate="item" let-item let-options="options">
-                    <div class="mb-2 flex items-start cursor-pointer w-full bg-white p-2 rounded-lg comment-block">
+                    <div class="mb-2 flex items-start cursor-pointer w-full bg-gray-50 border border-gray-200 p-2 rounded-lg comment-block">
                         <p-avatar [image]="user(item.createdBy)?.avatarUrl" styleClass="flex items-center border borde-gray-300" shape="circle" size="large"></p-avatar>
                         <div class="ml-3 w-full">
                             <div class="flex items-center justify-between text-sm font-semibold truncate">
@@ -37,7 +36,7 @@
         </p-scroller>
     </div>
 
-    <div class="mt-auto">
+    <div class="h-auto">
 
         <p-editor 
             #editor 

@@ -17,5 +17,7 @@ export enum NotificationStatus {
 export enum NotificationType {
     PersonInChargeAssigned,
     SubmissionExecutionInitiated,
-    UserInvitationAccepted
+    UserInvitationAccepted,
+    SubmissionCommentMentioned,
+    SubmissionComment
 }

@@ -19,7 +19,7 @@
         <hr>
     </div>
     <div class="w-full flex h-[94%]">
-        <div class="w-[55%] border-e h-full overflow-auto flex flex-col">
+        <div class="w-[55%] border-e h-full overflow-auto flex flex-col justify-between">
             <div class="p-4">
                 <div>
                     <app-submission-inline 
@@ -93,13 +93,20 @@
                 </div>
             </div>
 
-            <div class="mt-auto">
-                <app-space-record-comment [submissionId]="submissionId"></app-space-record-comment>
-            </div>
-
         </div>
         <div class="w-[45%] overflow-auto">
-            <app-space-record-business-flow [submission]="submission"></app-space-record-business-flow>
+            <p-tabView>
+                <p-tabPanel header="Nghiệp vụ">
+                    <ng-template pTemplate="content">
+                        <app-space-record-business-flow [submission]="submission"></app-space-record-business-flow>
+                    </ng-template>
+                </p-tabPanel>
+                <p-tabPanel header="Bình luận">
+                    <ng-template pTemplate="content">
+                        <app-space-record-comment [submissionId]="submissionId"></app-space-record-comment>
+                    </ng-template>
+                </p-tabPanel>
+            </p-tabView>
         </div>
     </div>
 </div>
