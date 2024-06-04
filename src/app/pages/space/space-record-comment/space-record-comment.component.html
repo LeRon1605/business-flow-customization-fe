@@ -1,6 +1,13 @@
 <div class="flex flex-col justify-between p-4 h-full max-h-full">
 
-    <div class="flex-grow">
+    <div class="flex-grow relative">
+        <div class="absolute w-full z-50 flex justify-center items-center text-xs cursor-pointer animate-bounce" (click)="loadNewComment()" *ngIf="isHasNewComment">
+            <div class="bg-blue-500 text-white p-2 rounded-full">
+                <span class="text-xs pi pi-angle-double-up"></span>
+                <span class="ml-1">Bình luận mới</span>
+            </div>
+        </div>
+
         <p-skeleton height="100%" *ngIf="isFirstLoading"/>
 
         <div class="flex items-center justify-center m-auto h-full" *ngIf="!isFirstLoading && comments.length == 0">

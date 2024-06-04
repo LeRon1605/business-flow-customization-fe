@@ -23,6 +23,9 @@ export class SignalrService {
 
     this.userStorageService.currentUser.subscribe(x => {
       if (x) {
+        if (this.hubConnection?.state == signalR.HubConnectionState.Connected)
+          return;
+        
         this.startConnection();
         this.onNotification();
       } else {

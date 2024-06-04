@@ -4,10 +4,11 @@ import Quill from "quill";
 import "quill-mention";
 import {Mention, MentionBlot} from "quill-mention";
 import { CommentService } from "../../../core/services/comment.service";
-import { BasicUserInfo, CommentDto, CreateCommentDto, MentionEntity, UserInfo } from "../../../core/schemas";
+import { BasicUserInfo, CommentDto, CreateCommentDto, MentionEntity, NotificationType, UserInfo } from "../../../core/schemas";
 import { ToastService, UserStorageService } from "../../../core/services";
 import { Subscription, finalize } from "rxjs";
 import { Scroller, ScrollerScrollIndexChangeEvent } from "primeng/scroller";
+import { SignalrService } from "../../../core/services/realtime-client.service";
 
 Quill.register({ "blots/mention": MentionBlot, "modules/mention": Mention });
 
@@ -38,7 +39,10 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
     comments: CommentDto[] = [];
     editingComment?: CommentDto;
 
+    isHasNewComment: boolean = false;
+
     subscription!: Subscription;
+    newCommentSubscription!: Subscription;
 
     currentUser!: UserInfo;
     tenantUsers: BasicUserInfo[] = [];
@@ -69,7 +73,8 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
     constructor(
         private commentService: CommentService,
         private userStorageService: UserStorageService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private realtimeService: SignalrService
     ) { }
 
     ngOnInit(): void {
@@ -86,11 +91,20 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
             }   
         });
 
+        this.newCommentSubscription = this.realtimeService.notification$.subscribe(x => {
+            if (x.type == NotificationType.SubmissionComment || x.type == NotificationType.SubmissionCommentMentioned) {
+                const data : { SubmissionId: string } = JSON.parse(x.metaData);
+                if (data.SubmissionId == this.submissionId.toString())
+                    this.isHasNewComment = true;
+            }
+        });
+
         this.loadInit();
     }
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.newCommentSubscription.unsubscribe();
     }
 
     loadInit() {
@@ -190,5 +204,10 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
                 this.loadInit();
                 this.toastService.success('Xóa bình luận thành công');
             });
+    }
+
+    loadNewComment() {
+        this.loadInit();
+        this.isHasNewComment = false;
     }
 }
