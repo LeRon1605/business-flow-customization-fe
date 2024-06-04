@@ -1,28 +1,43 @@
-<div class="flex flex-col justify-between p-4 h-full">
+<div class="flex flex-col justify-between p-4 h-full max-h-full">
 
     <div class="flex-grow">
+        <p-skeleton height="100%" *ngIf="isFirstLoading"/>
+
+        <div class="flex items-center justify-center m-auto h-full" *ngIf="!isFirstLoading && comments.length == 0">
+            <img src="../../../../assets/images/EmptyInbox.png" class="object-cover"/>
+        </div>
+
         <p-scroller 
             #sc
+            *ngIf="!isFirstLoading && comments.length > 0"
             [items]="comments"
             [itemSize]="70"
             [autoSize]="true"
             styleClass="border-1 surface-border" 
             (onScrollIndexChange)="onScroll($event)">
                 <ng-template pTemplate="item" let-item let-options="options">
-                    <div class="mb-2 flex items-start cursor-pointer w-full bg-gray-50 border border-gray-200 p-2 rounded-lg comment-block">
+                    <div class="mb-2 flex items-start cursor-pointer w-full bg-gray-50 border border-gray-200 p-2 rounded-lg comment-block"
+                        [class.bg-[#EFF6FF]]="item == editingComment"
+                        [class.border-blue-500]="item == editingComment"
+                    >
                         <p-avatar [image]="user(item.createdBy)?.avatarUrl" styleClass="flex items-center border borde-gray-300" shape="circle" size="large"></p-avatar>
                         <div class="ml-3 w-full">
                             <div class="flex items-center justify-between text-sm font-semibold truncate">
                                 <div class="line-clamp-1 w-[80%]">{{ user(item.createdBy)?.fullName }}</div>
-                                <div class="text-xs font-normal hidden edit-block" *ngIf="item.createdBy == currentUser.id">
-                                    <span class="hover:text-blue-500" (click)="onEdit(item)">Chỉnh sửa</span>
-                                    <span class="ml-2 text-red-500">Xóa</span>
+                                <div class="hidden edit-block" *ngIf="item.createdBy == currentUser.id">
+                                    <ng-container *ngIf="item != editingComment">
+                                        <span class="text-xs hover:text-blue-500 pi pi-pencil" (click)="onEdit(item)"></span>
+                                        <span class="text-xs ml-2 text-red-500 pi pi-trash" (click)="onDelete(item)"></span>
+                                    </ng-container>
+                                </div>
+                                <div [class.hidden]="item != editingComment" [class.block]="item == editingComment" (click)="unEdit()">
+                                    <span class="text-xs text-red-500 pi pi-times" ></span>
                                 </div>
                             </div>
                             <div class="text-sm" [innerHTML]="item.content"></div>
                             <div class="text-xs font-normal flex items-center mt-1">
                                 <span class="pi pi-clock me-1"></span>
-                                <span *ngIf="item.lastModified">Cập nhật</span>
+                                <span *ngIf="item.lastModified">Chỉnh sửa&nbsp;</span>
                                 <span *ngIf="!item.lastModified">
                                     {{ item.created | timeAgo }}
                                 </span>
@@ -36,11 +51,13 @@
         </p-scroller>
     </div>
 
-    <div class="h-auto">
+    <div class="h-24 flex flex-col justify-between">
+        <div></div>
 
         <p-editor 
             #editor 
             placeholder="Nhập bình luận"
+            styleClass="mt-auto"
             [modules]="modules" 
             [(ngModel)]="text">
 
@@ -53,6 +70,11 @@
 
                         <button type="button" class="ql-list" aria-label="Ordered list" value="ordered"></button>
                         <button type="button" class="ql-list" aria-label="Bullet list" value="bullet"></button>
+
+                        <button type="button" class="ql-link" aria-label="Insert link" value="link"></button>
+                        <button type="button" class="ql-image" aria-label="Insert image" value="image"></button>
+
+                        <!-- <button type="button" class="ql-code-block" aria-label="Insert Code Block" value="code-block"></button> -->
                     </div>
 
                     <button 

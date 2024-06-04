@@ -10,6 +10,7 @@ export class TimeAgoPipe implements PipeTransform {
     const str = moment(value).fromNow();
     
     return str
+    .replaceAll('in a few', 'vài')
     .replaceAll('a few', 'vài')
     .replaceAll('an hour', '1 giờ')
     .replaceAll('a minute', '1 phút')

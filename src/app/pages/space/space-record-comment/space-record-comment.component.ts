@@ -5,7 +5,7 @@ import "quill-mention";
 import {Mention, MentionBlot} from "quill-mention";
 import { CommentService } from "../../../core/services/comment.service";
 import { BasicUserInfo, CommentDto, CreateCommentDto, MentionEntity, UserInfo } from "../../../core/schemas";
-import { UserStorageService } from "../../../core/services";
+import { ToastService, UserStorageService } from "../../../core/services";
 import { Subscription, finalize } from "rxjs";
 import { Scroller, ScrollerScrollIndexChangeEvent } from "primeng/scroller";
 
@@ -32,9 +32,11 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
     currentPage!: number;
     totalPage!: number;
     total!: number;
+    isFirstLoading: boolean = false;
     isLoading: boolean = false;
     loadedPages: number[] = [];
     comments: CommentDto[] = [];
+    editingComment?: CommentDto;
 
     subscription!: Subscription;
 
@@ -66,7 +68,8 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
 
     constructor(
         private commentService: CommentService,
-        private userStorageService: UserStorageService
+        private userStorageService: UserStorageService,
+        private toastService: ToastService
     ) { }
 
     ngOnInit(): void {
@@ -96,8 +99,14 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
         this.comments = [];
         this.isLoading = false;
         this.loadedPages = [];
+        this.isFirstLoading = true;
 
         this.commentService.getSubmissionComment(this.submissionId, 1, 20)
+            .pipe(
+                finalize(() => {
+                    this.isFirstLoading = false;
+                })
+            )
             .subscribe(x => {
                 this.totalPage = x.totalPages;
                 this.total = x.total;
@@ -128,11 +137,22 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
             ]
         }
 
-        this.commentService.createSubmissionComment(this.submissionId, comment)
-            .subscribe(x => {
-                this.text = '';
-                this.loadInit();
-            });
+        if (this.editingComment) {
+            this.commentService.updateComment(this.editingComment.id, comment)
+                .subscribe(x => {
+                    this.toastService.success('Chỉnh sửa bình luận thành công');
+                    this.text = '';
+                    this.loadInit();
+                });
+
+            this.editingComment = undefined;
+        } else {
+            this.commentService.createSubmissionComment(this.submissionId, comment)
+                .subscribe(x => {
+                    this.text = '';
+                    this.loadInit();
+                });
+        }
     }
 
     onScroll($event: ScrollerScrollIndexChangeEvent) {
@@ -156,5 +176,19 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
 
     onEdit(comment: CommentDto) {
         this.editor.quill.root.innerHTML = comment.content;
+        this.editingComment = comment;
+    }
+
+    unEdit() {
+        this.editor.quill.root.innerHTML = '';
+        this.editingComment = undefined;
+    }
+
+    onDelete(comment: CommentDto) {
+        this.commentService.deleteComment(comment.id)
+            .subscribe(x => {
+                this.loadInit();
+                this.toastService.success('Xóa bình luận thành công');
+            });
     }
 }

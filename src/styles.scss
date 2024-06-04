@@ -85,3 +85,14 @@
     padding: 2px 4px;
     border-radius: 5px;
 }
+
+a[rel="noopener noreferrer"] {
+    color: #3167DC;
+    text-decoration: underline;
+}
+
+.ql-snow .ql-tooltip {
+    top: 0 !important;
+    left: 0 !important;
+    transform: translateY(100%) !important;
+}
