@@ -126,7 +126,7 @@ export class SpaceRecordCommentComponent implements OnInit, OnDestroy {
                 this.total = x.total;
                 this.comments = x.data;
                 this.loadedPages.push(1);
-                this.sc.scrollToIndex(0, 'smooth');
+                this.sc?.scrollToIndex(0, 'smooth');
             })
     }
 

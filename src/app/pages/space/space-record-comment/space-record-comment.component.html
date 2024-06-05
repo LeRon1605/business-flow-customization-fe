@@ -23,8 +23,9 @@
             styleClass="border-1 surface-border" 
             (onScrollIndexChange)="onScroll($event)">
                 <ng-template pTemplate="item" let-item let-options="options">
-                    <div class="mb-2 flex items-start cursor-pointer w-full bg-gray-50 border border-gray-200 p-2 rounded-lg comment-block"
+                    <div class="mb-2 flex items-start cursor-pointer w-full  border border-gray-200 p-2 rounded-lg comment-block"
                         [class.bg-[#EFF6FF]]="item == editingComment"
+                        [class.bg-gray-50]="item != editingComment"
                         [class.border-blue-500]="item == editingComment"
                     >
                         <p-avatar [image]="user(item.createdBy)?.avatarUrl" styleClass="flex items-center border borde-gray-300" shape="circle" size="large"></p-avatar>

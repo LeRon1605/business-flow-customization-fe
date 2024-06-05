@@ -96,3 +96,21 @@ a[rel="noopener noreferrer"] {
     left: 0 !important;
     transform: translateY(100%) !important;
 }
+
+.p-menu {
+    padding: 0 !important;
+    border-radius: 10px !important;
+}
+
+.p-submenu-header {
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.p-menu-list .p-menuitem-link {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-top: 1px solid rgb(209 213 219);
+}

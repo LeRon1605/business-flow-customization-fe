@@ -1,5 +1,5 @@
 <p-toolbar styleClass="p-2 bg-[#F5F6F7]" [style]="{ 'height': '6%' }">
-  <div class="p-toolbar-group-start">
+  <div class="p-toolbar-group-start h-full">
     <p-avatar image="../../../../assets/images/logo.jpg" styleClass="flex items-center" shape="circle"></p-avatar>
   </div>
   <div class="p-toolbar-group-center">
@@ -7,10 +7,10 @@
   </div>
   <div class="p-toolbar-group-end">
     <app-notification></app-notification>
-    <div class="flex flex-row items-center cursor-pointer font-medium bg-white p-2 rounded-full hover:bg-gray-200" (click)="menu.toggle($event)" >
+    <div class="flex items-center cursor-pointer pe-2 bg-white rounded-full hover:bg-gray-200 h-fit" (click)="menu.toggle($event)" >
       <ng-container *ngIf="user != null">
-        <p-avatar styleClass="flex flex-row items-center mr-2 border" [image]="user.avatarUrl" shape="circle"></p-avatar>
-        <span>{{ user.fullName }}</span>
+        <p-avatar styleClass="flex items-center mr-2 border" [image]="user.avatarUrl" shape="circle"></p-avatar>
+        <span class="text-sm font-semibold">{{ user.fullName }}</span>
       </ng-container>
       <ng-container *ngIf="user == null">
         <p-skeleton width="5rem" borderRadius="16px"></p-skeleton>

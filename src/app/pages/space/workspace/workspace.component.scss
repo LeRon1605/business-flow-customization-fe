@@ -27,6 +27,8 @@
 :host ::ng-deep .p-tabview-nav-content {
     height: 100%;
     border-bottom: 1px solid rgb(229 231 235);
+    display: flex;
+    align-items: center;
 }
 
 :host ::ng-deep .p-tabview-panels {

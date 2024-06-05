@@ -200,6 +200,9 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                             
                             case FormElementType.MultiOption:
                             case FormElementType.SingleOption:
+                                if (!fieldValue.value)
+                                    return '';
+                                
                                 let value = JSON.parse(fieldValue.value);
                                 if (!isArray(value))   
                                     value = [ parseInt(value) ];

@@ -1,6 +1,6 @@
 <div class="h-screen" #wrapper>
-    <div class="h-[6%] flex flex-col justify-between">
-        <div class="flex items-center justify-between">
+    <div class="h-[6%] flex flex-col justify-between border-b ">
+        <div class="flex items-center justify-between h-full">
             <input
                 [(ngModel)]="submission.name"
                 class="text-2xl font-bold rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded-none w-full h-[80%] p-4 text-gray-900"
@@ -16,7 +16,6 @@
                 <span class="pi pi-ellipsis-h hover:text-blue-500 cursor-pointer rounded p-2 border border-gray-300" (click)="menu.toggle($event)"></span>
             </div>
         </div>
-        <hr>
     </div>
     <div class="w-full flex h-[94%]">
         <div class="w-[55%] border-e h-full overflow-auto flex flex-col justify-between">
