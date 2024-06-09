@@ -57,4 +57,14 @@ export class FormApiService extends BaseApiService {
     getInChargeSubmissions() {
         return this.http.get<InChargeSubmissionDto[]>(`${this.baseApiUrl}/submissions/in-charge-submissions`);
     }
+
+    generateFormLink(spaceId: number)
+    {
+        return this.http.get(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/get-public-link`, { responseType: 'text' });
+    }
+
+    getPublicForm(token: string)
+    {
+        return this.http.get<FormDto>(`${this.API_END_POINTS.FORMS}/public-form/${token}`);
+    }
 }

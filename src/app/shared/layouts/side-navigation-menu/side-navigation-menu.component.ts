@@ -18,7 +18,8 @@ export class SideNavigationMenuComponent implements OnInit {
   items!: TreeNode[];
   navigations : { [key: string]: string; } = {
     'home': '/home',
-    'tenant': '/tenant'
+    'tenant': '/tenant/list-user',
+    'user': '/tenant/list-user',
   };
 
   constructor(
@@ -43,7 +44,7 @@ export class SideNavigationMenuComponent implements OnInit {
           this.items.push({
             key: 'tenant',
             label: 'Quản lý doanh nghiệp',
-            icon: PrimeIcons.USERS
+            icon: PrimeIcons.USERS,
           })
         }
         

@@ -32,6 +32,10 @@ export const routes: Routes = [
       // canActivate: [ AuthGuard ]
     },
     {
+      path: 'public-form',
+      loadChildren: () => import('./pages/public-form/public-form.module').then(x => x.PublicFormModule)
+    },
+    {
       path: '**',
       redirectTo: 'home'
     }

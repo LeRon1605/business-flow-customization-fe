@@ -1,0 +1,7 @@
+<div *ngIf="isValidToken === null">Đang kiểm tra token...</div>
+<div *ngIf="isValidToken === false">Token không hợp lệ.</div>
+<div *ngIf="isValidToken === true">
+  <app-submission 
+    (onSubmitted)="submit()"
+  ></app-submission>
+</div>

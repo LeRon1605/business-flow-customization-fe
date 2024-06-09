@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SpaceApiService } from "../apis/space.api";
-import { CreateSpaceDto, SpaceDto } from "../schemas";
+import { CreateSpaceDto, MemberInSpaceDto, SpaceDto, UpdateSpaceBasicInfoDto } from "../schemas";
 import { BehaviorSubject, Subject } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
@@ -36,5 +36,20 @@ export class SpaceService {
 
     getAll() {
         return this.spaceApiService.getAll();
+    }
+    
+    updateSpaceBasicInfo(id: number, info: UpdateSpaceBasicInfoDto)
+    {
+        return this.spaceApiService.updateSpaceBasicInfo(id, info);
+    }
+
+    getAllMembersInSpace(id: number)
+    {
+        return this.spaceApiService.getAllMembersInSpace(id);
+    }
+
+    addMemberInSpace(id: number, info: MemberInSpaceDto)
+    {
+        return this.spaceApiService.addMemberInSpace(id, info);
     }
 }

@@ -1,12 +1,12 @@
-export interface UserDto {
+export interface UserBasicDto {
     id: string;
-    username: string;
+    userName: string;
     email: string;
-    avatar: string;
-    gender: string;
-    allowNotification: number;
-    createdAt: Date;
-    updatedAt: Date;
+    role: string;
+}
+
+export interface UserDto extends UserBasicDto {
+    avatarUrl: string;
 }
 
 export interface UserInfo {

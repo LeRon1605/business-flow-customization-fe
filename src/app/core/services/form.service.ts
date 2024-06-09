@@ -60,4 +60,14 @@ export class FormService {
     getInChargeSubmissions() {
         return this.formApiService.getInChargeSubmissions();
     }
+
+    generateFormLink(spaceId: number)
+    {
+        return this.formApiService.generateFormLink(spaceId);
+    }
+
+    getPublicForm(token: string)
+    {
+        return this.formApiService.getPublicForm(token);
+    }
 }
