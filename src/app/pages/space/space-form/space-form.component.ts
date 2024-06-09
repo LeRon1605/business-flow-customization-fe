@@ -3,6 +3,8 @@ import { FormService } from "../../../core/services/form.service";
 import { FormVersionDto } from "../../../core/schemas";
 import { map } from "rxjs";
 import { DatePipe } from "@angular/common";
+import { ToastService } from "../../../core/services";
+import Clipboard from "quill/modules/clipboard";
 
 @Component({
     selector: 'app-space-form',
@@ -15,6 +17,8 @@ export class SpaceFormComponent {
     formVersions: FormVersionDto[] = [];
 
     versionId?: number;
+    shareLink: string = "";
+    shareDialogVisible: boolean = false;
 
     @Input()
     get spaceId() {
@@ -26,7 +30,8 @@ export class SpaceFormComponent {
     }
 
     constructor(
-        private formService: FormService
+        private formService: FormService,
+        private toastService: ToastService,
     ) { }
 
     onFormUpdated(id: number) {
@@ -48,4 +53,22 @@ export class SpaceFormComponent {
                 this.versionId = selectedId ?? this.formVersions[0].id;
             });
     }
+
+    shareForm() {
+        this.formService.generateFormLink(this.spaceId).subscribe({
+          next: (response) => {
+            this.shareLink = response;
+            this.shareDialogVisible = true;
+          },
+          error: () => {
+            this.toastService.error('Không thể tạo liên kết chia sẻ');
+          }
+        });
+      }
+
+      onCopySuccess() {
+        this.toastService.success("Đã sao chép thành công vào clipboard!");
+      }
+
+
 }  

@@ -35,6 +35,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { EditorModule } from 'primeng/editor';
 import { SpaceRecordCommentComponent } from "./space-record-comment/space-record-comment.component";
 import { ApplicationPipeModule } from "../../core/pipes/application-pipe.module";
+import { SpaceMemberComponent } from "./space-member/space-member.component";
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { ApplicationPipeModule } from "../../core/pipes/application-pipe.module"
         SpaceRecordDetailComponent,
         SpaceRecordBusinessFlowComponent,
         SpaceRecordCommentComponent,
+        SpaceMemberComponent,
     ],
     imports: [
         SpaceRoutingModule,

@@ -1,0 +1,7 @@
+<app-datatable 
+    [model]="dataTable"
+    (pageChange)="onPageChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (rowSelected)="onUserSelected($event)"
+    styleClass="mt-3"
+></app-datatable>

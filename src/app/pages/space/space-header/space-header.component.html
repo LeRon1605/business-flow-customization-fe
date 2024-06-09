@@ -1,5 +1,4 @@
 <div class="flex justify-between items-center bg-[#F5F6F7] p-3 rounded-lg">
-
     <div>
         <div class="flex items-center" *ngIf="space">
             <div style="width: 40px; height: 40px" [style.backgroundColor]="space.color" class="rounded"></div>
@@ -15,15 +14,39 @@
         <p-skeleton width="10rem" height="40px" borderRadius="16px" *ngIf="!space" ></p-skeleton>
     </div>
 
-    <div class="cursor-pointer">
+    <div class="cursor-pointer" (click)="openDialogMember()">
         <p-avatarGroup *ngIf="space">
             <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"></p-avatar>
             <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png" shape="circle"></p-avatar>
             <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png" shape="circle"></p-avatar>
             <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png" shape="circle"></p-avatar>
-            <p-avatar label="+2"shape="circle"></p-avatar>
+            <p-avatar label="+2" shape="circle"></p-avatar>
         </p-avatarGroup>
-        <p-skeleton width="5rem" height="40px" borderRadius="16px" *ngIf="!space" ></p-skeleton>
+        <p-skeleton width="5rem" height="40px" borderRadius="16px" *ngIf="!space"></p-skeleton>
     </div>
     
 </div>
+
+<p-dialog header="Chỉnh sửa thông tin" [(visible)]="displayDialog" [modal]="true" [style]="{width: '32vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <div class="p-fluid">
+        <form [formGroup]="spaceForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
+            <div class="flex items-center mb-2">
+                <p-colorPicker formControlName="color"></p-colorPicker>
+                <label class="block text-sm font-medium text-gray-900 ml-2">Thiết lập màu không gian</label>
+            </div>
+            <div class="p-field">
+                <label for="name">Tên không gian</label>
+                <app-text-input id="name" type="text" formControlName="name"></app-text-input>
+            </div>
+            <div class="p-field">
+                <label for="description">Mô tả không gian</label>
+                <app-text-input id="description" type="text" formControlName="description"></app-text-input>
+            </div>
+            <app-button 
+                text="Lưu"
+                type="submit"
+                style="width: 80px; margin: 20px 0 0;"
+            ></app-button>
+        </form>
+    </div>
+</p-dialog>

@@ -13,6 +13,8 @@ import { ToastService } from './core/services';
 import { registerLocaleData } from '@angular/common';
 import vi from '@angular/common/locales/vi';
 import { NgxGraphModule } from '@kr0san89/ngx-graph';
+import { UserState } from './core/states/users/user.state';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CacheInterceptor } from './core/interceptors/cache.interceptor';
 
 registerLocaleData(vi);
@@ -43,7 +45,8 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     importProvidersFrom(    
       NgxsModule.forRoot([
+        UserState,
       ]
-    ), NgxGraphModule)
-  ]
+    ), NgxGraphModule), provideAnimationsAsync(), provideAnimationsAsync()
+  ],
 };

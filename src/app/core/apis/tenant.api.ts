@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BaseApiService } from "./base.api";
-import { AcceptTenantInvitationResponseDto, InitAccountTenantInvitationRequestDto, PagedResult, TenantDetailDto, TenantInvitationCreateDto, TenantInvitationDto, UpdateTenantDto } from "../schemas";
+import { AcceptTenantInvitationResponseDto, InitAccountTenantInvitationRequestDto, PagedResult, TenantDetailDto, TenantInvitationCreateDto, TenantInvitationDto, UpdateTenantDto, UserBasicDto, UserDto } from "../schemas";
 import { HttpParams } from "@angular/common/http";
 
 @Injectable({ providedIn: 'root' })
@@ -40,4 +40,29 @@ export class TenantApiService extends BaseApiService {
     initAccount(data: InitAccountTenantInvitationRequestDto) {
         return this.http.post(this.API_END_POINTS.INIT_TENANT_INVITATION_ACCOUNT, data);
     }
+
+    getAllUser(page: number, size: number, search: string)
+    {
+        let params: HttpParams = new HttpParams();
+        params = params.append('page', page);
+        params = params.append('size', size);
+
+        if (search)
+            params = params.append('search', search);
+
+        return this.http.get<PagedResult<UserBasicDto>>(this.API_END_POINTS.TENANT_INFO + '/users', {
+            params: params
+        });
+    }
+
+    getUserById(id: string)
+    {
+        return this.http.get<UserDto>(this.API_END_POINTS.TENANT_INFO + '/user/' + id);
+    }
+
+    removeUser(id: string) {
+        return this.http.put(this.API_END_POINTS.TENANT_INFO + '/remove-user', '"' + id + '"', {
+          headers: { 'Content-Type': 'application/json' }
+        });
+    }   
 }
