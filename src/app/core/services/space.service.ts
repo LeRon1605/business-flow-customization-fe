@@ -43,13 +43,18 @@ export class SpaceService {
         return this.spaceApiService.updateSpaceBasicInfo(id, info);
     }
 
-    getAllMembersInSpace(id: number)
+    getAllMembersInSpace(id: number, page: number, size: number, search: string)
     {
-        return this.spaceApiService.getAllMembersInSpace(id);
+        return this.spaceApiService.getAllMembersInSpace(id, page, size, search);
     }
 
-    addMemberInSpace(id: number, info: MemberInSpaceDto)
+    addMemberInSpace(id: number, userId: string)
     {
-        return this.spaceApiService.addMemberInSpace(id, info);
+        return this.spaceApiService.addMemberInSpace(id, userId);
+    }
+
+    updateRoleSpaceMember(id: number, info: MemberInSpaceDto)
+    {
+        return this.spaceApiService.updateRoleSpaceMember(id, info)
     }
 }

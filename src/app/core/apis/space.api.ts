@@ -25,14 +25,27 @@ export class SpaceApiService extends BaseApiService {
         return this.http.put(`${this.API_END_POINTS.SPACE}/${id}/space-basic-info`, data);
     }
 
-    getAllMembersInSpace(id: number)
+    getAllMembersInSpace(id: number, page: number, size: number, search: string)
     {
-        return this.http.get<MemberInSpaceDto[]>(`${this.API_END_POINTS.SPACE}/${id}/space-members`);
-        //return this.http.get<MemberInSpaceDto[]>(`http://localhost:5000/api/business-flow/spaces/${id}/space-members`);
+        let params: HttpParams = new HttpParams();
+        params = params.append('page', page);
+        params = params.append('size', size);
+
+        if (search)
+            params = params.append('search', search);
+
+        return this.http.get<PagedResult<MemberInSpaceDto>>((`${this.API_END_POINTS.SPACE}/${id}/space-members`), {
+            params: params
+        });
     }
 
-    addMemberInSpace(id: number, data: MemberInSpaceDto)
+    addMemberInSpace(id: number, userId: string)
     {
-        return this.http.post<MemberInSpaceDto>(`${this.API_END_POINTS.SPACE}/${id}/space-member`, data);
+        return this.http.post<MemberInSpaceDto>(`${this.API_END_POINTS.SPACE}/${id}/space-member?userId=${userId}`, {});
+    }
+
+    updateRoleSpaceMember(id: number, data: MemberInSpaceDto) 
+    {
+        return this.http.put(`${this.API_END_POINTS.SPACE}/${id}/space-member`, data);
     }
 }
