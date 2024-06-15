@@ -19,5 +19,6 @@ export enum NotificationType {
     SubmissionExecutionInitiated,
     UserInvitationAccepted,
     SubmissionCommentMentioned,
-    SubmissionComment
+    SubmissionComment,
+    MemberAddedToSpace
 }
