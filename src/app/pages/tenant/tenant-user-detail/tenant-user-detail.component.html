@@ -1,0 +1,42 @@
+<!-- tenant-user-detail.component.html -->
+<div class="dialog-container" style="margin: 40px 20px; display: block; width: 360px; height: 400px;">
+    <h2 style="margin-top: -20px; font-size: 16px; font-weight: 600;">
+      Thông tin chi tiết
+    </h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" style="margin: 20px 0;">
+      <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <img [src]="form.get('avatar')?.value" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;">
+      </div>
+      <app-text-input
+        [loading]="loading"
+        title="Họ và tên"
+        formControlName="fullName"
+      ></app-text-input>
+  
+      <app-text-input
+        [loading]="loading"
+        title="Email"
+        formControlName="email"
+      ></app-text-input>
+  
+      <app-text-input
+        [loading]="loading"
+        title="Vai trò"
+        formControlName="role"
+      ></app-text-input>
+  
+      <div class="mt-3 flex flex-row justify-center">
+        <app-button 
+            text="Xóa"
+            type="submit"
+            [loading]="loading"
+            style="margin-right: 10px; background-color: #FF1947 !important;"
+        ></app-button>
+        <app-button 
+          text="Đóng"
+          (click)="onClose()"
+        ></app-button>
+      </div>
+    </form>
+  </div>
+  

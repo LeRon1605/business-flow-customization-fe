@@ -6,18 +6,26 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { FieldsetModule } from 'primeng/fieldset';
 import { ServeSyncCommonModule } from "../../shared/components/common/common.module";
+import { ListUserComponent } from "./tenant-list-user/tenant-list-user.component";
+import { UserDetailComponent } from "./tenant-user-detail/tenant-user-detail.component";
+import { DataTableModule } from "../../shared/components/datatable/datatable.component";
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
     declarations: [
-        TenantComponent
+        TenantComponent,
+        ListUserComponent,
+        UserDetailComponent,
     ],
     imports: [
         TenantRoutingModule,
         CommonModule,
         ReactiveFormsModule,
+        DataTableModule,
         ServeSyncFormControlModule,
         FieldsetModule,
-        ServeSyncCommonModule
+        ServeSyncCommonModule,
+        MatDialogModule,
     ]
 })
 export class TenantModule {

@@ -1,0 +1,39 @@
+<div class="dialog-container" style="position: relative; margin: 40px 20px; display: flex; flex-direction: column; width: 850px; max-height: 500px;">
+  <button (click)="closeDialog()" style="position: absolute; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer;">
+    &times;
+  </button>
+  <h1 style="font-size: 20px; margin-bottom: 10px; font-weight: 700;">Quản lý quyền truy cập</h1>
+  <div style="flex: 1; overflow: auto; position: relative;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <form [formGroup]="form" style="flex: 1; position: relative;">
+        <app-text-input 
+          title="Thêm thành viên vào dự án"
+          formControlName="input"
+          placeHolder="Nhập tên hoặc email"
+          (input)="onSearch()"
+        ></app-text-input>
+        <div *ngIf="showUserList" class="user-list" #userList>
+          <div *ngFor="let user of filteredUsers" class="user-item" (click)="selectUser(user)">
+            <img [src]="user.avatarUrl" alt="{{ user.fullName }}" class="user-avatar">
+            <div class="user-info">
+              <span class="user-name">{{ user.fullName }}</span>
+              <span class="user-email">{{ user.email }}</span>
+            </div>
+          </div>
+        </div>
+      </form>
+      <app-button
+        text="Thêm"
+        (onClick)="onAddMember()"
+        styleClass="mx-2"
+        style="margin-top: 12px;">
+      </app-button>
+    </div>
+    <app-datatable 
+      [model]="dataTable"
+      (pageChange)="onPageChange($event)"
+      (searchChange)="onSearchChange($event)"
+      class="mt-3">
+    </app-datatable>
+  </div>
+</div>

@@ -26,5 +26,39 @@
         >
         </app-button>
 
+        <app-button
+            text="Chia sẻ"
+            styleClass="mx-2"
+            (onClick)="shareForm()"
+            style="margin-right: 12px;"
+        >
+        </app-button>
+
+
     </div>
 </div>
+
+<p-dialog 
+    header="Chia sẻ biểu mẫu" 
+    [(visible)]="shareDialogVisible" 
+    [modal]="true" 
+    [style]="{ width: '30vw' }"
+    [resizable]="false" 
+    [draggable]="false">
+    <div *ngIf="shareLink">
+        <input 
+            type="text" 
+            [value]="shareLink" 
+            readonly 
+            class="w-full p-inputtext p-component p-filled"
+            style="margin-bottom: 1rem; border: 2px solid #ccc; padding: 0.5rem;" />
+        <div style="text-align: right;">
+            <app-button 
+                text="Sao chép"
+                [icon]="'pi pi-copy'" 
+                (onClick)="onCopySuccess()"
+                style="margin-top: 1rem;">
+            </app-button>
+        </div>
+    </div>
+</p-dialog>
