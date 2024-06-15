@@ -80,7 +80,7 @@ export class NotificationItemComponent implements OnInit, OnDestroy {
     }
 
     onInvitationAcceptedNotification(notification: NotificationDto) {
-        this.router.navigate(['/tenant']);
+        this.router.navigate(['/tenant/list-user']);
     }
 
     onSubmissionCommentNotification(notification: NotificationDto) {
