@@ -24,7 +24,10 @@ export class SpaceHeaderComponent implements OnInit {
       icon: PrimeIcons.PENCIL,
       command: () => this.showEditDialog(),
     },
-    { label: 'Xóa', icon: PrimeIcons.TRASH },
+    { label: 'Xóa', 
+      icon: PrimeIcons.TRASH,
+      command: () => this.deleteSpace() 
+    },
   ];
 
   constructor(
@@ -51,6 +54,19 @@ export class SpaceHeaderComponent implements OnInit {
       this.spaceForm.patchValue(this.space);
     }
     this.displayDialog = true;
+  }
+
+  deleteSpace()
+  {
+    if(this.space) {
+      this.spaceService.deleteSpace(this.space!.id).subscribe(
+        ()=> {
+          this.toastService.success("Xóa thành công");
+        }, error => {
+          this.toastService.error('Đã xảy ra lỗi khi thêm thành viên!');
+        }
+      )
+    }
   }
 
   onSubmit() {

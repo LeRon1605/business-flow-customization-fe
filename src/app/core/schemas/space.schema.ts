@@ -1,5 +1,6 @@
 import { BusinessFlowDto } from "./business-flow.schema";
 import { CreateFormRequestDto } from "./form.schema";
+import { BasicUserInfo } from "./user.schema";
 
 export interface SpaceDto {
     id: number;
@@ -45,9 +46,8 @@ export interface MemberDto {
     role: string;
 }
 
-export enum SpaceRole
+export interface SpaceMemberDetail 
 {
-    Manager = 1,
-    Editor = 2,
-    Viewer = 3
+    user: BasicUserInfo,
+    role: SpaceRoleDto
 }

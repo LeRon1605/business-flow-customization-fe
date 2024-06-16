@@ -1,47 +1,28 @@
-.user-list {
-  position: absolute;
-  top: calc(90% + 2px); 
-  left: 0;
-  z-index: 1000; 
+:host ::ng-deep .p-dropdown {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   width: 100%;
-  background-color: #fff; 
-  border: 1px solid #ccc; 
-  border-top: none; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-  border-radius: 10px;
+  border-radius: 0.5rem;
+  background-color: rgb(249 250 251);
+  border-width: 1px;
+  border-color: rgb(209 213 219);
+  color: rgb(17 24 39);
 }
 
-.user-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 16px; 
-  cursor: pointer;
-  border-bottom: 0.2px solid #efefef; 
+:host ::ng-deep .p-dropdown-label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
-.user-item:hover {
-  background-color: #f9f9f9; 
+:host ::ng-deep .custom-dropdown .p-dropdown-panel {
+  z-index: 1050 !important;
+  position: absolute !important;
 }
 
-.user-avatar {
-  width: 32px; 
-  height: 32px;
-  border-radius: 50%; 
-  margin-right: 8px; 
+:host ::ng-deep .p-dialog {
+  overflow: visible !important;
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.user-name {
-  font-weight: 600; 
-  font-size: 14px;
-  color: #03003e;
-}
-
-.user-email {
-  color: #666; 
-  font-size: 12px;
+:host ::ng-deep .p-dialog-content {
+  overflow: visible !important;
 }
