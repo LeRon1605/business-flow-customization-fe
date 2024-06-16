@@ -39,6 +39,11 @@ export class SpaceApiService extends BaseApiService {
         });
     }
 
+    getListMembersInSpace(id: number)
+    {
+        return this.http.get<MemberInSpaceDto[]>(`${this.API_END_POINTS.SPACE}/${id}/list-space-members`);
+    }
+
     addMemberInSpace(id: number, userId: string)
     {
         return this.http.post<MemberInSpaceDto>(`${this.API_END_POINTS.SPACE}/${id}/space-member?userId=${userId}`, {});
@@ -47,5 +52,15 @@ export class SpaceApiService extends BaseApiService {
     updateRoleSpaceMember(id: number, data: MemberInSpaceDto) 
     {
         return this.http.put(`${this.API_END_POINTS.SPACE}/${id}/space-member`, data);
+    }
+
+    deleteSpaceMember(id: number, userId: string)
+    {
+        return this.http.delete(`${this.API_END_POINTS.SPACE}/${id}/space-member/${userId}`);
+    }
+
+    deleteSpace(id: number)
+    {
+        return this.http.delete(`${this.API_END_POINTS.SPACE}/${id}`);
     }
 }

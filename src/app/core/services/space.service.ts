@@ -48,6 +48,11 @@ export class SpaceService {
         return this.spaceApiService.getAllMembersInSpace(id, page, size, search);
     }
 
+    getListMembersInSpace(id: number)
+    {
+        return this.spaceApiService.getListMembersInSpace(id);
+    }
+
     addMemberInSpace(id: number, userId: string)
     {
         return this.spaceApiService.addMemberInSpace(id, userId);
@@ -56,5 +61,15 @@ export class SpaceService {
     updateRoleSpaceMember(id: number, info: MemberInSpaceDto)
     {
         return this.spaceApiService.updateRoleSpaceMember(id, info)
+    }
+
+    deleteSpaceMember(id: number, userId: string)
+    {
+        return this.spaceApiService.deleteSpaceMember(id, userId);
+    }
+
+    deleteSpace(id: number)
+    {
+        return this.spaceApiService.deleteSpace(id);
     }
 }

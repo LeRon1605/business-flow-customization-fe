@@ -1,74 +1,77 @@
 import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from "@angular/core";
-import { BasicUserInfo, MemberInSpaceDto, PagedResult, SpaceRole } from "../../../core/schemas";
+import { BasicUserInfo, MemberInSpaceDto, PagedResult, SpaceMemberDetail, SpaceRoleDto } from "../../../core/schemas";
 import { DatatableOption } from "../../../shared/components/datatable/datatable.component";
 import { SpaceService } from "../../../core/services/space.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { UserStorageService } from "../../../core/services/user-storage.service";
 import { ToastService } from "../../../core/services";
 
 @Component({
   selector: 'app-space-member',
   templateUrl: './space-member.component.html',
-  styleUrls: ['./space-member.component.scss']
+  styleUrls: ['./space-member.component.scss'],
 })
 export class SpaceMemberComponent implements OnInit {
 
   currentPage = 1;
   search = '';
-  members: MemberInSpaceDto[] = [];
+  allMembers: MemberInSpaceDto[] = [];
   tenantUsers: BasicUserInfo[] = [];
-  combinedUsers: BasicUserInfo[] = [];
-  filteredUsers: BasicUserInfo[] = [];
-  form: FormGroup;
   spaceId: number;
-  showUserList = false;
-  selectedUserId: string = "";
+  selectedUser: BasicUserInfo | undefined;
+  selectedMember?: SpaceMemberDetail;
+  displayDialog: boolean = false;
+  roles: SpaceRoleDto[] = [];
+  selectedRole?: number;
 
   dataTable: DatatableOption = {
     title: 'Danh sách thành viên',
-    rows: 5,
+    rows: 1,
     columns: [
       {
         name: 'Họ và tên',
-        field: 'fullName'
+        field: 'fullName',
+        generate: x => this.user(x.id)?.fullName ?? ''
       },
       {
         name: 'Email',
-        field: 'email'
+        field: 'email',
+        generate: x => this.user(x.id)?.email ?? ''
       },
       {
         name: 'Vai trò',
-        field: 'role'
+        field: 'role',
+        generate: x => x.role.name
       }
     ]
   };
 
   constructor(
     private spaceService: SpaceService, 
-    private fb: FormBuilder,
     private dialogRef: MatDialogRef<SpaceMemberComponent>,
     private userStorageService: UserStorageService,
-    private elementRef: ElementRef,
     private toastService: ToastService,
     @Inject(MAT_DIALOG_DATA) public data: { spaceId: number }
   ) {
-    this.form = this.fb.group({
-      input: ['', Validators.email]
-    });
-
     this.spaceId = data.spaceId;
   }
 
   ngOnInit(): void {
     this.loadData(); 
     this.loadMembersInTenant();
+    this.roles = [
+      {id: 1, name: 'Trưởng dự án'},
+      {id: 2, name: 'Người chỉnh sửa'},
+      {id: 3, name: 'Người xem'}
+    ];
   }
 
   onPageChange(page: number): void {
     this.currentPage = page;
     if (this.spaceId !== undefined) {
-      this.loadData();
+      const skip = (this.currentPage - 1) * this.dataTable.rows;
+      this.dataTable.pagedResult!.data = this.allMembers.slice(skip, skip + this.dataTable.rows);
     }
   }
 
@@ -79,48 +82,51 @@ export class SpaceMemberComponent implements OnInit {
     }
   }
 
+  onUserSelected(user: MemberInSpaceDto): void {
+    this.selectedMember = {
+      user: this.user(user.id)!,
+      role: user.role
+    }
+    this.displayDialog = true;
+    this.selectedRole = user.role.id;
+  }
+
   loadData(): void {
-    this.spaceService.getAllMembersInSpace(this.spaceId, this.currentPage, this.dataTable.rows, this.search)
-      .subscribe((result: PagedResult<MemberInSpaceDto>) => {
-        this.members = result.data;
-        this.combineUsers();
-        this.dataTable.pagedResult = {
-          data: this.combinedUsers,
-          total: result.total,
-          totalPages: result.totalPages
-        };
-      });
+    this.spaceService.getListMembersInSpace(this.spaceId).subscribe(result => {
+      this.allMembers = result;
+      this.dataTable.pagedResult = {
+        data: this.allMembers.slice(0, this.dataTable.rows),
+        total: result.length,
+        totalPages: result.length / this.dataTable.rows
+      };
+    });
   }
 
   loadMembersInTenant(): void {
     this.userStorageService.currentUser.subscribe(x => {
       if (x) {
         this.tenantUsers = x.tenantUsers;
-        this.combineUsers();
       }
     });
   }
 
-  combineUsers(): void {
-    if (this.members.length > 0 && this.tenantUsers.length > 0) {
-      this.combinedUsers = this.members.map(member => {
-        const tenantUser = this.tenantUsers.find(user => user.id === member.id);
-        if (tenantUser) {
-          return {
-            ...tenantUser,
-            role: member.role.name
-          };
-        }
-        return null;
-      }).filter(user => user !== null) as BasicUserInfo[];
+  user(id: string) : BasicUserInfo | undefined {
+    return this.tenantUsers.find(x => x.id == id);
+  }
+
+  get filteredUsers(): BasicUserInfo[] {
+    if (this.allMembers.length > 0 && this.tenantUsers.length > 0) {
+      return this.tenantUsers.filter(user => !this.allMembers.map(x => x.id).includes(user.id))
     }
+
+    return [];
   }
 
   onAddMember(): void {
-    const userEmail = this.form.get('input')?.value;
-    if (this.selectedUserId && this.selectedUserId.trim() !== '') {
-      this.spaceService.addMemberInSpace(this.spaceId,this.selectedUserId).subscribe(() => {
+    if (this.selectedUser?.id && this.selectedUser?.id.trim() !== '') {
+      this.spaceService.addMemberInSpace(this.spaceId, this.selectedUser.id).subscribe(() => {
         this.toastService.success('Thành viên đã được thêm vào không gian!');
+        this.selectedUser = undefined;
         this.loadData(); 
       }, error => {
         this.toastService.error('Đã xảy ra lỗi khi thêm thành viên!');
@@ -130,36 +136,48 @@ export class SpaceMemberComponent implements OnInit {
     }
   }
 
-  @ViewChild('userList') userList!: ElementRef;
-
-  @HostListener('document:click', ['$event'])
-  onClick(event: MouseEvent) {
-    if (!this.userList.nativeElement.contains(event.target)) {
-      this.showUserList = false;
-    }
-  }
-
-  onSearch(): void {
-    const inputValue = this.form.get('input')?.value.toLowerCase();
-    this.filteredUsers = this.tenantUsers.filter(user => {
-      return user.fullName.toLowerCase().includes(inputValue) || user.email.toLowerCase().includes(inputValue);
-    });
-    this.showUserList = true;
-  }
-
-  selectUser(user: BasicUserInfo): void {
-    this.form.get('input')?.setValue(user.email);
-    this.showUserList = false;
-    this.selectedUserId = user.id;
-  }
-
   closeDialog(): void {
     this.dialogRef.close(true);
   }
 
-  toggleUserListVisibility(): void {
-    this.showUserList = !this.showUserList; 
+  onDeleteMemeber()
+  {
+    if (this.selectedMember)
+      this.spaceService.deleteSpaceMember(this.spaceId, this.selectedMember!.user.id).subscribe(
+        () => {
+          this.toastService.success('Xóa thành viên thành công');
+          this.displayDialog = false;
+          this.loadData();
+        },
+        (error) => {
+          this.toastService.error('Có lỗi xảy ra, vui lòng thử lại!');
+        }
+      );
   }
 
+  onSaveChange()
+  {
+    if (this.selectedRole !== this.selectedMember!.role.id) {
+      const info: MemberInSpaceDto = {
+        id: this.selectedMember!.user.id,
+        role: { id: this.selectedRole!,
+                name: this.roles[this.selectedRole! - 1].name
+         }
+      };
 
+    if (this.selectedMember && this.selectedRole !== this.selectedMember.role.id) {
+      this.spaceService.updateRoleSpaceMember(this.spaceId, info)
+        .subscribe(
+          () => {
+            this.toastService.success("Cập nhật thông tin thành công");
+            this.displayDialog = false;
+            this.loadData();
+          },
+          (error) => {
+            this.toastService.error("Có lỗi xảy ra, vui lòng thử lại!");
+          }
+        );
+      }
+    }
+  }
 }
