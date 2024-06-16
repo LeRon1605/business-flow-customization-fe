@@ -1,7 +1,42 @@
-<div *ngIf="isValidToken === null">Đang kiểm tra token...</div>
-<div *ngIf="isValidToken === false">Token không hợp lệ.</div>
-<div *ngIf="isValidToken === true">
-  <app-submission 
-    (onSubmitted)="submit()"
-  ></app-submission>
+<div class="w-[100%] flex justify-center min-h-[100vh]">
+
+  <div *ngIf="isValidToken === null" class="flex flex-col items-center justify-center h-screen">
+    <p-progressSpinner 
+        styleClass="w-12 h-12" 
+        strokeWidth="8" 
+        fill="var(--surface-ground)" 
+        animationDuration=".5s"
+    ></p-progressSpinner>
+    Yêu cầu đang được xử lý
+  </div>
+
+  <div *ngIf="isValidToken != null && !isValidToken" class="flex flex-col items-center justify-center h-screen">
+    <app-error text="Yêu cầu không hợp lệ"></app-error>
+    <app-success
+      *ngIf="isSubmitted"
+      text="Gửi bản ghi thành công"
+    >
+    </app-success>
+  </div>
+
+  <div *ngIf="isSubmitted" class="flex flex-col items-center justify-center h-screen">
+    <app-success
+      *ngIf="isSubmitted"
+      text="Gửi bản ghi thành công"
+    >
+    </app-success>
+
+    <button type="button" 
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2"
+      (click)="isSubmitted = false">
+      Tiếp tục gửi bản ghi
+    </button>
+  </div>
+
+  <div *ngIf="isValidToken === true" class="w-[70%] bg-gray-100" [style.display]="isSubmitted ? 'none' : 'block'">
+    <app-submission 
+      [token]="token"
+      (onSubmitted)="onSubmitted()"
+    ></app-submission>
+  </div>
 </div>

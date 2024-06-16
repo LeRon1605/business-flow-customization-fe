@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { FormElementDto, FormElementSettingType } from "../../../core/schemas";
 import { BaseSubmissionFieldComponent } from "../base-submission-field.component";
+import { isArray } from "lodash";
 
 @Component({
     selector: 'app-submission-single-select-field',
@@ -16,12 +17,22 @@ export class SubmissionSingleSelectFieldComponent implements BaseSubmissionField
     styleCssClass?: string;
 
     @Input()
+    editable: boolean = true;
+
+    @Input()
     get submissionValue() : string {
         return JSON.stringify(this.value);
     }
 
-    set submissionValue(value: string) {
-        this.value = JSON.parse(value);
+    set submissionValue(value: string | undefined) {
+        if (value) {
+            const optionIds = JSON.parse(value);
+            if (isArray(optionIds)) {    
+                this.value = optionIds[0];
+            } else {
+                this.value = parseInt(value);
+            }
+        }
     }
 
     get isRequired() {

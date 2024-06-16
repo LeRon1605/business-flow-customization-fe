@@ -8,8 +8,10 @@ import { FormDto } from '../../core/schemas';
   templateUrl: './public-form.component.html',
 })
 export class PublicFormComponent implements OnInit {
+  
+  isSubmitted: boolean = false;
   isValidToken: boolean | null = null;
-  token: string | null = null;
+  token?: string;
   form?: FormDto;
 
   constructor(
@@ -18,8 +20,8 @@ export class PublicFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.token = params.get('token');
+    this.route.queryParams.subscribe(params => {
+      this.token = params['token'];
       if (this.token) {
         this.loadForm(this.token);
       } else {
@@ -29,19 +31,20 @@ export class PublicFormComponent implements OnInit {
   }
 
   loadForm(token: string): void {
-    this.formService.getPublicForm(token).subscribe(
-      result => {
-        this.form = result;
-        this.isValidToken = true;
-      },
-      error => {
-        console.error('Error loading form:', error);
-        this.isValidToken = false;
-      }
-    );
+    this.formService.getPublicForm(token)
+      .subscribe(
+        result => {
+          this.form = result;
+          this.isValidToken = true;
+        },
+        error => {
+          console.error('Error loading form:', error);
+          this.isValidToken = false;
+        }
+      );
   }
 
-  submit(): void {
-    console.log('Form submitted');
+  onSubmitted(): void {
+    this.isSubmitted = true;
   }
 }

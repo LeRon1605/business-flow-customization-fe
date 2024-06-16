@@ -31,6 +31,7 @@
             styleClass="mx-2"
             (onClick)="shareForm()"
             style="margin-right: 12px;"
+            [disabled]="formVersions.length == 0 || versionId != formVersions[0].id"
         >
         </app-button>
 
@@ -46,19 +47,23 @@
     [resizable]="false" 
     [draggable]="false">
     <div *ngIf="shareLink">
-        <input 
-            type="text" 
-            [value]="shareLink" 
-            readonly 
-            class="w-full p-inputtext p-component p-filled"
-            style="margin-bottom: 1rem; border: 2px solid #ccc; padding: 0.5rem;" />
-        <div style="text-align: right;">
-            <app-button 
-                text="Sao chép"
-                [icon]="'pi pi-copy'" 
-                (onClick)="onCopySuccess()"
-                style="margin-top: 1rem;">
-            </app-button>
+        
+        <div class="flex items-center">
+            <label class="block text-sm font-semibold text-gray-900"> Đường dẫn</label>
+        </div>
+
+        <div class="flex items-center">
+            <p-inputGroup>
+                <input 
+                    class="text-sm pl-1 border border-gray-300" 
+                    pInputText 
+                    [value]="shareLink" 
+                    #input
+                    readonly />
+                <p-inputGroupAddon [ngStyle]="{ 'cursor': 'pointer' }" (click)="copyInputMessage(input)">
+                    <span class="pi pi-copy cursor-pointer"></span>
+                </p-inputGroupAddon>
+            </p-inputGroup>
         </div>
     </div>
 </p-dialog>

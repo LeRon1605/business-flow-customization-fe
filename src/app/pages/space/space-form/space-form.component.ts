@@ -57,18 +57,19 @@ export class SpaceFormComponent {
     shareForm() {
         this.formService.generateFormLink(this.spaceId).subscribe({
           next: (response) => {
-            this.shareLink = response;
+            this.shareLink = window.location.origin + '/public-form?token=' + response;
             this.shareDialogVisible = true;
           },
           error: () => {
             this.toastService.error('Không thể tạo liên kết chia sẻ');
           }
         });
-      }
+    }
 
-      onCopySuccess() {
-        this.toastService.success("Đã sao chép thành công vào clipboard!");
-      }
-
-
+    copyInputMessage(inputElement: any){
+        inputElement.select();
+        document.execCommand('copy');
+        inputElement.setSelectionRange(0, 0);
+        this.toastService.success("Sao chép thành công");
+    }
 }  

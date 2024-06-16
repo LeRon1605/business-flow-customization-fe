@@ -36,6 +36,8 @@ import { EditorModule } from 'primeng/editor';
 import { SpaceRecordCommentComponent } from "./space-record-comment/space-record-comment.component";
 import { ApplicationPipeModule } from "../../core/pipes/application-pipe.module";
 import { SpaceMemberComponent } from "./space-member/space-member.component";
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @NgModule({
     declarations: [
@@ -78,7 +80,9 @@ import { SpaceMemberComponent } from "./space-member/space-member.component";
         OverlayPanelModule,
         InputSwitchModule,
         EditorModule,
-        ApplicationPipeModule
+        ApplicationPipeModule,
+        InputGroupModule,
+        InputGroupAddonModule
     ],
     exports: [
         SpaceInfoComponent,

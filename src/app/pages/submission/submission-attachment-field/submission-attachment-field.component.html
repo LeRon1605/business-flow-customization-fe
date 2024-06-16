@@ -15,20 +15,21 @@
         <div class="flex flex-col">
 
             <div class="flex flex-col w-full"> 
-                <div class="group relative" *ngFor="let file of value">
-                    <a [href]="file.fileUrl" target="_blank" class="flex mb-2 items-center border border-gray-300 text-gray-900 hover:text-blue-500 p-2.5 rounded me-5 cursor-pointer text-sm">
+                <div class="group relative w-full" *ngFor="let file of value">
+                    <a [href]="file.fileUrl" target="_blank" class="w-full flex mb-2 items-center border border-gray-300 text-gray-900 hover:text-blue-500 p-2.5 rounded me-5 cursor-pointer text-sm">
                         <i class="pi pi-file"></i>
                         <p class="ml-1 truncate">{{ file.name }}</p>
                     </a>
                     <span 
                         class="ml-1 pi pi-times border border-gray-300 rounded-full p-2 bg-white cursor-pointer text-red-500 text-sm absolute top-0 right-0 delete-file-icon"
                         (click)="value.splice(value.indexOf(file), 1)"
-                        style="transform: translate(-25%, -50%);"
+                        style="transform: translate(50%, -50%);"
                     ></span>
                 </div>
             </div>
 
             <p-fileUpload 
+                *ngIf="editable"
                 mode="basic" 
                 [multiple]="true"
                 [chooseLabel]="uploadInProgress ? 'Đang xử lý tệp...' : 'Chọn tệp'" 

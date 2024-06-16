@@ -18,7 +18,8 @@
             [(ngModel)]="value"
             [options]="element.options"
             [showHeader]="false"
-            [placeholder]="'Chọn ' + element.name" />
+            [placeholder]="'Chọn ' + element.name" 
+            [readonly]="!editable"/>
     </ng-container>
     
 </div>

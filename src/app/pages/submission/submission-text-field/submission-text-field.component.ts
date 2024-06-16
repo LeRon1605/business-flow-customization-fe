@@ -15,12 +15,16 @@ export class SubmissionTextFieldComponent implements BaseSubmissionFieldComponen
     styleCssClass?: string;
 
     @Input()
+    editable: boolean = true;
+
+    @Input()
     get submissionValue() : string {
         return JSON.stringify(this.value);
     }
 
-    set submissionValue(value: string) {
-        this.value = JSON.parse(value);
+    set submissionValue(value: string | undefined) {
+        if (value)
+            this.value = JSON.parse(value);
     }
 
     get isRequired() {

@@ -14,7 +14,8 @@
     <ng-container *ngIf="!loading">
         <p-inputNumber
             [(ngModel)]="value"
-            [placeholder]="'Nhập ' + element.name" /> 
+            [placeholder]="'Nhập ' + element.name" 
+            [readonly]="!editable"/> 
     </ng-container>
     
 </div>

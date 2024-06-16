@@ -2,6 +2,7 @@ import { BusinessFlowOutComeDto } from "./business-flow.schema";
 
 export interface SubmissionModel {
     name: string;
+    trackingEmail?: string;
     formVersionId: number;
     fields: SubmissionFieldModel[];
 }
@@ -28,6 +29,7 @@ export interface SubmissionFilterRequestDto {
 export interface SubmissionDto {
     id: number;
     name: string;
+    trackingEmail: string;
     formVersionId: number;
     fields: SubmissionFieldModel[];
     createdBy: string;

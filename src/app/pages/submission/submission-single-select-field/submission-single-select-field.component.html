@@ -17,7 +17,9 @@
             optionValue="id"
             [(ngModel)]="value" 
             [options]="element.options"
-            [placeholder]="'Chọn ' + element.name">
+            [placeholder]="'Chọn ' + element.name"
+            [readonly]="!editable"
+        >
         </p-dropdown>
     </ng-container>
     

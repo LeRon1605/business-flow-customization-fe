@@ -26,12 +26,23 @@ export class FormApiService extends BaseApiService {
         return this.http.post<{ id: number }>(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/submissions`, data);
     }
 
+    submitFormExternal(token: string, data: SubmissionModel) {
+        return this.http.post<{ id: number }>(`${this.API_END_POINTS.SUBMISSION}/submissions/external-submit`, {
+            ...data,
+            token
+        });
+    }
+
     getSpaceSubmissions(data: SubmissionFilterRequestDto) {        
         return this.http.post<PagedResult<SubmissionDto>>(`${this.API_END_POINTS.SUBMISSION}/spaces/${data.spaceId}/submissions/search`, data);;
     }
 
     getSubmissionById(spaceId: number, versionId: number, submissionId: number) {
         return this.http.get<SubmissionDto>(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/forms/${versionId}/submissions/${submissionId}`);
+    }
+
+    getSubmitFormByTrackingToken(token: string) {
+        return this.http.get<SubmissionDto>(`${this.API_END_POINTS.SUBMISSION}/submissions/tracking?token=${token}`);
     }
 
     getBusinessFlowBlockForm(blockId: string) {

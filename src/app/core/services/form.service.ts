@@ -29,12 +29,20 @@ export class FormService {
         return this.formApiService.submitForm(spaceId, data);
     }
 
+    submitFormExternal(token: string, data: SubmissionModel) {
+        return this.formApiService.submitFormExternal(token, data);
+    }
+
     getSpaceSubmissions(data: SubmissionFilterRequestDto) {
         return this.formApiService.getSpaceSubmissions(data);
     }
 
     getSubmissionById(spaceId: number, versionId: number, submissionId: number) {
         return this.formApiService.getSubmissionById(spaceId, versionId, submissionId);
+    }
+
+    getSubmissionByTrackingToken(token: string) {
+        return this.formApiService.getSubmitFormByTrackingToken(token);
     }
 
     getBusinessFlowBlockForm(blockId: string) {
