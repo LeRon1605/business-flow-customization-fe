@@ -5,6 +5,7 @@ import { FormDto, SubmissionDto } from "../../../core/schemas";
 
 @Component({
     selector: 'app-public-form-tracking',
+    styleUrl: 'public-form-tracking.component.scss',
     templateUrl: 'public-form-tracking.component.html'
 })
 export class PublicFormTrackingComponent implements OnInit {

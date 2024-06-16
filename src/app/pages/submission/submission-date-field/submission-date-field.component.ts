@@ -24,8 +24,13 @@ export class SubmissionDateFieldComponent implements BaseSubmissionFieldComponen
     }
 
     set submissionValue(value: string | undefined) {
-        if (value)
+        if (value != undefined && value != null && value != 'null') {
             this.value = new Date(JSON.parse(value));
+        } else {
+            this.value = undefined;
+        }
+
+        console.log(this.value);
     }
 
     get isRequired() {

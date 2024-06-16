@@ -1,21 +1,23 @@
 <div class="w-[100%] flex justify-center min-h-[100vh]">
 
     <div *ngIf="isValidToken === null" class="flex flex-col items-center justify-center h-screen">
-      <p-progressSpinner 
-          styleClass="w-12 h-12" 
-          strokeWidth="8" 
-          fill="var(--surface-ground)" 
-          animationDuration=".5s"
-      ></p-progressSpinner>
-      Yêu cầu đang được xử lý
+        <p-progressSpinner 
+            styleClass="w-12 h-12" 
+            strokeWidth="8" 
+            fill="var(--surface-ground)" 
+            animationDuration=".5s"
+        ></p-progressSpinner>
+        Yêu cầu đang được xử lý
     </div>
   
     <div class="w-[70%] bg-gray-100" [style.display]="isValidToken === null ? 'none' : 'block'">
-      <app-submission 
-        [token]="token"
-        [submission]="submission"
-        [trackingEmail]="submission?.trackingEmail"
-        [editable]="false"
-      ></app-submission>
+
+        <app-submission 
+            [token]="token"
+            [submission]="submission"
+            [trackingEmail]="submission?.trackingEmail"
+            [editable]="false"
+        ></app-submission>
+        
     </div>
-  </div>
+</div>

@@ -24,7 +24,7 @@ export class SubmissionInlineDateFieldComponent implements BaseSubmissionFieldCo
     }
 
     set submissionValue(value: string | undefined) {
-        if (value)
+        if (value && value != 'null')
             this.value = new Date(JSON.parse(value));
     }
 

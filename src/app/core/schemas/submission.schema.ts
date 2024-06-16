@@ -29,7 +29,8 @@ export interface SubmissionFilterRequestDto {
 export interface SubmissionDto {
     id: number;
     name: string;
-    trackingEmail: string;
+    trackingEmail?: string;
+    execution?: FormSubmissionExecutionDto;
     formVersionId: number;
     fields: SubmissionFieldModel[];
     createdBy: string;
@@ -117,4 +118,10 @@ export interface InChargeSubmissionDto {
     spaceId: number
     spaceName: string
     spaceColor: string
+}
+
+export interface FormSubmissionExecutionDto {
+    id: number;
+    name: string;
+    createdAt: string;
 }
