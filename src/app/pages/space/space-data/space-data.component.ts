@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from "@angular/core";
-import { BasicUserInfo, FormDto, FormElementDto, FormElementType, FormVersionDto, RecordDateElementFilterValue, RecordDateFieldFilter, RecordFilterField, RecordFilterFieldType, SpaceDetailDto, SubmissionDto, SubmissionFilterRequestDto } from "../../../core/schemas";
+import { BasicUserInfo, BusinessFlowBlockOutComeDto, FormDto, FormElementDto, FormElementType, FormVersionDto, RecordDateElementFilterValue, RecordDateFieldFilter, RecordFilterField, RecordFilterFieldType, SpaceDetailDto, SubmissionDataSource, SubmissionDto, SubmissionFilterRequestDto } from "../../../core/schemas";
 import { DatatableColumn, DatatableOption } from "../../../shared/components/datatable/datatable.component";
 import { FormService } from "../../../core/services/form.service";
 import { DatePipe } from "@angular/common";
@@ -13,6 +13,8 @@ import { PrimeIcons } from "primeng/api";
 import { InputSwitchChangeEvent } from "primeng/inputswitch";
 import { isArray } from "lodash";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { BusinessFlowService } from "../../../core/services/business-flow.service";
+import { DropDownItem } from "../../../shared/components/form-controls/dropwdown-input/dropdown-input.component";
 
 const moment = extendMoment(Moment);
 
@@ -42,6 +44,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
     search?: string;
     filters: RecordFilterField[] = [];
     isOpenSubmissionAfterLoaded: boolean = false;
+    outComes: BusinessFlowBlockOutComeDto[] = [];
 
     tenantUsers: BasicUserInfo[] = [];
     
@@ -65,8 +68,6 @@ export class SpaceDataComponent implements OnInit, OnChanges {
         }
 
         this._versionId = value;
-
-        console.log(this._versionId, this.versions);
     }
 
     currentPage = 1;
@@ -80,7 +81,8 @@ export class SpaceDataComponent implements OnInit, OnChanges {
         private formService: FormService,
         private userStorageSevice: UserStorageService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private businessFlowService: BusinessFlowService
     ) { }
 
     ngOnInit(): void {
@@ -101,6 +103,11 @@ export class SpaceDataComponent implements OnInit, OnChanges {
             if (versionId) {
                 this.versionId = versionId;
             }
+
+            this.businessFlowService.getOutComes(spaceId)
+                .subscribe(x => {
+                    this.outComes = x;
+                })
         });
 
         this.userStorageSevice.currentUser
@@ -135,8 +142,17 @@ export class SpaceDataComponent implements OnInit, OnChanges {
     }
 
     loadColumn() {
-        this.dataTable.activeColumnIds = ['createdBy', 'createdAt', 'updatedBy', 'updatedAt', 'name'];
+        this.dataTable.activeColumnIds = ['execution', 'createdBy', 'createdAt', 'name'];
         let columns : DatatableColumn[] = [
+            {
+                id: 'execution',
+                name: 'Kết quả',
+                field: 'execution',
+                metadata: {
+                    icon: PrimeIcons.SIGN_OUT
+                },
+                generate: (x: SubmissionDto) => x.execution?.name ?? ''
+            },
             {
                 id: 'createdBy',
                 name: 'Người tạo',
@@ -213,7 +229,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                 })
             }
 
-            const formActiveFields = this.form.elements.filter(x => x.type != FormElementType.Attachment).map(x => x.id.toString()).slice(0, 3);
+            const formActiveFields = this.form.elements.filter(x => x.type != FormElementType.Attachment).map(x => x.id.toString()).slice(0, 4);
             this.dataTable.activeColumnIds = [...this.dataTable.activeColumnIds, ...formActiveFields];
 
             columns = [
@@ -238,7 +254,127 @@ export class SpaceDataComponent implements OnInit, OnChanges {
             return;
 
         this.filters = [];
-        this.filterFields = [];
+        this.filterFields = [
+            {
+                id: 'createdBy',
+                name: 'Người tạo',
+                data: this.tenantUsers.map(x => {
+                    return {
+                        text: x.fullName,
+                        value: x.id
+                    }
+                }),
+                type: 'multi-select',
+                placeHolder: 'Chọn người tạo',
+                metadata: {
+                    icon: PrimeIcons.USER
+                }
+            },
+            {
+                id: 'createdAt',
+                name: 'Ngày tạo',
+                data: [
+                    {
+                        text: 'Hôm nay',
+                        value: RecordDateFieldFilter.Today
+                    },
+                    {
+                        text: 'Tuần này',
+                        value: RecordDateFieldFilter.ThisWeek
+                    },
+                    {
+                        text: 'Tháng này',
+                        value: RecordDateFieldFilter.ThisMonth
+                    },
+                    {
+                        text: 'Năm này',
+                        value: RecordDateFieldFilter.ThisYear
+                    }
+                ],
+                type: 'multi-select',
+                placeHolder: 'Chọn ngày tạo',
+                metadata: {
+                    icon: PrimeIcons.CALENDAR
+                }
+            },
+            {
+                id: 'updatedBy',
+                name: 'Người chỉnh sửa',
+                data: this.tenantUsers.map(x => {
+                    return {
+                        text: x.fullName,
+                        value: x.id
+                    }
+                }),
+                type: 'multi-select',
+                placeHolder: 'Chọn chỉnh sửa',
+                metadata: {
+                    icon: PrimeIcons.USER
+                }
+            },
+            {
+                id: 'updatedAt',
+                name: 'Ngày chỉnh sửa',
+                data: [
+                    {
+                        text: 'Hôm nay',
+                        value: RecordDateFieldFilter.Today
+                    },
+                    {
+                        text: 'Tuần này',
+                        value: RecordDateFieldFilter.ThisWeek
+                    },
+                    {
+                        text: 'Tháng này',
+                        value: RecordDateFieldFilter.ThisMonth
+                    },
+                    {
+                        text: 'Năm này',
+                        value: RecordDateFieldFilter.ThisYear
+                    }
+                ],
+                type: 'multi-select',
+                placeHolder: 'Chọn ngày chỉnh sửa',
+                metadata: {
+                    icon: PrimeIcons.CALENDAR
+                }
+            },
+            {
+                id: 'dataSource',
+                name: 'Nguồn dữ liệu',
+                data: [
+                    {
+                        text: 'Nội bộ',
+                        value: SubmissionDataSource.Internal
+                    },
+                    {
+                        text: 'Ẩn danh',
+                        value: SubmissionDataSource.External
+                    }
+                ],
+                type: 'multi-select',
+                placeHolder: 'Chọn nguồn dữ liệu',
+                metadata: {
+                    icon: PrimeIcons.SIGN_IN
+                }
+            },
+            {
+                id: 'execution',
+                name: 'Kết quả',
+                data: this.outComes.map(x => {
+                    return {
+                        text: x.name,
+                        value: x.id
+                    }
+                }),
+                type: 'multi-select',
+                placeHolder: 'Chọn kết quả',
+                metadata: {
+                    icon: PrimeIcons.SIGN_OUT
+                }
+            }
+        ];
+
         for (const field of this.form.elements) {
             const filterField = this.getFilterField(field);
             if (filterField)
@@ -293,7 +429,8 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                         text: 'Năm này',
                         value: RecordDateFieldFilter.ThisYear
                     }
-                ]
+                ];
+                field.metadata.icon = PrimeIcons.CALENDAR;
                 break;
 
             default:
@@ -379,27 +516,72 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                     break;
 
                 case 'multi-select':
-                    const element = field.metadata as FormElementDto;
-                    switch (element.type) {
-                        case FormElementType.SingleOption:
-                        case FormElementType.MultiOption:
+                    switch (field.id) {
+                        case 'createdBy':
                             filters.push({
-                                type: RecordFilterFieldType.RecordElement,
-                                value: JSON.stringify({
-                                    elementId: field.id,
-                                    value: JSON.stringify(field.value)
-                                })
+                                type: RecordFilterFieldType.CreatedBy,
+                                value: JSON.stringify(field.value)
                             })
                             break;
 
-                        case FormElementType.Date:
+                        case 'createdAt':
                             filters.push({
-                                type: RecordFilterFieldType.RecordElement,
-                                value: JSON.stringify({
-                                    elementId: field.id,
-                                    value: JSON.stringify(this.getDateRange(field.value))
-                                })
+                                type: RecordFilterFieldType.CreatedAt,
+                                value: JSON.stringify(this.getDateRange(field.value))
                             })
+                            break;
+
+                        case 'updatedBy':
+                            filters.push({
+                                type: RecordFilterFieldType.UpdatedBy,
+                                value: JSON.stringify(field.value)
+                            })
+                            break;
+
+                        case 'updatedAt':
+                            filters.push({
+                                type: RecordFilterFieldType.UpdatedAt,
+                                value: JSON.stringify(this.getDateRange(field.value))
+                            })
+                            break;
+
+                        case 'dataSource':
+                            filters.push({
+                                type: RecordFilterFieldType.DataSource,
+                                value: JSON.stringify(field.value)
+                            })
+                            break;
+
+                        case 'execution':
+                            filters.push({
+                                type: RecordFilterFieldType.ExecutionResult,
+                                value: JSON.stringify(field.value)
+                            })
+                            break;
+
+                        default:
+                            const element = field.metadata as FormElementDto;
+                            switch (element.type) {
+                                case FormElementType.SingleOption:
+                                case FormElementType.MultiOption:
+                                    filters.push({
+                                        type: RecordFilterFieldType.RecordElement,
+                                        value: JSON.stringify({
+                                            elementId: field.id,
+                                            value: JSON.stringify(field.value)
+                                        })
+                                    })
+                                    break;
+
+                                case FormElementType.Date:
+                                    filters.push({
+                                        type: RecordFilterFieldType.RecordElement,
+                                        value: JSON.stringify({
+                                            elementId: field.id,
+                                            value: JSON.stringify(this.getDateRange(field.value))
+                                        })
+                                    })
+                            }
                     }
                     break;
             }

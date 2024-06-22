@@ -84,9 +84,10 @@
                             <ng-container *ngFor="let field of fields">
                                 <div class="flex items-center border-t p-3 cursor-pointer hover:bg-gray-50" 
                                     (click)="onActiveField(field, availableFilterFields)">
-                                    <i class="pi pi-language" style="color: #6b7280" *ngIf="field.type == 'text'"></i>
-                                    <i class="pi pi-check-circle" style="color: #6b7280" *ngIf="field.type == 'single-select'"></i>
-                                    <i class="pi pi-check-square" style="color: #6b7280" *ngIf="field.type == 'multi-select'"></i>
+                                    <i class="pi pi-language" style="color: #6b7280" *ngIf="field.type == 'text' && !field.metadata?.icon"></i>
+                                    <i class="pi pi-check-circle" style="color: #6b7280" *ngIf="field.type == 'single-select' && !field.metadata?.icon"></i>
+                                    <i class="pi pi-check-square" style="color: #6b7280" *ngIf="field.type == 'multi-select' && !field.metadata?.icon"></i>
+                                    <i [class]="field.metadata.icon" style="color: #6b7280" *ngIf="field.metadata?.icon"></i>
                                     <label class="block text-sm font-semibold text-gray-900 w-[80%] truncate ml-2 cursor-pointer"> {{ field.name }} </label>
                                 </div>
                             </ng-container>

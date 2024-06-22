@@ -94,7 +94,13 @@ export interface RecordElementFilterField {
 }
 
 export enum RecordFilterFieldType {
-    RecordElement
+    RecordElement,
+    ExecutionResult,
+    CreatedAt,
+    CreatedBy,
+    UpdatedBy,
+    UpdatedAt,
+    DataSource
 }
 
 export enum RecordDateFieldFilter {
@@ -124,4 +130,10 @@ export interface FormSubmissionExecutionDto {
     id: number;
     name: string;
     createdAt: string;
+}
+
+export enum SubmissionDataSource
+{
+    Internal,
+    External
 }

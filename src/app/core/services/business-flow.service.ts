@@ -36,4 +36,8 @@ export class BusinessFlowService {
     updateExecutionTaskStatus(executionId: number, taskId: number, status: SubmissionExecutionTaskStatus) {
         return this.businessFlowApiService.updateTaskStatus(executionId, taskId, status);
     }
+
+    getOutComes(spaceId: number) {
+        return this.businessFlowApiService.getOutComes(spaceId);
+    }
 }

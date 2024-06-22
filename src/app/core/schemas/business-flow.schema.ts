@@ -1,4 +1,5 @@
 import { FormElementDto } from "./form-element.schema";
+import { BasicBusinessFlowBlockDto } from "./submission.schema";
 
 export interface BusinessFlowDto {
     blocks: BusinessFlowBlockDto[];
@@ -46,4 +47,8 @@ export interface BusinessFlowVersionDetailDto extends BusinessFlowVersionDto {
 export interface BusinessFlowBlockWorkDto {
     index: number;
     name: string;
+}
+
+export interface BusinessFlowBlockOutComeDto extends BasicBusinessFlowBlockDto {
+    outComes: BusinessFlowOutComeDto[];
 }

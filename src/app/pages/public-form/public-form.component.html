@@ -33,7 +33,7 @@
     </button>
   </div>
 
-  <div *ngIf="isValidToken === true" class="w-[70%] bg-gray-100" [style.display]="isSubmitted ? 'none' : 'block'">
+  <div *ngIf="isValidToken === true" class="w-[70%] bg-gray-50" [style.display]="isSubmitted ? 'none' : 'block'">
     <app-submission 
       [token]="token"
       (onSubmitted)="onSubmitted()"

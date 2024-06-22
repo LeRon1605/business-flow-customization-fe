@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BaseApiService } from "./base.api";
-import { BusinessFlowDto, BusinessFlowVersionDetailDto, BusinessFlowVersionDto, SubmissionExecutionBusinessFlowDto, SubmissionExecutionTaskStatus, ValidateBusinessFlowResponseDto } from "../schemas";
+import { BusinessFlowBlockOutComeDto, BusinessFlowDto, BusinessFlowVersionDetailDto, BusinessFlowVersionDto, SubmissionExecutionBusinessFlowDto, SubmissionExecutionTaskStatus, ValidateBusinessFlowResponseDto } from "../schemas";
 
 @Injectable({ providedIn: 'root' })
 export class BusinessFlowApiService extends BaseApiService {
@@ -31,5 +31,9 @@ export class BusinessFlowApiService extends BaseApiService {
 
     updateTaskStatus(executionId: number, taskId: number, status: SubmissionExecutionTaskStatus) {
         return this.http.put(`${this.API_END_POINTS.BUSINESS_FLOW}/executions/${executionId}/tasks/${taskId}`, { status });
+    }
+
+    getOutComes(spaceId: number) {
+        return this.http.get<BusinessFlowBlockOutComeDto[]>(`${this.API_END_POINTS.SPACE}/${spaceId}/business-flows/out-comes`);
     }
 }
