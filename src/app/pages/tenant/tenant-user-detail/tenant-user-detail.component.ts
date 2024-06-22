@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { UserDto } from '../../../core/schemas';
-import { TenantService } from '../../../core/services';
+import { TenantService, ToastService } from '../../../core/services';
 
 @Component({
   selector: 'app-tenant-user-detail',
@@ -25,6 +25,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private tenantService: TenantService,
+    private toastService: ToastService,
     private dialogRef: MatDialogRef<UserDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: string }
   ) { }
@@ -62,11 +63,13 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubmit() {
+  onDelete() {
     if (this.user) {
       this.tenantService.removeUser(this.user.id).subscribe(() => {
+        this.toastService.success("Người dùng đã được xóa!");
         this.dialogRef.close(true);
       }, error => {
+        this.toastService.error("Có lỗi xảy ra, vui lòng thử lại!");
         console.error(error);
       });
     }
