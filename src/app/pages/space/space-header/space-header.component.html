@@ -16,11 +16,8 @@
 
     <div class="cursor-pointer" (click)="openDialogMember()">
         <p-avatarGroup *ngIf="space">
-            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"></p-avatar>
-            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png" shape="circle"></p-avatar>
-            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png" shape="circle"></p-avatar>
-            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png" shape="circle"></p-avatar>
-            <p-avatar label="+2" shape="circle"></p-avatar>
+            <p-avatar [image]="user(member.id)?.avatarUrl" shape="circle" *ngFor="let member of space.members.slice(0, 5)" class="border border-gray-300 rounded-full"></p-avatar>
+            <p-avatar [label]="'+' + (space.members.length - 5 > 9 ? 9 : space.members.length - 5)" shape="circle" *ngIf="space.members.length > 5" class="border border-gray-300 rounded-full"></p-avatar>
         </p-avatarGroup>
         <p-skeleton width="5rem" height="40px" borderRadius="16px" *ngIf="!space"></p-skeleton>
     </div>
@@ -35,11 +32,11 @@
                 <label class="block text-sm font-medium text-gray-900 ml-2">Thiết lập màu không gian</label>
             </div>
             <div class="p-field">
-                <label for="name">Tên không gian</label>
+                <label for="name" class="text-sm font-semibold mb-1">Tên không gian</label>
                 <app-text-input id="name" type="text" formControlName="name"></app-text-input>
             </div>
             <div class="p-field">
-                <label for="description">Mô tả không gian</label>
+                <label for="description" class="text-sm font-semibold mb-1">Mô tả không gian</label>
                 <app-text-input id="description" type="text" formControlName="description"></app-text-input>
             </div>
             <app-button 

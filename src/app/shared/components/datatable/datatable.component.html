@@ -44,15 +44,13 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-row>
-        <ng-container *ngIf="!model.pagedResult">
-            <tr>
-                <td><p-skeleton></p-skeleton></td>
-                <td><p-skeleton></p-skeleton></td>
-                <td><p-skeleton></p-skeleton></td>
-                <td><p-skeleton></p-skeleton></td>
-            </tr>
-        </ng-container>
-        <ng-container *ngIf="model.pagedResult">
+        <tr *ngIf="model.loading">
+            <td *ngFor="let col of activeColumns">
+                <p-skeleton></p-skeleton>
+            </td>
+        </tr>
+
+        <ng-container *ngIf="model.pagedResult && !model.loading">
             <tr [pSelectableRow]="row">
                 <ng-container *ngFor="let col of activeColumns">
                     <td class="border w-48 truncate"
@@ -62,6 +60,7 @@
                 </ng-container>
             </tr>
         </ng-container>
+
     </ng-template>
 
 </p-table>

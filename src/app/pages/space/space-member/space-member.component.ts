@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { UserStorageService } from "../../../core/services/user-storage.service";
 import { ToastService } from "../../../core/services";
+import { USERS } from "../../../core/constants";
 
 @Component({
   selector: 'app-space-member',
@@ -17,6 +18,7 @@ export class SpaceMemberComponent implements OnInit {
   currentPage = 1;
   search = '';
   allMembers: MemberInSpaceDto[] = [];
+  allMembersNotFilter: MemberInSpaceDto[] = [];
   tenantUsers: BasicUserInfo[] = [];
   spaceId: number;
   selectedUser: BasicUserInfo | undefined;
@@ -27,7 +29,7 @@ export class SpaceMemberComponent implements OnInit {
 
   dataTable: DatatableOption = {
     title: 'Danh sách thành viên',
-    rows: 1,
+    rows: 5,
     columns: [
       {
         name: 'Họ và tên',
@@ -58,8 +60,8 @@ export class SpaceMemberComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData(); 
     this.loadMembersInTenant();
+    this.loadData(); 
     this.roles = [
       {id: 1, name: 'Trưởng dự án'},
       {id: 2, name: 'Người chỉnh sửa'},
@@ -93,7 +95,9 @@ export class SpaceMemberComponent implements OnInit {
 
   loadData(): void {
     this.spaceService.getListMembersInSpace(this.spaceId).subscribe(result => {
-      this.allMembers = result;
+      this.allMembersNotFilter = result;
+      this.allMembers = result.filter(x => this.tenantUsers.some(u => u.id == x.id && (this.search === '' || u.fullName.toLowerCase().includes(this.search.toLocaleLowerCase()))));
+
       this.dataTable.pagedResult = {
         data: this.allMembers.slice(0, this.dataTable.rows),
         total: result.length,
@@ -116,7 +120,7 @@ export class SpaceMemberComponent implements OnInit {
 
   get filteredUsers(): BasicUserInfo[] {
     if (this.allMembers.length > 0 && this.tenantUsers.length > 0) {
-      return this.tenantUsers.filter(user => !this.allMembers.map(x => x.id).includes(user.id))
+      return this.tenantUsers.filter(user => !this.allMembers.map(x => x.id).includes(user.id) && user.id != USERS.SYSTEM)
     }
 
     return [];

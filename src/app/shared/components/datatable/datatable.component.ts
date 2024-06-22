@@ -16,6 +16,7 @@ export interface DatatableOption {
     activeColumnIds?: string[];
     rows: number;
     pagedResult?: PagedResult<any> | null,
+    loading?: boolean;
 }
 
 export interface DatatableColumn {

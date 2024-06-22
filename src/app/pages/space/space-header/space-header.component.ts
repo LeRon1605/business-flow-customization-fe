@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SpaceDetailDto } from '../../../core/schemas';
+import { BasicUserInfo, SpaceDetailDto } from '../../../core/schemas';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SpaceService } from '../../../core/services/space.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SpaceMemberComponent } from '../space-member/space-member.component';
 import { ToastService } from '../../../core/services/toast.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { UserStorageService } from '../../../core/services';
 
 @Component({
   selector: 'app-space-header',
@@ -17,24 +18,32 @@ export class SpaceHeaderComponent implements OnInit {
   space?: SpaceDetailDto;
   displayDialog: boolean = false;
   spaceForm: FormGroup;
+  tenantUsers: BasicUserInfo[] = [];
 
   items: MenuItem[] = [
     {
-      label: 'Chỉnh sửa',
-      icon: PrimeIcons.PENCIL,
-      command: () => this.showEditDialog(),
-    },
-    { label: 'Xóa', 
-      icon: PrimeIcons.TRASH,
-      command: () => this.deleteSpace() 
-    },
+      label: 'Tùy chỉnh',
+      items: [
+        {
+          label: 'Chỉnh sửa',
+          icon: PrimeIcons.PENCIL,
+          command: () => this.showEditDialog(),
+        },
+        { label: 'Xóa', 
+          icon: PrimeIcons.TRASH,
+          command: () => this.deleteSpace() 
+        },
+      ]
+    }
   ];
 
   constructor(
     private fb: FormBuilder,
     private spaceService: SpaceService,
     private dialog: MatDialog,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router,
+    private userStorageService: UserStorageService
   ) {
     this.spaceForm = this.fb.group({
       name: [''],
@@ -47,6 +56,15 @@ export class SpaceHeaderComponent implements OnInit {
     if (this.space) {
       this.spaceForm.patchValue(this.space);
     }
+
+    this.userStorageService.currentUser.subscribe(x => {
+      if (x)
+        this.tenantUsers = x.tenantUsers;
+    })
+  }
+
+  user(id: string) : BasicUserInfo | undefined {
+    return this.tenantUsers.find(x => x.id == id);
   }
 
   showEditDialog() {
@@ -62,6 +80,7 @@ export class SpaceHeaderComponent implements OnInit {
       this.spaceService.deleteSpace(this.space!.id).subscribe(
         ()=> {
           this.toastService.success("Xóa thành công");
+          this.router.navigate(['/home']);
         }, error => {
           this.toastService.error('Đã xảy ra lỗi khi thêm thành viên!');
         }
@@ -75,8 +94,15 @@ export class SpaceHeaderComponent implements OnInit {
       const spaceId = this.space.id;
       this.spaceService.updateSpaceBasicInfo(spaceId, updatedSpace).subscribe(
         (response) => {
+          if (this.space) {
+            this.space.name = updatedSpace.name;
+            this.space.color = updatedSpace.color;
+            this.space.description = updatedSpace.description;
+          }
+
           this.toastService.success('Cập nhật thông tin thành công');
           this.displayDialog = false;
+          this.spaceService.load();
         },
         (error) => {
           this.toastService.error('Có lỗi xảy ra, vui lòng thử lại');
@@ -90,7 +116,8 @@ export class SpaceHeaderComponent implements OnInit {
   openDialogMember() {
     if (this.space?.id !== undefined) {
       const dialogRef = this.dialog.open(SpaceMemberComponent, {
-        data: { spaceId: this.space.id }
+        data: { spaceId: this.space.id },
+        panelClass: 'z-[2000]'
       });
 
       dialogRef.afterClosed().subscribe((result) => {

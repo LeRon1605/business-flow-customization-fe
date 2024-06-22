@@ -3,6 +3,7 @@ import { BasicUserInfo, FormDto, SubmissionDto, SubmissionFieldModel } from "../
 import { FormService } from "../../../core/services/form.service";
 import { MenuItem, PrimeIcons } from "primeng/api";
 import { ToastService, UserStorageService } from "../../../core/services";
+import { USERS } from "../../../core/constants";
 
 @Component({
     selector: 'app-space-record-detail',
@@ -24,8 +25,13 @@ export class SpaceRecordDetailComponent implements OnInit {
 
     items: MenuItem[] = [
         {
-            label: 'Xóa bản ghi',
-            icon: PrimeIcons.TRASH
+            label: 'Tùy chỉnh',
+            items: [
+                {
+                    label: 'Xóa bản ghi',
+                    icon: PrimeIcons.TRASH
+                }
+            ]
         }
     ];
 
@@ -52,6 +58,12 @@ export class SpaceRecordDetailComponent implements OnInit {
 
     user(id: string) : BasicUserInfo | undefined {
         return this.tenantUsers.find(x => x.id == id);
+    }
+
+    createdBy() {
+        return this.submission.createdBy == USERS.SYSTEM 
+            ? this.submission.trackingEmail ?? 'Ẩn danh'
+            : this.user(this.submission.createdBy)?.fullName ?? ''; 
     }
 
     onElementEditted(field: SubmissionFieldModel) {

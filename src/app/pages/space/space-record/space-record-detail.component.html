@@ -54,7 +54,7 @@
                             <p-avatar 
                                 [image]="user(submission.createdBy)?.avatarUrl" 
                                 shape="circle" />
-                            <p class="ml-2"> {{ user(submission.createdBy)?.fullName }} </p>
+                            <p class="ml-2"> {{ createdBy() }} </p>
                         </div>
                     </div>
                     <div class="flex items-center mb-3" *ngIf="submission.updatedAt">

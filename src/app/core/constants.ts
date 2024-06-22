@@ -26,3 +26,7 @@ export const ERROR_MESSAGE : any = {
     'SubmissionExecution:000005': 'Vui lòng hoàn thành các công việc',
     'SubmissionExecution:000007': 'Bước nghiệp đã được xử lý hoàn tất'
 };
+
+export const USERS = {
+    SYSTEM: '00000000-0000-0000-0000-000000000000'
+}

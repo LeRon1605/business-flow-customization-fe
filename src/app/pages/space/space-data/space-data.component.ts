@@ -3,7 +3,7 @@ import { BasicUserInfo, BusinessFlowBlockOutComeDto, FormDto, FormElementDto, Fo
 import { DatatableColumn, DatatableOption } from "../../../shared/components/datatable/datatable.component";
 import { FormService } from "../../../core/services/form.service";
 import { DatePipe } from "@angular/common";
-import { map } from "rxjs";
+import { finalize, map } from "rxjs";
 import { SpaceRecordDetailComponent } from "../space-record/space-record-detail.component";
 import { FilterField, SelectedFilterField } from "../../../shared/components/filter/filter.component";
 import { UserStorageService } from "../../../core/services";
@@ -15,6 +15,7 @@ import { isArray } from "lodash";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { BusinessFlowService } from "../../../core/services/business-flow.service";
 import { DropDownItem } from "../../../shared/components/form-controls/dropwdown-input/dropdown-input.component";
+import { USERS } from "../../../core/constants";
 
 const moment = extendMoment(Moment);
 
@@ -74,7 +75,8 @@ export class SpaceDataComponent implements OnInit, OnChanges {
     dataTable: DatatableOption = {
         rows: 10,
         columns: [
-        ]
+        ],
+        loading: true
     }
 
     constructor(
@@ -160,7 +162,9 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                 metadata: {
                     icon: PrimeIcons.USER
                 },
-                generate: x => this.tenantUsers.find(u => u.id == x.createdBy)?.fullName ?? ''
+                generate: (x: SubmissionDto) => x.createdBy == USERS.SYSTEM 
+                    ? x.trackingEmail ?? 'Ẩn danh'
+                    : this.tenantUsers.find(u => u.id == x.createdBy)?.fullName ?? ''
             },
             {
                 id: 'createdAt',
@@ -348,7 +352,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                         value: SubmissionDataSource.Internal
                     },
                     {
-                        text: 'Ẩn danh',
+                        text: 'Thu thập dữ liệu',
                         value: SubmissionDataSource.External
                     }
                 ],
@@ -452,7 +456,13 @@ export class SpaceDataComponent implements OnInit, OnChanges {
             search: this.search,
             filters: this.filters
         };
+        this.dataTable.loading = true;
         this.formService.getSpaceSubmissions(data)
+            .pipe(
+                finalize(() => {
+                    this.dataTable.loading = false;
+                })
+            )
             .subscribe(x => {
                 this.dataTable.pagedResult = x;
             });

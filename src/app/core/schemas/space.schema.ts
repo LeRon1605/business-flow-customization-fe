@@ -11,6 +11,7 @@ export interface SpaceDto {
 export interface SpaceDetailDto extends SpaceDto {
     description: string;
     latestPublishedBusinessFlowId: number;
+    members: MemberInSpaceDto[];
 }
 
 export interface CreateSpaceDto {
