@@ -3,7 +3,7 @@
     <h2 style="margin-top: -20px; font-size: 16px; font-weight: 600;">
       Thông tin chi tiết
     </h2>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" style="margin: 20px 0;">
+    <form [formGroup]="form" style="margin: 20px 0;">
       <div style="display: flex; justify-content: center; margin-bottom: 20px;">
         <img [src]="form.get('avatar')?.value" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;">
       </div>
@@ -28,8 +28,7 @@
       <div class="mt-3 flex flex-row justify-center">
         <app-button 
             text="Xóa"
-            type="submit"
-            [loading]="loading"
+            (click)="onDelete()"
             [severity]="'danger'"
             style="margin-right: 10px"
         ></app-button>
