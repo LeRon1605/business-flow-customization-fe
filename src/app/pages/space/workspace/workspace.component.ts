@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { Subscription } from "rxjs";
+import { Subscription, catchError } from "rxjs";
 import { SpaceDetailDto } from "../../../core/schemas";
 import { SpaceService } from "../../../core/services/space.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
     selector: 'app-work-space',
@@ -24,6 +25,7 @@ export class WorkSpaceComponent implements OnInit, OnDestroy {
     ]
 
     constructor(
+        private router: Router,
         private route: ActivatedRoute,
         private spaceService: SpaceService
     ) { }
@@ -36,6 +38,10 @@ export class WorkSpaceComponent implements OnInit, OnDestroy {
                 this.spaceService.getById(this.spaceId)
                     .subscribe(x => {
                         this.space = x;
+                    }, (error: HttpErrorResponse) => {
+                        if (error.error.code == 'Space:000003') {
+                            this.router.navigate(['error', 'not-found'])
+                        }
                     });
             }
         });

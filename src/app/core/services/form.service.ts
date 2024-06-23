@@ -78,4 +78,8 @@ export class FormService {
     {
         return this.formApiService.getPublicForm(token);
     }
+
+    deleteSubmitForm(id: number) {
+        return this.formApiService.deleteSubmitForm(id);
+    }
 }

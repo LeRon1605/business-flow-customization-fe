@@ -1,9 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { BasicUserInfo, FormDto, SubmissionDto, SubmissionFieldModel } from "../../../core/schemas";
 import { FormService } from "../../../core/services/form.service";
 import { MenuItem, PrimeIcons } from "primeng/api";
 import { ToastService, UserStorageService } from "../../../core/services";
 import { USERS } from "../../../core/constants";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-space-record-detail',
@@ -21,6 +23,9 @@ export class SpaceRecordDetailComponent implements OnInit {
     @Input()
     form!: FormDto;
 
+    @Output()
+    submissionDeleted = new EventEmitter();
+
     submission!: SubmissionDto;
 
     items: MenuItem[] = [
@@ -29,7 +34,14 @@ export class SpaceRecordDetailComponent implements OnInit {
             items: [
                 {
                     label: 'Xóa bản ghi',
-                    icon: PrimeIcons.TRASH
+                    icon: PrimeIcons.TRASH,
+                    command: () => {
+                        this.formService.deleteSubmitForm(this.submission.id)
+                            .subscribe(x => {
+                                this.toastService.success('Xóa bản ghi thành công');
+                                this.submissionDeleted.emit();
+                            })
+                    }
                 }
             ]
         }
@@ -41,7 +53,8 @@ export class SpaceRecordDetailComponent implements OnInit {
     constructor(
         private formService: FormService,
         private userStorageService: UserStorageService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -53,6 +66,9 @@ export class SpaceRecordDetailComponent implements OnInit {
         this.formService.getSubmissionById(this.spaceId, this.form.versionId, this.submissionId)
             .subscribe(x => {
                 this.submission = x;
+            }, (error: HttpErrorResponse) => {
+                if (error.error.code === 'Submission:000003')
+                    this.router.navigate(['error', 'not-found'])
             });
     }
 

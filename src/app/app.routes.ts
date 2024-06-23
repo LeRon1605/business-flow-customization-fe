@@ -36,6 +36,10 @@ export const routes: Routes = [
       loadChildren: () => import('./pages/public-form/public-form.module').then(x => x.PublicFormModule)
     },
     {
+      path: 'error',
+      loadChildren: () => import('./pages/errors/error.module').then(x => x.ErrorModule)
+    },
+    {
       path: '**',
       redirectTo: 'home'
     }

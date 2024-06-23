@@ -91,6 +91,7 @@
         [submissionId]="selectedRecordId"
         [form]="form"
         [spaceId]="spaceId"
+        (submissionDeleted)="onSubmissionDeleted()"
         #recordDetail>
     </app-space-record-detail>
 </p-sidebar>

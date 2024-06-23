@@ -1,9 +1,8 @@
-import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from "@angular/core";
-import { BasicUserInfo, MemberInSpaceDto, PagedResult, SpaceMemberDetail, SpaceRoleDto } from "../../../core/schemas";
+import { Component, Inject, OnInit } from "@angular/core";
+import { BasicUserInfo, MemberInSpaceDto, SpaceMemberDetail, SpaceRoleDto } from "../../../core/schemas";
 import { DatatableOption } from "../../../shared/components/datatable/datatable.component";
 import { SpaceService } from "../../../core/services/space.service";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { UserStorageService } from "../../../core/services/user-storage.service";
 import { ToastService } from "../../../core/services";
 import { USERS } from "../../../core/constants";
@@ -63,9 +62,9 @@ export class SpaceMemberComponent implements OnInit {
     this.loadMembersInTenant();
     this.loadData(); 
     this.roles = [
-      {id: 1, name: 'Trưởng dự án'},
-      {id: 2, name: 'Người chỉnh sửa'},
-      {id: 3, name: 'Người xem'}
+      { id: 1, name: 'Trưởng dự án' },
+      { id: 2, name: 'Người chỉnh sửa' },
+      { id: 3, name: 'Người xem' }
     ];
   }
 
@@ -119,8 +118,8 @@ export class SpaceMemberComponent implements OnInit {
   }
 
   get filteredUsers(): BasicUserInfo[] {
-    if (this.allMembers.length > 0 && this.tenantUsers.length > 0) {
-      return this.tenantUsers.filter(user => !this.allMembers.map(x => x.id).includes(user.id) && user.id != USERS.SYSTEM)
+    if (this.allMembersNotFilter.length > 0 && this.tenantUsers.length > 0) {
+      return this.tenantUsers.filter(user => !this.allMembersNotFilter.map(x => x.id).includes(user.id) && user.id != USERS.SYSTEM)
     }
 
     return [];

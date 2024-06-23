@@ -4,6 +4,7 @@ import { UserStorageService } from "../../../core/services";
 import { Router } from "@angular/router";
 import { NotificationService } from "../../../core/services/notification.service";
 import { Subscription } from "rxjs";
+import { USERS } from "../../../core/constants";
 
 @Component({
     selector: 'app-notification-item',
@@ -43,6 +44,10 @@ export class NotificationItemComponent implements OnInit, OnDestroy {
 
     user(id: string) : BasicUserInfo | undefined {
         return this.tenantUsers.find(x => x.id == id);
+    }
+
+    userAvatar(id: string) {
+        return this.tenantUsers.find(x => x.id == id)?.avatarUrl ?? USERS.DELETE_USER_AVATAR;
     }
 
     onClickNotification(notification: NotificationDto) {

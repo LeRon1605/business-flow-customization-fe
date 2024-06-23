@@ -78,4 +78,8 @@ export class FormApiService extends BaseApiService {
     {
         return this.http.get<FormDto>(`${this.API_END_POINTS.FORMS}/public-form/${token}`);
     }
+
+    deleteSubmitForm(submissionId: number) {
+        return this.http.delete(`${this.API_END_POINTS.SUBMISSION}/submissions/${submissionId}`);
+    }
 }

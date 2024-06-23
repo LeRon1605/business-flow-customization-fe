@@ -1,5 +1,5 @@
 <div class="flex items-center cursor-pointer w-full {{ styleClass }}" (click)="onClickNotification(item)">
-    <p-avatar [image]="user(item.senderId)?.avatarUrl" styleClass="flex items-center border borde-gray-300" shape="circle" size="large"></p-avatar>
+    <p-avatar [image]="userAvatar(item.senderId)" styleClass="flex items-center border borde-gray-300" shape="circle" size="large"></p-avatar>
     <div class="ml-3">
         <div class="flex items-center text-sm font-semibold">
             <div [innerHTML]="item.title" class="line-clamp-2"></div>

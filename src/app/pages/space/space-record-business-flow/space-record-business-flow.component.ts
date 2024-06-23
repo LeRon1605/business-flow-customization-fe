@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { BasicUserInfo, FormDto, NotificationType, SubmissionDto, SubmissionExecutionBusinessFlowDto, SubmissionExecutionStatus, SubmissionExecutionTaskDto, SubmissionExecutionTaskStatus, SubmissionFieldModel } from "../../../core/schemas";
+import { BasicUserInfo, FormDto, NotificationType, SubmissionDto, SubmissionExecutionBusinessFlowDto, SubmissionExecutionStatus, SubmissionExecutionTaskDto, SubmissionExecutionTaskStatus, SubmissionFieldModel, UserInfo } from "../../../core/schemas";
 import { BusinessFlowService } from "../../../core/services/business-flow.service";
 import { ToastService, UserStorageService } from "../../../core/services";
 import { FormService } from "../../../core/services/form.service";
@@ -41,6 +41,12 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
 
     realTimeSubscription!: Subscription;
 
+    handleRealTimeLater: boolean = false;
+
+    latestExecutionId?: number;
+
+    currentUser?: UserInfo;
+
     get items() : MenuItem[] {
         const inProgressExecution = this.executions?.find(x => x.status == SubmissionExecutionStatus.InProgress);
         if (!inProgressExecution)
@@ -80,22 +86,25 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
 
     ngOnInit(): void {
         this.userStorageService.currentUser.subscribe(x => {
-            if (x)
+            if (x) {
+                this.currentUser = x;
                 this.tenantUsers = x.tenantUsers;
+            }
         });
 
         this.realTimeSubscription = this.realTimeService.realtime$.subscribe(x => {
-            if (x.type != NotificationType.SubmissionExecutionInitiated || this.executions == undefined)
+            if (x.type != NotificationType.SubmissionExecutionInitiated)
                 return;
 
             const data : { Id: string, ExecutionId: string } = JSON.parse(x.metaData);
-            const index = this.executions.findIndex(x => x.id.toString() == data.ExecutionId);
-            if (index >= 0) {
-                this.formService.getExecutionSubmission(this.executions[index].id)
-                    .subscribe(x => {
-                        this.businessFlowSubmissions[index] = x;
-                    });
-            } 
+            this.latestExecutionId = parseInt(data.ExecutionId);
+
+            if (this.executions === undefined) {
+                this.handleRealTimeLater = true;
+                return;
+            }
+
+            this.loadLatestExecutionForm();
         });
     }
 
@@ -118,6 +127,8 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
                 this.executions = x;
                 this.activeIndex = this.executions.length - 1;
                 this.onTabChange(this.activeIndex, onSelectOutCome);
+                if (this.handleRealTimeLater)
+                    this.loadLatestExecutionForm();
             });
     }
 
@@ -169,5 +180,21 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
             }, error => {
                 console.log(error);
             });
+    }
+
+    loadLatestExecutionForm() {
+        if (this.latestExecutionId === undefined || this.executions === undefined)
+            return;
+
+        const index = this.executions.findIndex(x => x.id == this.latestExecutionId);
+        if (index >= 0) {
+            this.formService.getExecutionSubmission(this.executions[index].id)
+                .subscribe(x => {
+                    this.businessFlowSubmissions[index] = x;
+                });
+        } 
+
+        this.handleRealTimeLater = false;
+        this.latestExecutionId = undefined;
     }
 }

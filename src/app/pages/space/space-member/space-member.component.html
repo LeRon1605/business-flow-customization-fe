@@ -1,4 +1,4 @@
-<div class="dialog-container" style="position: relative; margin: 40px 20px; display: flex; flex-direction: column; width: 850px; max-height: 50%; z-index: 10000">
+<div class="dialog-container" style="position: relative; margin: 40px 20px; display: flex; flex-direction: column; width: 850px; max-height: 50%;">
   <button (click)="closeDialog()" style="position: absolute; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer;">
     &times;
   </button>
@@ -6,13 +6,14 @@
   <div style="flex: 1; overflow: auto; position: relative;">
     <div style="display: flex; align-items: center; justify-content: space-between;  margin: 8px">
       <p-dropdown 
-      [options]="filteredUsers"
-      [(ngModel)]="selectedUser"
-      optionLabel="name"
-      [filter]="true"
-      filterBy="email" 
-      [showClear]="true"
-      placeholder="Nhập tên hoặc email">
+        [options]="filteredUsers"
+        [(ngModel)]="selectedUser"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="email"
+        filterPlaceholder="Nhập tên hoặc email"
+        [showClear]="true"
+        placeholder="Chọn thành viên">
           <ng-template pTemplate="selectedItem" let-selectedOption>
               <div class="flex align-items-center gap-2">
                   <div>{{ selectedOption.email }}</div>

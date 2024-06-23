@@ -105,11 +105,6 @@ export class SpaceDataComponent implements OnInit, OnChanges {
             if (versionId) {
                 this.versionId = versionId;
             }
-
-            this.businessFlowService.getOutComes(spaceId)
-                .subscribe(x => {
-                    this.outComes = x;
-                })
         });
 
         this.userStorageSevice.currentUser
@@ -135,7 +130,14 @@ export class SpaceDataComponent implements OnInit, OnChanges {
                     this.versions = x;
                     this.versionId = this.versions[0].id;
                 });
+
+            this.businessFlowService.getOutComes(spaceId)
+                .subscribe(x => {
+                    this.outComes = x;
+                })
         }
+        
+        this.filters = [];
     }
 
     onPageChange(page: number) {
@@ -262,7 +264,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
             {
                 id: 'createdBy',
                 name: 'Người tạo',
-                data: this.tenantUsers.map(x => {
+                data: this.tenantUsers.filter(x => x.id != USERS.SYSTEM).map(x => {
                     return {
                         text: x.fullName,
                         value: x.id
@@ -304,7 +306,7 @@ export class SpaceDataComponent implements OnInit, OnChanges {
             {
                 id: 'updatedBy',
                 name: 'Người chỉnh sửa',
-                data: this.tenantUsers.map(x => {
+                data: this.tenantUsers.filter(x => x.id != USERS.SYSTEM).map(x => {
                     return {
                         text: x.fullName,
                         value: x.id
@@ -669,5 +671,11 @@ export class SpaceDataComponent implements OnInit, OnChanges {
         } else {
             this.dataTable.activeColumnIds.splice(this.dataTable.activeColumnIds.indexOf(id), 1);
         }
+    }
+
+    onSubmissionDeleted() {
+        this.recordDetailVisible = false;
+        this.selectedRecordId = undefined;
+        this.loadData();
     }
 }

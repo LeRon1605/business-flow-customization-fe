@@ -16,7 +16,7 @@
                 <div class="w-32 truncate text-center font-medium" [pTooltip]="execution.businessFlowBlock.name" tooltipStyleClass="text-xs" tooltipPosition="bottom">
                     {{ execution.businessFlowBlock.name }}
                 </div>
-                <ng-container *ngIf="execution.status == 0">
+                <ng-container *ngIf="execution.status == 0 && execution.personInChargeIds.includes(currentUser!.id)">
                     <span class="pi pi-angle-down" (click)="menu.toggle($event)"></span>
                     <p-menu #menu [model]="items" [popup]="true" appendTo="body">     
                         <ng-template pTemplate="item" let-item>
