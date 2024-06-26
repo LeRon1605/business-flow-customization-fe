@@ -123,7 +123,7 @@
                         [form]="businessFlowBlockForms[i]" 
                         [submission]="businessFlowSubmissions[i]"
                         (elementEditted)="onElementEditted(businessFlowSubmissions[i], $event)"
-                        [editable]="editable"
+                        [editable]="editable && execution.personInChargeIds.includes(currentUser!.id)"
                     >
                     </app-submission-inline>
                 </ng-container>

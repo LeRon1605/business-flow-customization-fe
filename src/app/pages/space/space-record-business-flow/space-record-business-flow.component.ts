@@ -140,7 +140,7 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
     }
 
     toggleTaskStatus(execution: SubmissionExecutionBusinessFlowDto, task: SubmissionExecutionTaskDto) {
-        if (execution.status == SubmissionExecutionStatus.Completed || !this.editable) 
+        if (execution.status == SubmissionExecutionStatus.Completed || !this.editable || !execution.personInChargeIds.includes(this.currentUser!.id)) 
             return;
 
         const status = task.status == SubmissionExecutionTaskStatus.Pending ? SubmissionExecutionTaskStatus.Done : SubmissionExecutionTaskStatus.Pending;
