@@ -33,7 +33,7 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
     }
 
     get editable() {
-        return this.space.permissions.includes('Flow.Edit');
+        return this.space.permissions.includes('Record.Edit');
     }
 
     activeIndex: number = 0;

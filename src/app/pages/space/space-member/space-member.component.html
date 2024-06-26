@@ -13,7 +13,8 @@
         filterBy="email"
         filterPlaceholder="Nhập tên hoặc email"
         [showClear]="true"
-        placeholder="Chọn thành viên">
+        placeholder="Chọn thành viên"
+        appendTo="body">
           <ng-template pTemplate="selectedItem" let-selectedOption>
               <div class="flex align-items-center gap-2">
                   <div>{{ selectedOption.email }}</div>
