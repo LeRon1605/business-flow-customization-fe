@@ -28,7 +28,7 @@
                 pInputText 
             />
         </div>
-        <div class="flex items-center" (click)="$event.stopPropagation()">
+        <div class="flex items-center" (click)="$event.stopPropagation()" *ngIf="editable">
             <span class="text-sm text-gray-500 me-2">Trường bắt buộc</span>
             <p-inputSwitch 
                 styleClass="flex items-center me-2"

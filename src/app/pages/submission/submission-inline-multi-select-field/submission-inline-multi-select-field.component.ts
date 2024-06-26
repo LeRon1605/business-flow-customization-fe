@@ -19,6 +19,9 @@ export class SubmissionInlineMultiSelectFieldComponent implements BaseSubmission
     loading!: boolean;
 
     @Input()
+    editable: boolean = true;
+
+    @Input()
     get submissionValue() : string {
         return JSON.stringify(this.value);
     }

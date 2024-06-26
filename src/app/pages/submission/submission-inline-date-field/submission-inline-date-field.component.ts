@@ -19,6 +19,9 @@ export class SubmissionInlineDateFieldComponent implements BaseSubmissionFieldCo
     loading!: boolean;
 
     @Input()
+    editable: boolean = true;
+
+    @Input()
     get submissionValue() : string {
         return JSON.stringify(this.value);
     }

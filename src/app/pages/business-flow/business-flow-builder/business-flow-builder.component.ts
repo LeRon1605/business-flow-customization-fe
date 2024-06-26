@@ -1,4 +1,4 @@
-import { Component, HostListener } from "@angular/core";
+import { Component, HostListener, Input } from "@angular/core";
 import { DagreNodesOnlyLayout, Edge, Layout, Node } from "@kr0san89/ngx-graph";
 import * as shape from 'd3-shape';
 import { ToastService } from "../../../core/services";
@@ -23,6 +23,9 @@ export class BusinessFlowBuilderComponent {
 
   currentFromBlockNode?: Node;
   selectedBranch?: Edge;
+
+  @Input()
+  editable!: boolean;
 
   constructor(
     private toastService: ToastService,

@@ -29,6 +29,9 @@ export class BusinessFlowBlockDetailComponent implements OnInit {
     @Input()
     spaceId?: number;
 
+    @Input()
+    editable!: boolean;
+
     tenantUsers: BasicUserInfo[] = [];
 
     constructor(
@@ -76,6 +79,9 @@ export class BusinessFlowBlockDetailComponent implements OnInit {
     }
 
     onOutComeSelect(outComeId: string) {
+        if (!this.editable)
+            return;
+        
         this.outComeDialogVisible = true;
         this.selectedOutComeId = outComeId;
     }
@@ -141,6 +147,9 @@ export class BusinessFlowBlockDetailComponent implements OnInit {
     }
 
     onEditElement(element: FormElementDto, index: number) {
+        if (!this.editable)
+            return;
+        
         this.selectedElementIndex = index;
         this.selectedElement = cloneDeep(element);
         this.createFormElementDialogVisible = true;

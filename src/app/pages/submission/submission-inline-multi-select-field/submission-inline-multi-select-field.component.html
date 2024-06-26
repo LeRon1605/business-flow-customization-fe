@@ -17,7 +17,8 @@
                 [options]="element.options"
                 [showHeader]="false"
                 [placeholder]="'Chọn ' + element.name"
-                (onPanelHide)="onBlur()" />
+                (onPanelHide)="onBlur()"
+                [readonly]="!editable" />
         </ng-container>
     </div>
 </div>

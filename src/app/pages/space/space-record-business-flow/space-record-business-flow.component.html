@@ -123,6 +123,7 @@
                         [form]="businessFlowBlockForms[i]" 
                         [submission]="businessFlowSubmissions[i]"
                         (elementEditted)="onElementEditted(businessFlowSubmissions[i], $event)"
+                        [editable]="editable"
                     >
                     </app-submission-inline>
                 </ng-container>

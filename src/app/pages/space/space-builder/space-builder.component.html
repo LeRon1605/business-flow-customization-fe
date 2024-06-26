@@ -37,7 +37,7 @@
                     </div>
                 </ng-template>
                 <div class="h-full">
-                    <app-form-builder #formBuilder [createMode]="true"></app-form-builder>
+                    <app-form-builder #formBuilder [createMode]="true" [editable]="true"></app-form-builder>
                 </div>
             </p-tabPanel>
             <p-tabPanel header="Quy trình nghiệp vụ">
@@ -51,7 +51,7 @@
                         </svg>
                     </div>
                 </ng-template>
-                <app-business-flow #businessFlow></app-business-flow>
+                <app-business-flow #businessFlow [editable]="true"></app-business-flow>
             </p-tabPanel>
             <p-tabPanel headerStyleClass="ml-auto">
                 <ng-template pTemplate="header">

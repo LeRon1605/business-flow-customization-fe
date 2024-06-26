@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { FormService } from "../../../core/services/form.service";
-import { FormVersionDto } from "../../../core/schemas";
+import { FormVersionDto, SpaceDetailDto } from "../../../core/schemas";
 import { map } from "rxjs";
 import { DatePipe } from "@angular/common";
 import { ToastService } from "../../../core/services";
@@ -28,6 +28,9 @@ export class SpaceFormComponent {
         this._spaceId = value;
         this.loadVersion();
     }
+
+    @Input()
+    space!: SpaceDetailDto;
 
     constructor(
         private formService: FormService,

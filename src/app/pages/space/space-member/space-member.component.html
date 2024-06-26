@@ -4,7 +4,7 @@
   </button>
   <h1 style="font-size: 20px; margin-bottom: 10px; font-weight: 700;">Quản lý quyền truy cập</h1>
   <div style="flex: 1; overflow: auto; position: relative;">
-    <div style="display: flex; align-items: center; justify-content: space-between;  margin: 8px">
+    <div style="display: flex; align-items: center; justify-content: space-between;  margin: 8px" *ngIf="space.permissions.includes('Space.AddMember')">
       <p-dropdown 
         [options]="filteredUsers"
         [(ngModel)]="selectedUser"

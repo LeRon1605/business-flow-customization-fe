@@ -16,6 +16,9 @@ export class FormElementComponent {
     @Input()
     editMode: boolean = true;
 
+    @Input()
+    editable!: boolean;
+
     get isRequired() {
         return this.element.settings.some(x => x.type == FormElementSettingType.Required && JSON.parse(x.value) === true);
     }

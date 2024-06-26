@@ -16,7 +16,8 @@
                 [(ngModel)]="value" 
                 [options]="element.options"
                 [placeholder]="'Chọn ' + element.name"
-                (onHide)="onBlur()">
+                (onHide)="onBlur()"
+                [readonly]="!editable">
         </p-dropdown>
         </ng-container>
     </div>

@@ -22,6 +22,7 @@
                             class="ml-1 pi pi-times border border-gray-300 rounded-full p-2 bg-white cursor-pointer text-red-500 text-sm absolute top-0 right-0 delete-file-icon"
                             (click)="onDeleteAttachment(file)"
                             style="transform: translate(-25%, -50%);"
+                            *ngIf="editable"
                         ></span>
                     </div>
                 </div>
@@ -36,7 +37,9 @@
                     [url]="uploadUrl"
                     (onUpload)="onUpload($event)"
                     (onError)="onUploadError()"
-                    (onBeforeUpload)="onUploadProgress()">
+                    (onBeforeUpload)="onUploadProgress()"
+                    *ngIf="editable"
+                >
                 </p-fileUpload>
     
             </div>

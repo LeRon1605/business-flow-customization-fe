@@ -21,6 +21,9 @@ export class BusinessFlowComponent implements OnInit {
     @Input()
     spaceId?: number;
 
+    @Input()
+    editable!: boolean;
+
     @Output()
     businessFlowEditted = new EventEmitter<number>();
 

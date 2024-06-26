@@ -13,7 +13,8 @@
             <p-inputNumber
                 [(ngModel)]="value"
                 [placeholder]="'Nhập ' + element.name"
-                (onBlur)="onBlur()" /> 
+                (onBlur)="onBlur()"
+                [readonly]="!editable" /> 
         </ng-container>
     </div>
 </div>

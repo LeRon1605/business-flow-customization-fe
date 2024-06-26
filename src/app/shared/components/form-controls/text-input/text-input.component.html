@@ -16,7 +16,8 @@
             [placeholder]="placeHolder"
             (ngModelChange)="onChange($event)"
             (blur)="onTouch()"
-            [disabled]="disabled"/>
+            [disabled]="disabled"
+            [readOnly]="readonly"/>
         <small *ngIf="helpText">{{ helpText }}</small>
         <span class="text-red-500 text-sm mb-3" *ngIf="ngControl.hasError('required') && ngControl.touched">Vui lòng nhập thông tin.</span>
         <span class="text-red-500 text-sm mb-3" *ngIf="ngControl.hasError('email') && ngControl.touched">Địa chỉ email không hợp lệ.</span>

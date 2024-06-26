@@ -1,10 +1,11 @@
 <div class="flex w-full h-full">
-    <div class="w-1/5 h-full border-r border-gray-300 shadow-gray-300 p-4">
+    <div class="h-full border-r border-gray-300 shadow-gray-300 p-4" [class.w-[20%]]="editable" *ngIf="editable">
         <app-form-element-selector></app-form-element-selector>
     </div> 
-    <div class="w-4/5 h-full overflow-auto">
+    <div class="h-full overflow-auto" [class.w-[80%]]="editable" [class.w-[100%]]="!editable">
         <app-form 
-            [name]="form?.name" 
+            [name]="form?.name"
+            [editable]="editable" 
             #formComponent
         ></app-form>
     </div>

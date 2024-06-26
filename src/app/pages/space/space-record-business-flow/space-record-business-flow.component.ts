@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { BasicUserInfo, FormDto, NotificationType, SubmissionDto, SubmissionExecutionBusinessFlowDto, SubmissionExecutionStatus, SubmissionExecutionTaskDto, SubmissionExecutionTaskStatus, SubmissionFieldModel, UserInfo } from "../../../core/schemas";
+import { BasicUserInfo, FormDto, NotificationType, SpaceDetailDto, SubmissionDto, SubmissionExecutionBusinessFlowDto, SubmissionExecutionStatus, SubmissionExecutionTaskDto, SubmissionExecutionTaskStatus, SubmissionFieldModel, UserInfo } from "../../../core/schemas";
 import { BusinessFlowService } from "../../../core/services/business-flow.service";
 import { ToastService, UserStorageService } from "../../../core/services";
 import { FormService } from "../../../core/services/form.service";
@@ -18,6 +18,9 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
     private _submission?: SubmissionDto;
 
     @Input()
+    space!: SpaceDetailDto;
+
+    @Input()
     get submission() {
         return this._submission;
     }
@@ -27,6 +30,10 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
         if (this._submission) {
             this.loadExecutions();
         }
+    }
+
+    get editable() {
+        return this.space.permissions.includes('Flow.Edit');
     }
 
     activeIndex: number = 0;
@@ -133,7 +140,7 @@ export class SpaceRecordBusinessFlowComponent implements OnInit, AfterViewChecke
     }
 
     toggleTaskStatus(execution: SubmissionExecutionBusinessFlowDto, task: SubmissionExecutionTaskDto) {
-        if (execution.status == SubmissionExecutionStatus.Completed) 
+        if (execution.status == SubmissionExecutionStatus.Completed || !this.editable) 
             return;
 
         const status = task.status == SubmissionExecutionTaskStatus.Pending ? SubmissionExecutionTaskStatus.Done : SubmissionExecutionTaskStatus.Pending;

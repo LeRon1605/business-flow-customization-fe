@@ -3,6 +3,7 @@
     [spaceId]="space.id" 
     [versionId]="selectedBusinessFlowVersionId"
     (businessFlowEditted)="onBusinessFlowUpdated($event)"
+    [editable]="space.permissions.includes('Space.BusinessFlow')"
     #businessFlow
 ></app-business-flow> 
 <div class="absolute top-0 right-0 flex items-center" style="transform: translate(-5%, 25%);">
@@ -23,6 +24,7 @@
         styleClass="ml-2"
         [disabled]="this.selectedBusinessFlowVersionId != this.space.latestPublishedBusinessFlowId"
         (onClick)="businessFlow.save()"
+        *ngIf="space.permissions.includes('Space.BusinessFlow')"
     >
     </app-button>
 

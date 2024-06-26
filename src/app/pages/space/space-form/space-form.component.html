@@ -1,11 +1,14 @@
 <div class="relative h-full">
+
     <app-form-builder
         [spaceId]="spaceId"
         [createMode]="false"
         [versionId]="versionId"
+        [editable]="space.permissions.includes('Form.Edit')"
         (onFormUpdated)="onFormUpdated($event)"
         #formBuilder
     ></app-form-builder>
+
     <div class="absolute top-0 right-0 flex items-center" style="transform: translate(-5%, 25%);">
         
         <p-dropdown 
@@ -23,6 +26,7 @@
             styleClass="ml-2"
             (onClick)="formBuilder.save()"
             [disabled]="formVersions.length == 0 || versionId != formVersions[0].id"
+            *ngIf="space.permissions.includes('Form.Edit')"
         >
         </app-button>
 

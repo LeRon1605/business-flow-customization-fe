@@ -116,7 +116,7 @@ export class SpaceHeaderComponent implements OnInit {
   openDialogMember() {
     if (this.space?.id !== undefined) {
       const dialogRef = this.dialog.open(SpaceMemberComponent, {
-        data: { spaceId: this.space.id },
+        data: { spaceId: this.space.id, space: this.space },
         panelClass: 'z-[2000]'
       });
 

@@ -3,14 +3,15 @@
     [modal]="false"
     [showCloseIcon]="false"
     [appendTo]="businessFlowBuilder"
-    [style]="{position: 'absolute'}">
+    [style]="{position: 'absolute'}"
+    *ngIf="editable">
 
     <app-business-flow-block-selector></app-business-flow-block-selector>
 
 </p-sidebar>
 
 <div class="w-full h-full" #businessFlowBuilder [style]="{position: 'relative'}">   
-    <app-business-flow-builder></app-business-flow-builder>
+    <app-business-flow-builder [editable]="editable"></app-business-flow-builder>
 </div>
 
-<app-business-flow-block-detail></app-business-flow-block-detail>
+<app-business-flow-block-detail [editable]="editable"></app-business-flow-block-detail>

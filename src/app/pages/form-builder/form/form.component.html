@@ -8,6 +8,7 @@
                 [(ngModel)]="name"
                 class="text-xl font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-gray-900"
                 pInputText 
+                [readOnly]="!editable"
             />
         </div>
         <hr>
@@ -18,18 +19,20 @@
                 (onDragStart)="onElementDragStart(element)"
                 (onDrop)="onDropOnElement($event, i)"
                 (click)="selectedElement = element"
-                [draggable]="selectedElement != element"
+                [draggable]="editable && selectedElement != element"
                 pDraggable
                 pDroppable
+                [pDraggableDisabled]="!editable"
             >
                 <app-form-element 
                     [element]="element"
-                    [editMode]="selectedElement == element"
+                    [editMode]="selectedElement == element && editable"
+                    [editable]="editable"
                 ></app-form-element>
             </div>
         </ng-container>
 
-        <div class="mt-2 p-4">
+        <div class="mt-2 p-4" *ngIf="editable">
             <div 
                 class="border-dashed border border-gray-500 rounded-lg flex items-center justify-center p-5 text-gray-500 droppable-field" 
                 (onDrop)="onDrop($event)"

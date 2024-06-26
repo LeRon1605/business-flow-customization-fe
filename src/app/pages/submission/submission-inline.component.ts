@@ -16,6 +16,9 @@ export class SubmissionInlineComponent {
     @Input()
     submission?: SubmissionDto;
 
+    @Input()
+    editable!: boolean;
+
     getValue(id: number) {
         const field = this.submission?.fields.find(x => x.elementId == id);
         if (field)

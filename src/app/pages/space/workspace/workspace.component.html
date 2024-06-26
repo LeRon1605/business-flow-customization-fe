@@ -10,7 +10,7 @@
     </p-tabPanel>
     <p-tabPanel header="Biểu mẫu">
         <ng-template pTemplate="content">
-            <app-space-form *ngIf="space" [spaceId]="space.id"></app-space-form>
+            <app-space-form *ngIf="space" [spaceId]="space.id" [space]="space"></app-space-form>
         </ng-template>
     </p-tabPanel>
     <p-tabPanel header="Quy trình nghiệp vụ">

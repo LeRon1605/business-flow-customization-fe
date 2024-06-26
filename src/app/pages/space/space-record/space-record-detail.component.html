@@ -2,6 +2,7 @@
     <div class="h-[6%] flex flex-col justify-between border-b ">
         <div class="flex items-center justify-between h-full">
             <input
+                [readonly]="!editable"
                 [(ngModel)]="submission.name"
                 class="text-2xl font-bold rounded-lg focus:ring-blue-500 focus:border-blue-500 rounded-none w-full h-[80%] p-4 text-gray-900"
                 pInputText 
@@ -11,7 +12,7 @@
             <ng-container *ngIf="!submission">
                 <p-skeleton class="w-full" height="4rem"></p-skeleton>
             </ng-container>
-            <div class="h-[80%] flex items-center ml-2 me-2" *ngIf="submission">
+            <div class="h-[80%] flex items-center ml-2 me-2" *ngIf="submission && editable">
                 <p-menu #menu [model]="items" [popup]="true" appendTo="body" styleClass="text-sm"/>
                 <span class="pi pi-ellipsis-h hover:text-blue-500 cursor-pointer rounded p-2 border border-gray-300" (click)="menu.toggle($event)"></span>
             </div>
@@ -25,6 +26,7 @@
                         [form]="form" 
                         [submission]="submission"
                         (elementEditted)="onElementEditted($event)"
+                        [editable]="editable"
                     ></app-submission-inline>
                 </div>
     
@@ -97,7 +99,7 @@
             <p-tabView>
                 <p-tabPanel header="Nghiệp vụ">
                     <ng-template pTemplate="content">
-                        <app-space-record-business-flow [submission]="submission"></app-space-record-business-flow>
+                        <app-space-record-business-flow [submission]="submission" [space]="space"></app-space-record-business-flow>
                     </ng-template>
                 </p-tabPanel>
                 <p-tabPanel header="Bình luận">

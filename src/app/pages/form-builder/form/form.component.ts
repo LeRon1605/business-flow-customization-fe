@@ -22,6 +22,9 @@ export class FormComponent {
         }
     }
 
+    @Input()
+    editable!: boolean;
+
     selectedElement?: FormElementDto;
 
     constructor(

@@ -25,6 +25,9 @@ export class FormBuilderComponent {
     @Input()
     spaceId?: number;
 
+    @Input()
+    editable!: boolean;
+
     @Output()
     onFormUpdated: EventEmitter<number> = new EventEmitter<number>();
 

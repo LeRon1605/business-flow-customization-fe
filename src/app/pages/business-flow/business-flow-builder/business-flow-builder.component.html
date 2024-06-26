@@ -58,7 +58,7 @@
         (mousedown)="onMouseDown($event, node)"
         (mouseup)="onMouseUp($event, node)"
         [attr.display]="node.data.topActive ? 'inherit' : 'none'"
-        *ngIf="node.data.type != 1"
+        *ngIf="node.data.type != 1 && editable"
     />
 
     <svg:circle
@@ -76,7 +76,7 @@
         (mouseup)="onMouseUp($event, node)"
         (mousedown)="onMouseDown($event, node)"
         [attr.display]="node.data.bottomActive ? 'inherit' : 'none'"
-        *ngIf="node.data.type != 3"
+        *ngIf="node.data.type != 3 && editable"
     />
   </ng-template>
 
@@ -104,7 +104,8 @@
     [draggable]="false"
     [modal]="true"
     [resizable]="false"
-    [style]="{width: '20vw'}">
+    [style]="{width: '20vw'}"
+    *ngIf="editable">
     
     <app-business-flow-branch-detail
       *ngIf="branchDialogVisible"

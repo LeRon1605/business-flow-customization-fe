@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { BasicUserInfo, MemberInSpaceDto, SpaceMemberDetail, SpaceRoleDto } from "../../../core/schemas";
+import { BasicUserInfo, MemberInSpaceDto, SpaceDetailDto, SpaceMemberDetail, SpaceRoleDto } from "../../../core/schemas";
 import { DatatableOption } from "../../../shared/components/datatable/datatable.component";
 import { SpaceService } from "../../../core/services/space.service";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -25,6 +25,7 @@ export class SpaceMemberComponent implements OnInit {
   displayDialog: boolean = false;
   roles: SpaceRoleDto[] = [];
   selectedRole?: number;
+  space!: SpaceDetailDto;
 
   dataTable: DatatableOption = {
     title: 'Danh sách thành viên',
@@ -53,9 +54,10 @@ export class SpaceMemberComponent implements OnInit {
     private dialogRef: MatDialogRef<SpaceMemberComponent>,
     private userStorageService: UserStorageService,
     private toastService: ToastService,
-    @Inject(MAT_DIALOG_DATA) public data: { spaceId: number }
+    @Inject(MAT_DIALOG_DATA) public data: { spaceId: number, space: SpaceDetailDto }
   ) {
     this.spaceId = data.spaceId;
+    this.space = data.space;
   }
 
   ngOnInit(): void {
@@ -84,6 +86,9 @@ export class SpaceMemberComponent implements OnInit {
   }
 
   onUserSelected(user: MemberInSpaceDto): void {
+    if (!this.space.permissions.includes('Space.AddMember'))
+      return;
+    
     this.selectedMember = {
       user: this.user(user.id)!,
       role: user.role

@@ -18,6 +18,7 @@
                 [iconDisplay]="'input'" 
                 [placeholder]="'Chọn ' + element.name"
                 dateFormat="dd/mm/yy"
+                [disabled]="!editable"
                 (onBlur)="onBlur()"
             />
         </ng-container>

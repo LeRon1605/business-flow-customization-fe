@@ -20,6 +20,9 @@ export class SubmissionInlineSingleSelectFieldComponent implements BaseSubmissio
     loading!: boolean;
 
     @Input()
+    editable: boolean = true;
+
+    @Input()
     get submissionValue() : string {
         return JSON.stringify(this.value);
     }

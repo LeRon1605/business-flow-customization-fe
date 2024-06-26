@@ -21,6 +21,9 @@ export class SubmissionInlineTextFieldComponent implements BaseSubmissionFieldCo
     loading!: boolean;
 
     @Input()
+    editable: boolean = true;
+
+    @Input()
     get submissionValue() : string {
         if (!this.value)
             return JSON.stringify('');

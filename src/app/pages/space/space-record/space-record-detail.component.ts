@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
-import { BasicUserInfo, FormDto, SubmissionDto, SubmissionFieldModel } from "../../../core/schemas";
+import { BasicUserInfo, FormDto, SpaceDetailDto, SubmissionDto, SubmissionFieldModel } from "../../../core/schemas";
 import { FormService } from "../../../core/services/form.service";
 import { MenuItem, PrimeIcons } from "primeng/api";
 import { ToastService, UserStorageService } from "../../../core/services";
@@ -16,6 +16,13 @@ export class SpaceRecordDetailComponent implements OnInit {
     
     @Input()
     spaceId!: number;
+
+    @Input()
+    space!: SpaceDetailDto;
+
+    get editable() {
+        return this.space.permissions.includes('Record.Edit');
+    }
 
     @Input()
     submissionId!: number;
