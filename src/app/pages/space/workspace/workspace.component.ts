@@ -37,7 +37,7 @@ export class WorkSpaceComponent implements OnInit, OnDestroy {
                 this.spaceId = x['id'];
                 this.spaceService.getById(this.spaceId)
                     .subscribe(x => {
-                        this.space = { ...x, permissions: [] };
+                        this.space = x;
                     }, (error: HttpErrorResponse) => {
                         if (error.error.code == 'Space:000003') {
                             this.router.navigate(['error', 'not-found'])
