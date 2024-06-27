@@ -82,4 +82,8 @@ export class FormService {
     deleteSubmitForm(id: number) {
         return this.formApiService.deleteSubmitForm(id);
     }
+
+    toggleSharedStatus(spaceId: number, status: boolean) {
+        return this.formApiService.toggleShareStatus(spaceId, status);
+    }
 }

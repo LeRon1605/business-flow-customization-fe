@@ -4,7 +4,7 @@ import { FormVersionDto, SpaceDetailDto } from "../../../core/schemas";
 import { map } from "rxjs";
 import { DatePipe } from "@angular/common";
 import { ToastService } from "../../../core/services";
-import Clipboard from "quill/modules/clipboard";
+import { InputSwitchChangeEvent } from "primeng/inputswitch";
 
 @Component({
     selector: 'app-space-form',
@@ -18,6 +18,7 @@ export class SpaceFormComponent {
 
     versionId?: number;
     shareLink: string = "";
+    isShared: boolean = false;
     shareDialogVisible: boolean = false;
 
     @Input()
@@ -60,13 +61,21 @@ export class SpaceFormComponent {
     shareForm() {
         this.formService.generateFormLink(this.spaceId).subscribe({
           next: (response) => {
-            this.shareLink = window.location.origin + '/public-form?token=' + response;
+            this.isShared = response.isPublished;
+            this.shareLink = window.location.origin + '/public-form?token=' + response.publicToken;
             this.shareDialogVisible = true;
           },
           error: () => {
             this.toastService.error('Không thể tạo liên kết chia sẻ');
           }
         });
+    }
+
+    toggleIshared(e: InputSwitchChangeEvent) {
+        this.formService.toggleSharedStatus(this.spaceId, e.checked)
+            .subscribe(x => {
+
+            })
     }
 
     copyInputMessage(inputElement: any){

@@ -71,7 +71,7 @@ export class FormApiService extends BaseApiService {
 
     generateFormLink(spaceId: number)
     {
-        return this.http.get(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/get-public-link`, { responseType: 'text' });
+        return this.http.get<{ publicToken: string, isPublished: boolean }>(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/get-public-link`);
     }
 
     getPublicForm(token: string)
@@ -81,5 +81,9 @@ export class FormApiService extends BaseApiService {
 
     deleteSubmitForm(submissionId: number) {
         return this.http.delete(`${this.API_END_POINTS.SUBMISSION}/submissions/${submissionId}`);
+    }
+
+    toggleShareStatus(spaceId: number, isShared: boolean) {
+        return this.http.put(`${this.API_END_POINTS.SUBMISSION}/spaces/${spaceId}/publish-form`, isShared);
     }
 }
